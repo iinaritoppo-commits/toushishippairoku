@@ -83,10 +83,40 @@ const lossRanges = {
   huge: allLosses.filter(v => v >= 1000).length,                  // 1000万超: 0件
 };
 
-// カテゴリ別件数（実データから）
+// カテゴリ別件数（approved/*.json から動的集計）
+// memory feedback_predeploy_checklist.md / feedback_data_source_single_truth.md 準拠
+const catCountsRaw: Record<string, number> = {};
+try {
+  const approvedDir2 = path.join(process.cwd(), "approved");
+  for (const f of fs.readdirSync(approvedDir2).filter((f) => f.endsWith(".json"))) {
+    try {
+      const j = JSON.parse(fs.readFileSync(path.join(approvedDir2, f), "utf-8"));
+      const c = (j.category ?? "").toString().trim();
+      if (c) catCountsRaw[c] = (catCountsRaw[c] || 0) + 1;
+    } catch {}
+  }
+} catch {}
 const catCounts = {
-  fx: 3, stocks: 2, crypto: 2, realestate: 1, funds: 0, fraud: 2,
+  fx: catCountsRaw.fx ?? 0,
+  stocks: catCountsRaw.stocks ?? 0,
+  crypto: catCountsRaw.crypto ?? 0,
+  realestate: catCountsRaw.realestate ?? 0,
+  funds: catCountsRaw.funds ?? 0,
+  fraud: catCountsRaw.fraud ?? 0,
 };
+
+// カテゴリ表示順 = 件数降順（memory feedback_predeploy_checklist.md C項目）
+const CATEGORY_DEFS: { key: keyof typeof catCounts; label: string; slug: string }[] = [
+  { key: "fx",         label: "FX",            slug: "fx" },
+  { key: "crypto",     label: "仮想通貨",      slug: "crypto" },
+  { key: "fraud",      label: "情報商材・詐欺", slug: "fraud" },
+  { key: "stocks",     label: "株式",          slug: "stocks" },
+  { key: "realestate", label: "不動産",        slug: "realestate" },
+  { key: "funds",      label: "投資信託",      slug: "funds" },
+];
+const categoryTiles = CATEGORY_DEFS
+  .map(c => ({ ...c, count: catCounts[c.key] }))
+  .sort((a, b) => b.count - a.count);
 
 // 位牌メッセージ：戒名の核心を1行で。カード/モーメントとは別文章。
 const ihaiList = [
@@ -274,18 +304,21 @@ const nextKuyouLabel = `${nextKuyouY}年${nextKuyouM}月17日（月命日）`;
 
 <header class="section-h" id="section-cats"><div class="section-h__title-group"><span class="section-h__sub">CATEGORIES</span><h2 class="section-h__title">ジャンルから探す</h2></div></header>
 <div class="cats">
-  <a href="/category/fx/" class="cat"><span class="cat__name">FX</span><span class="cat__count">{catCounts.fx}</span></a>
-  <a href="/category/stocks/" class="cat"><span class="cat__name">株式</span><span class="cat__count">{catCounts.stocks}</span></a>
-  <a href="/category/crypto/" class="cat"><span class="cat__name">仮想通貨</span><span class="cat__count">{catCounts.crypto}</span></a>
-  <a href="/category/realestate/" class="cat"><span class="cat__name">不動産</span><span class="cat__count">{catCounts.realestate}</span></a>
-  <a href="/category/funds/" class="cat"><span class="cat__name">投資信託</span><span class="cat__count" style={catCounts.funds === 0 ? 'color:var(--c-ink-dim);font-family:var(--font-sans)' : ''}>{catCounts.funds === 0 ? '準備中' : catCounts.funds}</span></a>
-  <a href="/category/fraud/" class="cat"><span class="cat__name">情報商材・詐欺</span><span class="cat__count">{catCounts.fraud}</span></a>
+  {categoryTiles.map(c => (
+    <a href={`/category/${c.slug}/`} class="cat">
+      <span class="cat__name">{c.label}</span>
+      <span class="cat__count" style={c.count === 0 ? 'color:var(--c-ink-dim);font-family:var(--font-sans)' : ''}>
+        {c.count === 0 ? '準備中' : c.count}
+      </span>
+    </a>
+  ))}
 </div>
 
 <header class="section-h" id="section-compare">
   <div class="section-h__title-group">
-    <span class="section-h__sub">COMPARE</span>
-    <h2 class="section-h__title">比較で選び直す</h2>
+    <span class="section-h__sub">📘 PILLAR ARTICLES</span>
+    <h2 class="section-h__title">完全ガイド・比較記事</h2>
+    <p style="margin-top:0.5rem;font-size:0.82rem;color:var(--c-ink-dim);letter-spacing:0.04em">投資判断の指針となる、編集者が時間をかけてまとめた長文ガイド。</p>
   </div>
   <a href="/compare/" class="section-h__more">すべての比較を見る →</a>
 </header>
@@ -294,6 +327,7 @@ const nextKuyouLabel = `${nextKuyouY}年${nextKuyouM}月17日（月命日）`;
     <a href={p.href} class={`home-pillar-card home-pillar-card--${p.accent ?? "navy"}`}>
       <div class="home-pillar-card__head">
         <span class="home-pillar-card__cat">{p.category}</span>
+        <span class="home-pillar-card__pillar" style="background:linear-gradient(135deg,#c4a662,#8a6f3a);color:#fff;font-size:0.62rem;font-weight:700;letter-spacing:0.16em;padding:3px 8px;border-radius:3px;margin-left:auto;text-transform:uppercase">📘 Pillar</span>
         {p.badge && <span class="home-pillar-card__badge">{p.badge}</span>}
       </div>
       <h3 class="home-pillar-card__title">{p.shortTitle}</h3>
