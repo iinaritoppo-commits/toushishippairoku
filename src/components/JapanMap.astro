@@ -61,18 +61,50 @@ const prefectureStats = Array.from(aggMap.entries())
     };
   });
 
+// カテゴリslug → 日本語ラベル変換
+const categoryLabelMap: Record<string, string> = {
+  fx: "FX",
+  crypto: "仮想通貨",
+  stock: "株",
+  stocks: "株",
+  fund: "投信",
+  funds: "投信",
+  realestate: "不動産",
+  fraud: "詐欺",
+  loan: "ローン",
+  insurance: "保険",
+  other: "その他",
+};
+const toCategoryLabel = (c: string) => categoryLabelMap[c] ?? c;
+
 // TOP都道府県 = 損失額順
+// breakdown は各県の上位2カテゴリを動的抽出（リアル感）
 const topPrefectures = [...prefectureStats]
   .sort((a, b) => b.amountValue - a.amountValue)
-  .slice(0, 5)
-  .map((p) => ({
-    rank: prefectureStats.findIndex((x) => x.id === p.id) + 1,
-    name: p.name + (p.name.length <= 2 ? "県" : ""),
-    slug: p.slug,
-    cases: p.cases,
-    amount: p.amount,
-    breakdown: "取材記録から集計",
-  }));
+  .slice(0, 6)
+  .map((p, i) => {
+    const aggEntry = aggMap.get(p.name);
+    const topCats = aggEntry
+      ? Array.from(aggEntry.categoryCount.entries())
+          .sort((a, b) => b[1] - a[1])
+          .slice(0, 2)
+          .map(([c]) => toCategoryLabel(c))
+          .join("・")
+      : "";
+    return {
+      rank: i + 1,
+      name: p.name + (p.name.length <= 2 ? "県" : ""),
+      slug: p.slug,
+      cases: p.cases,
+      amount: p.amount,
+      breakdown: topCats || "取材中",
+    };
+  });
+
+// 全国47都道府県は静的マスタ・残数は動的計算
+const TOTAL_PREFECTURES = 47;
+const coveredCount = prefectureStats.length;
+const remainingCount = TOTAL_PREFECTURES - coveredCount;
 ---
 <section class="vmap-section" id="section-map">
   <div class="vmap-section__head">
@@ -156,12 +188,12 @@ const topPrefectures = [...prefectureStats]
           <a class="vmap-rank__row" href={`/prefecture/${p.slug}/`}>
             <span class="vmap-rank__num">{p.rank}</span>
             <span class="vmap-rank__name">{p.name}<small>{p.cases}件 ・ {p.breakdown}</small></span>
-            <span class="vmap-rank__amt">{p.total}<small>合計</small></span>
+            <span class="vmap-rank__amt">{p.amount}<small>合計</small></span>
           </a>
         ))}
       </div>
       <p class="vmap-summary">
-        全国 <strong>8</strong> 都道府県から掲載／残り <strong>39</strong> 都道府県は現在募集中。<br/>
+        全国 <strong>{coveredCount}</strong> 都道府県から掲載／残り <strong>{remainingCount}</strong> 都道府県は現在募集中。<br/>
         地元の話、聞かせてください。
       </p>
     </aside>
