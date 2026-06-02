@@ -1,0 +1,9 @@
+# 投資失敗録 robots.txt
+User-agent: *
+Allow: /
+
+# Disallow technical paths
+Disallow: /api/
+Disallow: /_astro/
+
+Sitemap: https://toushishippairoku.com/sitemap-index.xml

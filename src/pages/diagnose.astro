@@ -1,0 +1,286 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+<BaseLayout
+  title="カモられチェック診断"
+  description="10問の質問で『投資詐欺・大損リスク』タイプを診断。実話の取材記録から抽出した行動パターンに基づく簡易チェック。"
+>
+
+<section class="diagnose">
+  <header class="diagnose__head">
+    <span class="diagnose__sub">CHECK YOUR RISK</span>
+    <h1 class="diagnose__title">カモられチェック診断</h1>
+    <p class="diagnose__lead">10問・所要1分。<br/>実話の取材記録から抽出した『大損する人の行動パターン』に当てはまる項目を選ぶだけ。</p>
+  </header>
+
+  <div class="diagnose__inner" id="diagnose-inner">
+    <ol class="diagnose__list" id="diagnose-list"></ol>
+
+    <div class="diagnose__actions">
+      <button type="button" class="diagnose__btn" id="diagnose-submit" disabled>結果を見る →</button>
+      <span class="diagnose__count" id="diagnose-count">0 / 10 問</span>
+    </div>
+  </div>
+
+  <div class="diagnose__result" id="diagnose-result" hidden>
+    <div class="diagnose__result-inner">
+      <span class="diagnose__result-label">DIAGNOSIS</span>
+      <h2 class="diagnose__result-title" id="diagnose-result-title"></h2>
+      <div class="diagnose__result-meter" id="diagnose-result-meter">
+        <div class="diagnose__result-meter-fill" id="diagnose-result-meter-fill"></div>
+      </div>
+      <p class="diagnose__result-score" id="diagnose-result-score"></p>
+      <p class="diagnose__result-desc" id="diagnose-result-desc"></p>
+      <h3 class="diagnose__result-h3">同じ落とし穴に転んだ実話</h3>
+      <ul class="diagnose__result-list" id="diagnose-result-list"></ul>
+      <div class="diagnose__result-actions">
+        <button type="button" class="diagnose__btn diagnose__btn--secondary" id="diagnose-retry">もう一度やる</button>
+        <a href="/" class="diagnose__btn">トップへ戻る →</a>
+      </div>
+    </div>
+  </div>
+
+  <p class="diagnose__disclaimer">
+    ⚠ 本診断は実話の取材記録から抽出した『行動パターン』の傾向チェックであり、医学的・法的なリスク判定ではありません。<br/>
+    結果はあくまで自己理解の補助としてご利用ください。
+  </p>
+</section>
+
+<style>
+  .diagnose { max-width: 760px; margin: 0 auto; padding: 60px 24px 80px; }
+  .diagnose__head { text-align: center; margin-bottom: 36px; }
+  .diagnose__sub { display: inline-block; font-size: 0.7rem; letter-spacing: 0.55em; color: var(--c-gold); font-weight: 700; margin-bottom: 14px; }
+  .diagnose__title { font-size: 2rem; font-weight: 900; letter-spacing: 0.1em; margin: 0 0 16px; }
+  .diagnose__lead { color: var(--c-ink-soft); line-height: 1.85; font-size: 0.94rem; }
+  .diagnose__inner { background: #fff; border: 1px solid var(--c-line); border-radius: 6px; padding: 28px 26px; }
+  .diagnose__list { list-style: none; padding: 0; margin: 0 0 24px; counter-reset: q; }
+  .diagnose__q { margin-bottom: 20px; padding-bottom: 18px; border-bottom: 1px dashed var(--c-line); counter-increment: q; }
+  .diagnose__q:last-child { border-bottom: none; margin-bottom: 0; }
+  .diagnose__q__title { font-size: 0.96rem; font-weight: 700; margin: 0 0 12px; line-height: 1.6; }
+  .diagnose__q__title::before { content: "Q" counter(q) ". "; color: var(--c-gold); font-weight: 900; margin-right: 4px; }
+  .diagnose__choices { display: flex; gap: 10px; flex-wrap: wrap; }
+  .diagnose__choice { flex: 1 1 auto; padding: 9px 16px; background: #fafaf6; border: 1px solid var(--c-line); border-radius: 4px; font-size: 0.86rem; color: var(--c-ink); cursor: pointer; transition: all 0.12s; font-family: inherit; }
+  .diagnose__choice:hover { border-color: var(--c-gold); background: #fdf8ec; }
+  .diagnose__choice.is-active { background: var(--c-navy); color: #fff; border-color: var(--c-navy); }
+  .diagnose__actions { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .diagnose__btn { display: inline-flex; align-items: center; gap: 6px; padding: 12px 24px; background: var(--c-gold); color: var(--c-navy); border: 1px solid var(--c-gold); border-radius: 24px; font-weight: 700; font-size: 0.9rem; letter-spacing: 0.06em; text-decoration: none; cursor: pointer; font-family: inherit; transition: all 0.15s; }
+  .diagnose__btn:hover:not(:disabled) { background: #d8b057; transform: translateY(-1px); text-decoration: none; }
+  .diagnose__btn:disabled { background: rgba(0,0,0,0.18); border-color: rgba(0,0,0,0.18); color: rgba(255,255,255,0.7); cursor: not-allowed; }
+  .diagnose__btn--secondary { background: transparent; color: var(--c-navy); border-color: var(--c-navy); }
+  .diagnose__btn--secondary:hover { background: var(--c-navy); color: #fff; }
+  .diagnose__count { font-size: 0.78rem; color: var(--c-ink-dim); letter-spacing: 0.08em; }
+  .diagnose__result { background: linear-gradient(135deg, #102348, #1a3a6e); color: #fff; border-radius: 6px; padding: 36px 28px; margin-top: 28px; }
+  .diagnose__result-label { display: inline-block; font-size: 0.7rem; letter-spacing: 0.5em; color: var(--c-gold); font-weight: 700; margin-bottom: 12px; }
+  .diagnose__result-title { font-size: 1.9rem; font-weight: 900; margin: 0 0 18px; line-height: 1.4; }
+  .diagnose__result-meter { width: 100%; height: 10px; background: rgba(255,255,255,0.12); border-radius: 5px; overflow: hidden; margin-bottom: 8px; }
+  .diagnose__result-meter-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--c-gold), var(--c-red)); transition: width 0.8s ease; }
+  .diagnose__result-score { font-size: 0.88rem; color: rgba(255,255,255,0.75); margin: 0 0 18px; letter-spacing: 0.04em; }
+  .diagnose__result-desc { font-size: 0.96rem; line-height: 1.95; color: rgba(255,255,255,0.92); margin: 0 0 24px; }
+  .diagnose__result-h3 { font-size: 0.86rem; letter-spacing: 0.16em; color: var(--c-gold); font-weight: 700; margin: 24px 0 12px; }
+  .diagnose__result-list { list-style: none; padding: 0; margin: 0 0 28px; }
+  .diagnose__result-list li { padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
+  .diagnose__result-list li:last-child { border-bottom: none; }
+  .diagnose__result-list a { color: #fff; text-decoration: none; font-size: 0.9rem; line-height: 1.5; display: block; }
+  .diagnose__result-list a:hover { color: var(--c-gold); text-decoration: none; }
+  .diagnose__result-list a small { display: block; margin-top: 4px; font-size: 0.74rem; color: rgba(255,255,255,0.55); letter-spacing: 0.04em; }
+  .diagnose__result-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+  .diagnose__disclaimer { margin-top: 24px; padding: 14px 18px; background: rgba(255,200,80,0.06); border-left: 3px solid var(--c-gold); font-size: 0.78rem; color: var(--c-ink-soft); line-height: 1.7; }
+
+  @media (max-width: 540px) {
+    .diagnose { padding: 40px 16px 60px; }
+    .diagnose__title { font-size: 1.55rem; }
+    .diagnose__inner { padding: 22px 18px; }
+    .diagnose__result { padding: 26px 20px; }
+    .diagnose__result-title { font-size: 1.45rem; }
+    .diagnose__actions { flex-direction: column; align-items: stretch; }
+    .diagnose__btn { justify-content: center; width: 100%; }
+    .diagnose__choice { flex: 1 1 100%; }
+  }
+</style>
+
+<script is:inline>
+  // 10問の質問・各選択肢にスコア（高いほど「カモられる傾向」が強い）
+  const QUESTIONS = [
+    { q: "投資情報を最初にどこで見ましたか？", choices: [
+      { text: "書籍・金融機関のセミナー", score: 0 },
+      { text: "YouTube広告・SNS動画", score: 2 },
+      { text: "X（旧Twitter）・Instagram DM", score: 4 },
+      { text: "LINEオプチャ・知人紹介", score: 3 },
+    ]},
+    { q: "想定する『年利』はいくつですか？", choices: [
+      { text: "3-5%（インデックス相当）", score: 0 },
+      { text: "8-15%", score: 2 },
+      { text: "20-50%", score: 4 },
+      { text: "100%超え", score: 5 },
+    ]},
+    { q: "投資資金の出どころは？", choices: [
+      { text: "余剰資金のみ", score: 0 },
+      { text: "ボーナス・貯金の一部", score: 1 },
+      { text: "退職金・相続・教育費", score: 4 },
+      { text: "借入金（消費者金融・カードローン）", score: 5 },
+    ]},
+    { q: "配偶者・家族に投資の話を共有していますか？", choices: [
+      { text: "全部共有・合意している", score: 0 },
+      { text: "結果が出たら話す予定", score: 3 },
+      { text: "黙っている・隠している", score: 5 },
+      { text: "そもそも家族はいない・関係ない", score: 1 },
+    ]},
+    { q: "『絶対』『確実』『100%』という言葉を見たら？", choices: [
+      { text: "詐欺の可能性が高いと警戒する", score: 0 },
+      { text: "信頼できる情報源なら信じる", score: 3 },
+      { text: "魅力的に感じてもっと知りたくなる", score: 5 },
+      { text: "気にせず判断する", score: 2 },
+    ]},
+    { q: "DMで知らない人から『一緒に投資しよう』と来たら？", choices: [
+      { text: "即ブロック", score: 0 },
+      { text: "様子を見つつ警戒する", score: 1 },
+      { text: "話だけ聞いてみる", score: 4 },
+      { text: "実績が良さそうなら検討する", score: 5 },
+    ]},
+    { q: "含み損が膨らんだ時、まず何をする？", choices: [
+      { text: "事前ルール通りに損切り", score: 0 },
+      { text: "状況分析して判断", score: 2 },
+      { text: "ナンピン買いで平均単価を下げる", score: 5 },
+      { text: "追加入金して持ち直しを待つ", score: 5 },
+    ]},
+    { q: "『口座のIDとパスワードを預けて運用してあげる』と言われたら？", choices: [
+      { text: "違法行為と知っているので即拒否", score: 0 },
+      { text: "信用できる相手なら検討する", score: 5 },
+      { text: "少額なら試してみる", score: 5 },
+      { text: "条件次第", score: 4 },
+    ]},
+    { q: "投資の情報共有グループ（LINEオプチャ等）に参加していますか？", choices: [
+      { text: "していない", score: 0 },
+      { text: "情報収集として複数参加", score: 2 },
+      { text: "主婦の会・同業者会など『同質コミュニティ』に参加", score: 4 },
+      { text: "リーダーの推奨銘柄を買っている", score: 5 },
+    ]},
+    { q: "1回ロスカット（または大損）した後、次に取る行動は？", choices: [
+      { text: "投資を一旦やめて冷却期間を置く", score: 0 },
+      { text: "原因分析してから再開", score: 1 },
+      { text: "取り返すために追加投資する", score: 5 },
+      { text: "別の手法・商品に乗り換える", score: 4 },
+    ]},
+  ];
+
+  // 結果タイプ（スコア合計で分岐）
+  const TYPES = [
+    {
+      min: 0, max: 9,
+      title: "🛡 慎重派 タイプ",
+      desc: "投資詐欺・大損リスクへの警戒心が高く、判断材料も独立に取れています。今のスタンスを維持すれば、本サイトのケースのような大損は避けられる可能性が高いです。少額のインデックス投資を続け、新興商品・SNS経由の話には距離を置く姿勢が結果的に資産を守ります。",
+      tags: ["fx-018", "crypto-008"],
+    },
+    {
+      min: 10, max: 19,
+      title: "⚠ 普通派 タイプ",
+      desc: "一般的なリスク認識はありますが、いくつかの『落とし穴』への警戒が薄い項目があります。本サイトのケースで頻出する『SNS経由の情報』『ナンピン買い』『家族非共有』のいずれかに該当する場合は要注意。判断する前に、独立した第三者の意見を必ず一つ通すクセを付けましょう。",
+      tags: ["fx-001", "fx-010", "crypto-002"],
+    },
+    {
+      min: 20, max: 32,
+      title: "🚨 ハイリスク タイプ",
+      desc: "複数の『カモられパターン』に該当しており、本サイトの実話の取材記録のうち少なくとも半数のケースと同じ行動傾向が見られます。特に『追加入金で取り返す』『年利20%超えを狙う』『家族に黙る』のいずれかに当てはまる場合、近い将来に大損する確率が極めて高いと判断されます。今すぐ運用ルールを見直す必要があります。",
+      tags: ["fx-002", "fx-009", "crypto-009"],
+    },
+    {
+      min: 33, max: 99,
+      title: "🔴 致命的 タイプ",
+      desc: "本サイトの大損ケース上位に該当する行動傾向が複数あります。すでに大きな損失を抱えているか、近い将来に1,000万円超えの損失を出す可能性が高い状態です。直ちに投資ポジションを縮小し、独立系FP・消費生活センター・必要に応じて弁護士へ相談することを強く推奨します。",
+      tags: ["fx-012", "crypto-005", "fraud-003"],
+    },
+  ];
+
+  // 関連記事タイトル（slug -> title）。実際のサイトでは microCMS or articles データから引く想定。簡易版。
+  const ARTICLES_INDEX = {
+    "fx-001": { title: "トルコリラのスワップ狙いで320万円溶かした30代会社員の話", who: "30代男性会社員・東京" },
+    "fx-002": { title: "夫に黙ってFXで580万円溶かした40代主婦", who: "40代主婦・大阪" },
+    "fx-009": { title: "夫名義の口座から980万円、FXで溶かした50代主婦", who: "50代主婦・千葉" },
+    "fx-010": { title: "新卒1年目、ボーナス全額220万円をFXで2か月で溶かした", who: "20代会社員・静岡" },
+    "fx-012": { title: "経営者会で勧められたトルコリラFX、1500万円を運転資金から流用", who: "50代経営者・沖縄" },
+    "fx-018": { title: "退職金前運用、新潟の50代会社員が920万円失った話", who: "50代会社員・新潟" },
+    "crypto-002": { title: "Luna/UST崩壊で大学生が240万円失った話", who: "20代学生・福岡" },
+    "crypto-005": { title: "取引先紹介でビットコイン1800万円、北海道50代経営者", who: "50代経営者・北海道" },
+    "crypto-008": { title: "コインチェック流出事件で兵庫の40代エンジニアが720万円失った話", who: "40代エンジニア・兵庫" },
+    "crypto-009": { title: "Luna崩壊で千葉の50代主婦が850万円失った話", who: "50代主婦・千葉" },
+    "fraud-003": { title: "LINEオプチャ『AI自動売買』で名古屋の50代経営者が1200万円失った話", who: "50代経営者・愛知" },
+  };
+
+  // レンダー
+  const list = document.getElementById("diagnose-list");
+  const submit = document.getElementById("diagnose-submit");
+  const countEl = document.getElementById("diagnose-count");
+  const inner = document.getElementById("diagnose-inner");
+  const result = document.getElementById("diagnose-result");
+  const resultTitle = document.getElementById("diagnose-result-title");
+  const resultMeterFill = document.getElementById("diagnose-result-meter-fill");
+  const resultScore = document.getElementById("diagnose-result-score");
+  const resultDesc = document.getElementById("diagnose-result-desc");
+  const resultList = document.getElementById("diagnose-result-list");
+  const retry = document.getElementById("diagnose-retry");
+
+  const answers = new Array(QUESTIONS.length).fill(null);
+
+  function render() {
+    list.innerHTML = "";
+    QUESTIONS.forEach((q, qi) => {
+      const li = document.createElement("li");
+      li.className = "diagnose__q";
+      li.innerHTML = `<h3 class="diagnose__q__title">${q.q}</h3><div class="diagnose__choices"></div>`;
+      const choicesDiv = li.querySelector(".diagnose__choices");
+      q.choices.forEach((c, ci) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "diagnose__choice" + (answers[qi] === ci ? " is-active" : "");
+        btn.textContent = c.text;
+        btn.addEventListener("click", () => {
+          answers[qi] = ci;
+          render();
+          updateCount();
+        });
+        choicesDiv.appendChild(btn);
+      });
+      list.appendChild(li);
+    });
+    updateCount();
+  }
+  function updateCount() {
+    const done = answers.filter(a => a !== null).length;
+    countEl.textContent = `${done} / ${QUESTIONS.length} 問`;
+    submit.disabled = done < QUESTIONS.length;
+  }
+  function showResult() {
+    let total = 0;
+    answers.forEach((ai, qi) => {
+      if (ai !== null) total += QUESTIONS[qi].choices[ai].score;
+    });
+    const maxScore = QUESTIONS.reduce((s, q) => s + Math.max(...q.choices.map(c => c.score)), 0);
+    const type = TYPES.find(t => total >= t.min && total <= t.max);
+    resultTitle.textContent = type.title;
+    resultDesc.textContent = type.desc;
+    resultScore.textContent = `スコア: ${total} / ${maxScore} 点`;
+    resultMeterFill.style.width = `${Math.round((total / maxScore) * 100)}%`;
+    resultList.innerHTML = "";
+    type.tags.forEach(slug => {
+      const a = ARTICLES_INDEX[slug];
+      if (!a) return;
+      const li = document.createElement("li");
+      li.innerHTML = `<a href="/articles/toushi-${slug}/">${a.title}<small>${a.who}</small></a>`;
+      resultList.appendChild(li);
+    });
+    inner.hidden = true;
+    result.hidden = false;
+    result.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+  submit.addEventListener("click", showResult);
+  retry.addEventListener("click", () => {
+    answers.fill(null);
+    inner.hidden = false;
+    result.hidden = true;
+    render();
+    inner.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+  render();
+</script>
+
+</BaseLayout>

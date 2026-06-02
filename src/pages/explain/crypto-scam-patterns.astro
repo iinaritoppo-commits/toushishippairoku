@@ -1,0 +1,195 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import TopAffiliateBox from "../../components/TopAffiliateBox.astro";
+import EndAffiliateMix from "../../components/EndAffiliateMix.astro";
+import NewsletterCTA from "../../components/NewsletterCTA.astro";
+import AdSenseSlot from "../../components/AdSenseSlot.astro";
+
+const title = "仮想通貨詐欺の典型パターン ─ 「内部情報」「上場前」「LINE紹介」の構造";
+const description = "仮想通貨詐欺は、入口・滞留・回収の3フェーズで設計されている。本サイトに集まった被害体験から共通する典型パターンを整理。";
+const updatedAt = "2026-05-25";
+
+const topPillars = [
+  { href: "/compare/asset-expo-warning/", title: "資産運用EXPOに行ったらヤバい本当の理由", subtitle: "詐欺の入口として最も多く報告されている場", icon: "⚠" },
+  { href: "/explain/scam-detection-guide/", title: "投資詐欺の見抜き方 完全版", subtitle: "9シグナルで識別する3軸の整理", icon: "⚠" },
+];
+
+const breadcrumbs = [
+  { name: "投資失敗録", url: "/" },
+  { name: "解説", url: "/explain/" },
+  { name: "仮想通貨詐欺の典型パターン", url: "/explain/crypto-scam-patterns/" },
+];
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  showQuickNav={false}
+  pageType="article"
+  articleMeta={{ headline: title, category: "仮想通貨 / 解説", datePublished: updatedAt, dateModified: updatedAt, author: "白川 諒" }}
+  breadcrumbs={breadcrumbs}
+>
+  <article class="explain-page">
+    <nav class="breadcrumb">
+      <a href="/">トップ</a><span>›</span><a href="/explain/">解説</a><span>›</span><span>仮想通貨詐欺の典型パターン</span>
+    </nav>
+
+    <header class="explain-head explain-head--warning">
+      <span class="explain-head__cat">仮想通貨 / 解説</span>
+      <h1 class="explain-head__title">{title}</h1>
+      <p class="explain-head__lead">
+        仮想通貨詐欺は手口を変えながら毎年新しい顔で出てくる。<br />
+        でも、入口・滞留・回収の3フェーズという骨格はほぼ同じ。先に構造を知っておくと、初手で気づける。
+      </p>
+      <div class="explain-head__meta">
+        <span><strong>更新</strong>{updatedAt}</span>
+        <span><strong>編集</strong>白川 諒</span>
+      </div>
+    </header>
+
+    <TopAffiliateBox pillars={topPillars} heading="先に押さえておくと話が早い" subLabel="BACKGROUND READING" />
+
+    <AdSenseSlot slot="explain-header" format="rectangle" />
+
+    <section class="explain-section">
+      <h2 class="explain-h2">3フェーズで設計されている</h2>
+      <p>
+        本サイトに集まった仮想通貨詐欺の被害体験を並べると、ほぼ全ての案件が以下の3フェーズで動いている。
+      </p>
+      <div class="explain-card">
+        <div class="explain-card__no">①</div>
+        <div class="explain-card__body">
+          <strong>入口フェーズ：信頼の獲得</strong>
+          <p>「あなたにだけ教える」「内部情報」「上場前」「マッチングアプリで知り合った」など、特別感と信頼を演出する起点。最初は小さな利益を実際に出させて、信用を積ませる。</p>
+        </div>
+      </div>
+      <div class="explain-card">
+        <div class="explain-card__no">②</div>
+        <div class="explain-card__body">
+          <strong>滞留フェーズ：追加投資の誘導</strong>
+          <p>LINEグループ・テレグラムで他の参加者の入金スクショを流し、社会的証明を演出。「最終枠あと3名」「ボーナス追加」で焦らせて、追加入金を引き出し続ける。</p>
+        </div>
+      </div>
+      <div class="explain-card">
+        <div class="explain-card__no">③</div>
+        <div class="explain-card__body">
+          <strong>回収フェーズ：消失</strong>
+          <p>「上場延期」「KYC審査再実施」「税金支払いが必要」などの理由で出金を遅延させた後、LINEグループごと消滅。送金先口座も別人名義に変更されている。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="explain-section">
+      <h2 class="explain-h2">入口で必ず使われる4キーワード</h2>
+      <p>以下のキーワードが2つ以上重なって出てきたら、その時点で関与しない判断をする。</p>
+      <ul class="explain-bullet">
+        <li><strong>「あなただけ」「特別」「限定」</strong>：希少性を演出して判断を急がせる手口</li>
+        <li><strong>「内部情報」「上場前」「IPO前」</strong>：未公開銘柄への個人勧誘はほぼ全部詐欺</li>
+        <li><strong>「LINEグループで限定公開」「テレグラムで限定情報」</strong>：いつでも消せる連絡手段に閉じ込める</li>
+        <li><strong>「3ヶ月で10倍」「年利200%」など極端なリターン</strong>：実現可能性ゼロの数字を出して興奮させる</li>
+      </ul>
+    </section>
+
+    <section class="explain-section">
+      <h2 class="explain-h2">滞留フェーズの典型演出</h2>
+      <ol class="explain-list">
+        <li><strong>LINEグループの「他メンバー」のスクショ</strong>：実在する保証はゼロ。サクラの可能性が高い</li>
+        <li><strong>毎日の「進捗報告」</strong>：投稿の頻度自体が、参加者を離脱させない目的の演出</li>
+        <li><strong>「最終枠」「あと3名」のカウントダウン</strong>：FOMOを刺激して追加入金を引き出す</li>
+        <li><strong>「上場延期＋ボーナス追加」</strong>：延期を理由に追加入金させる、最終回収前の典型フェーズ</li>
+      </ol>
+      <p class="explain-callout">
+        滞留フェーズが長引くほど、追加入金額は雪だるま式に増える。<br />
+        「上場延期」の連絡が来た時点で、それまでの入金分は諦める判断が早ければ早いほど、被害総額は小さい。
+      </p>
+    </section>
+
+    <AdSenseSlot slot="explain-middle" format="in-feed" />
+
+    <section class="explain-section">
+      <h2 class="explain-h2">回収フェーズで気づくサイン</h2>
+      <p>以下のうちひとつでも当てはまったら、ほぼ確実に詐欺。即時に被害届の準備と弁護士相談へ動く。</p>
+      <ul class="explain-bullet">
+        <li>出金時に「税金」「手数料」「KYC再審査費用」など追加送金を要求される</li>
+        <li>LINEグループの参加者が「メンバーが見つかりません」表示になる</li>
+        <li>管理者のLINE個別チャットも「アカウントが存在しません」になる</li>
+        <li>送金先の銀行口座を調べると、別人名義に変更されている</li>
+        <li>会社の登記情報が確認できない・所在地が貸オフィス</li>
+      </ul>
+    </section>
+
+    <section class="explain-failures">
+      <h3>この3フェーズが実際に動いた被害体験</h3>
+      <ul>
+        <li><a href="/articles/toushi-crypto-expo-001/">資産運用EXPOで紹介された「上場前トークン」、620万円が連絡途絶で消えた話</a></li>
+      </ul>
+    </section>
+
+    <EndAffiliateMix
+      sameCategory={[
+        { href: "/articles/toushi-crypto-expo-001/", title: "EXPOで紹介された「上場前トークン」、620万円", meta: "30代男性・仮想通貨・620万円" },
+      ]}
+      pillars={[
+        { href: "/compare/asset-expo-warning/", title: "資産運用EXPOに行ったらヤバい理由", meta: "Xトレンド分析＋構造解説" },
+        { href: "/explain/scam-detection-guide/", title: "投資詐欺の見抜き方 完全版", meta: "9シグナルで識別する3軸" },
+      ]}
+      sameCategoryLabel="REAL CASE"
+      pillarsLabel="RELATED"
+      sameCategoryHeading="この3フェーズが実際に動いた被害"
+      pillarsHeading="関連する比較・解説"
+    />
+
+    <NewsletterCTA />
+    <AdSenseSlot slot="explain-footer" format="rectangle" />
+  </article>
+</BaseLayout>
+
+<style>
+  .explain-page { max-width: 820px; margin: 0 auto; padding: 0 24px 60px; }
+  .breadcrumb { max-width: 820px; margin: 20px auto 0; padding: 0 24px; font-size: 0.78rem; color: var(--c-ink-dim); }
+  .breadcrumb a { color: var(--c-navy); text-decoration: none; }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb span { margin: 0 6px; color: var(--c-gold); }
+
+  .explain-head { padding: 32px 0 24px; border-bottom: 2px solid var(--c-navy); margin-bottom: 28px; }
+  .explain-head--warning { border-bottom-color: var(--c-loss); }
+  .explain-head__cat { display: inline-block; background: var(--c-loss); color: #fff; font-size: 0.7rem; font-weight: 800; letter-spacing: 0.16em; padding: 5px 14px; border-radius: 2px; margin-bottom: 16px; }
+  .explain-head__title { font-family: var(--font-serif); font-size: clamp(1.4rem, 3.2vw, 1.8rem); font-weight: 700; color: var(--c-ink); margin: 0 0 16px; line-height: 1.55; letter-spacing: 0.06em; }
+  .explain-head__lead { margin: 0 0 18px; font-size: 0.98rem; color: var(--c-ink-soft); line-height: 2; }
+  .explain-head__meta { display: flex; flex-wrap: wrap; gap: 18px; font-size: 0.82rem; color: var(--c-ink-soft); }
+  .explain-head__meta strong { color: var(--c-ink-dim); margin-right: 6px; }
+
+  .explain-section { margin: 36px 0; }
+  .explain-h2 { font-family: var(--font-serif); font-size: 1.28rem; font-weight: 700; color: var(--c-ink); letter-spacing: 0.06em; margin: 0 0 16px; padding-bottom: 10px; border-bottom: 2px solid var(--c-navy); }
+  .explain-section p { font-size: 0.96rem; line-height: 2.0; color: var(--c-ink); margin: 0 0 12px; }
+  .explain-section strong { color: var(--c-navy-deep); }
+
+  .explain-card { display: grid; grid-template-columns: 52px 1fr; gap: 16px; align-items: start; background: #ffffff; border: 1px solid var(--c-line); border-left: 4px solid var(--c-loss); border-radius: 3px; padding: 16px 18px 16px 14px; margin: 0 0 12px; }
+  .explain-card__no { font-family: "Helvetica Neue", sans-serif; font-size: 1.6rem; font-weight: 900; color: var(--c-loss); text-align: center; line-height: 1; padding-top: 4px; }
+  .explain-card__body strong { display: block; font-family: var(--font-serif); font-size: 1.02rem; font-weight: 700; color: var(--c-ink); margin-bottom: 8px; line-height: 1.55; }
+  .explain-card__body p { margin: 0 !important; font-size: 0.9rem !important; line-height: 1.85 !important; color: var(--c-ink-soft) !important; }
+
+  .explain-callout { margin: 16px 0 0 !important; padding: 16px 18px; background: linear-gradient(180deg, #fbf6e6 0%, #f5edcc 100%); border-left: 4px solid var(--c-gold); font-size: 0.92rem !important; line-height: 1.95 !important; }
+
+  .explain-bullet { list-style: none; margin: 12px 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+  .explain-bullet li { padding: 8px 14px 8px 28px; background: #ffffff; border-left: 3px solid var(--c-loss); border-radius: 2px; position: relative; font-size: 0.9rem; line-height: 1.8; }
+  .explain-bullet li::before { content: "▸"; position: absolute; left: 10px; top: 8px; color: var(--c-loss); }
+  .explain-bullet strong { color: var(--c-navy-deep); }
+
+  .explain-list { list-style: none; margin: 0; padding: 0; counter-reset: ex-list; display: flex; flex-direction: column; gap: 12px; }
+  .explain-list li { counter-increment: ex-list; padding: 14px 16px 14px 52px; background: #ffffff; border: 1px solid var(--c-line); border-left: 3px solid var(--c-loss); border-radius: 3px; position: relative; font-size: 0.94rem; line-height: 1.85; }
+  .explain-list li::before { content: counter(ex-list, decimal-leading-zero); position: absolute; left: 14px; top: 14px; font-family: "Helvetica Neue", sans-serif; font-weight: 900; font-size: 1rem; color: var(--c-loss); }
+
+  .explain-failures { margin: 40px 0; padding: 20px 22px; background: var(--c-bg); border-left: 3px solid var(--c-loss); border-radius: 3px; }
+  .explain-failures h3 { margin: 0 0 10px; font-size: 0.94rem; color: var(--c-loss); letter-spacing: 0.04em; }
+  .explain-failures ul { margin: 0; padding-left: 18px; }
+  .explain-failures a { color: var(--c-navy); }
+
+  @media (max-width: 540px) {
+    .explain-page { padding: 0 18px 50px; }
+    .breadcrumb { padding: 0 18px; }
+    .explain-h2 { font-size: 1.1rem; }
+    .explain-card { grid-template-columns: 40px 1fr; gap: 12px; padding: 14px 14px 14px 10px; }
+    .explain-card__no { font-size: 1.3rem; }
+  }
+</style>

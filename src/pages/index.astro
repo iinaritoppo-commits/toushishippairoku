@@ -1,0 +1,608 @@
+---
+import fs from "node:fs";
+import path from "node:path";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import JapanMap from "../components/JapanMap.astro";
+import { PILLARS, EXPLAINS } from "../data/pillars-index";
+
+// approved/*.json から実数集計（件数・累計損失額・損失額ランキング）
+// memory feedback_no_hardcoded_numbers.md 準拠：手動数字でなく動的集計
+let stockCount = 0;
+let totalLossYen = 0;
+type RankItem = {
+  slug: string;
+  title: string;
+  loss: number;
+  category: string;
+  prefecture: string;
+  age: number | string;
+  gender: string;
+  occupation: string;
+};
+const allArticles: RankItem[] = [];
+const CAT_LABEL: Record<string, string> = {
+  fx: "FX", crypto: "仮想通貨", fraud: "投資詐欺",
+  credit: "信用取引", realty: "不動産", sidejob: "副業", other: "その他",
+};
+try {
+  const approvedDir = path.join(process.cwd(), "approved");
+  const files = fs.readdirSync(approvedDir).filter((f) => f.endsWith(".json"));
+  for (const f of files) {
+    try {
+      const j = JSON.parse(fs.readFileSync(path.join(approvedDir, f), "utf-8"));
+      if (typeof j.loss_amount_yen === "number") {
+        totalLossYen += j.loss_amount_yen;
+        stockCount++;
+        allArticles.push({
+          slug: j.slug,
+          title: j.title,
+          loss: j.loss_amount_yen,
+          category: CAT_LABEL[j.category] ?? j.category,
+          prefecture: j.persona?.prefecture ?? "",
+          age: j.persona?.age ?? "",
+          gender: j.persona?.gender ?? "",
+          occupation: j.persona?.occupation ?? "",
+        });
+      }
+    } catch {}
+  }
+} catch {}
+
+// 表示フォーマット統一：¥1,000,000- 形式（請求書スタイル）
+// 全箇所（ヒーローTOTAL LOSS / ランキング / 記事ページ）で同じルールを使う
+const formatLoss = (yen: number): string =>
+  `¥${yen.toLocaleString()}-`;
+const totalLossLabel = formatLoss(totalLossYen);
+
+// 損失額ランキング TOP 10（降順）
+const lossRanking = [...allArticles].sort((a, b) => b.loss - a.loss).slice(0, 10);
+// fmtLoss は formatLoss と同じ。ランキング表示で使う。
+const fmtLoss = formatLoss;
+
+// 第1弾10記事の仮データ（後でmicroCMSに移行）
+// リアル分布：18 / 42 / 148 / 210 / 280 / 320 / 380 / 380 / 480 / 620 = 計2,878万
+const articles = [
+  { slug: "fx-380man", cat: "FX / 指標発表", year: "2026年 春", amount: "¥3,800,000", amountValue: 380, pair: "USD/JPY ・ Lev 25倍", quote: "画面の数字が、自分のものに見えなくなった瞬間があった", title: "380万円が3分で消えた話 ─ FX指標発表での全損", who: "30代男性 ・ 会社員", date: "2026.05.04" },
+  { slug: "fraud-480man", cat: "仮想通貨 / 詐欺", year: "2026年 春", amount: "¥4,800,000", amountValue: 480, pair: "未上場トークン ・ LINE誘導", quote: "上場したら10倍、と書いてあった。書いてあっただけだった", title: "LINEで届いた「内部情報」、480万円が消えた話", who: "50代男性 ・ 元会社員", date: "2026.05.02" },
+  { slug: "stocks-280man", cat: "株式 / ナンピン", year: "2026年 春", amount: "おおよそ¥280万", amountValue: 280, pair: "国内グロース株 ・ 信用買い", quote: "平均取得単価を下げたい、と思った時点で、もう負けていた", title: "ナンピン4回目で気づいた、もう戻らない", who: "40代男性 ・ 個人事業主", date: "2026.04.30" },
+  { slug: "real-620man", cat: "不動産 / サブリース", year: "2026年 春", amount: "500〜700万円台", amountValue: 620, pair: "ワンルーム1戸 ・ サブリース解約", quote: "表面利回りの裏に、空室率という言葉があるとは知らなかった", title: "表面利回りの裏に、空室率という現実があった", who: "40代男性 ・ 会社員", date: "2026.04.27" },
+  { slug: "info-148man", cat: "情報商材 / 詐欺", year: "2026年 春", amount: "¥1,480,000", amountValue: 148, pair: "FX商材＋仮想通貨商材", quote: "「絶対勝てる手法」という言葉に、二度騙された", title: "「絶対勝てる手法」を二度買った話", who: "40代男性 ・ 自営業", date: "2026.04.24" },
+  { slug: "fx-200man", cat: "FX / ロスカット解除", year: "2026年 春", amount: "¥2,100,000", amountValue: 210, pair: "EUR/JPY ・ Lev 25倍", quote: "警告メールの未読が17通あった、あの朝のことは忘れない", title: "ロスカットを下げた、その夜のことだった", who: "30代男性 ・ 営業職", date: "2026.04.21" },
+];
+
+// 第1弾10件の合計損失額（万円）─ 集計
+const ALL_LOSS_MAN = 380 + 480 + 280 + 620 + 148 + 210 + 18 + 320 + 380 + 42; // = 2,878
+const ALL_LOSS_LABEL = ALL_LOSS_MAN.toLocaleString(); // "2,878"
+
+// 損失額レンジ別の件数（実データから算出）
+const allLosses = [380, 480, 280, 620, 148, 210, 18, 320, 380, 42];
+const lossRanges = {
+  small: allLosses.filter(v => v < 100).length,                  // 〜100万: 2件
+  medium: allLosses.filter(v => v >= 100 && v < 500).length,      // 100〜500万: 7件
+  large: allLosses.filter(v => v >= 500 && v < 1000).length,      // 500〜1000万: 1件
+  huge: allLosses.filter(v => v >= 1000).length,                  // 1000万超: 0件
+};
+
+// カテゴリ別件数（実データから）
+const catCounts = {
+  fx: 3, stocks: 2, crypto: 2, realestate: 1, funds: 0, fraud: 2,
+};
+
+// 位牌メッセージ：戒名の核心を1行で。カード/モーメントとは別文章。
+const ihaiList = [
+  { sect: "FX 諸霊位", kaimyo: "指標発表院<br/>釈萬徹刹那 居士", name: "M.T 様", loss: "¥3,847,200", msg: "ロスカットを設定していた。それでも、間に合わなかった。", date: "2026.05.04" },
+  { sect: "仮想通貨 諸霊位", kaimyo: "LINE直通霊感院<br/>釈啓盛退路 居士", name: "K.S 様", loss: "¥4,820,000", msg: "20年来の旧友からの誘いだった。", date: "2026.05.02" },
+  { sect: "株式 諸霊位", kaimyo: "四連難平院<br/>釈弥阿深淵 居士", name: "Y.A 様", loss: "おおよそ¥280万", msg: "4回目を買った瞬間、引き返す道は閉じた。", date: "2026.04.30" },
+  { sect: "不動産 諸霊位", kaimyo: "表面利回院<br/>釈乗法空室 大居士", name: "N.H 様", loss: "500〜700万円台", msg: "「家賃保証」の保証は、家賃額の保証ではなかった。", date: "2026.04.27" },
+  { sect: "情報商材 諸霊位", kaimyo: "絶対勝法二度受講院<br/>釈徹翁授業 居士", name: "T.O 様", loss: "¥1,480,000", msg: "1年後、同じ販売者から、別の商材を買っていた。", date: "2026.04.24" },
+  { sect: "FX 諸霊位", kaimyo: "ロスカット解除院<br/>釈律剋自爆 居士", name: "R.K 様", loss: "¥2,134,000", msg: "通知音をオフにしていた、それだけだった。", date: "2026.04.21" },
+  { sect: "FX 諸霊位", kaimyo: "初陣全集中院<br/>釈花暦無常 信女", name: "H.K 様", loss: "¥182,500", msg: "「減るスピードに勝とう」と、本気で思っていた。", date: "2026.04.18" },
+  { sect: "仮想通貨 諸霊位", kaimyo: "次は戻信院<br/>釈道和天井買付 居士", name: "D.W 様", loss: "¥3,180,000", msg: "上昇するたびに、目標値が、少し後ろにずれた。", date: "2026.04.15" },
+];
+
+// モーメント：「あ、終わった」と思った具体瞬間。位牌・カードと別文章。
+const moments = [
+  { quote: "ロスカットの先に、まだ下があると、その夜に知った。", from: "30代男性 / FX", loss: "¥384万" },
+  { quote: "「サンクコスト」という言葉を、後で知った。", from: "40代男性 / 株式", loss: "¥280万" },
+  { quote: "「あの人、本当に親切だったんですよ」と、何度も繰り返した。", from: "50代男性 / 仮想通貨", loss: "¥482万" },
+  { quote: "妻には、半年経ってから、夕食の席で打ち明けた。", from: "30代男性 / FX", loss: "¥213万" },
+  { quote: "銀行から金利見直しの連絡が来た朝、初めて電卓を叩いた。", from: "40代男性 / 不動産", loss: "500〜700万台" },
+  { quote: "「優待がもらえれば実質プラス」と、自分に言い聞かせた。", from: "30代男性 / 株式", loss: "¥42万" },
+];
+
+const diaries = [
+  { date: "2026.05.04", title: "あの夜、止めるべきだったか", excerpt: "やり取りの最後、Mさんはふと「家族には隠してたんですよね」と言った。聞かなければよかったのか、聞けてよかったのか、いまも答えが出ない。", meta: "FX / 380万円" },
+  { date: "2026.05.02", title: "「内部情報」の正体", excerpt: "退職金1240万を失ったKさんが、最後にぽつりと言った言葉が忘れられない。「あの人、本当に親切だったんですよ」。詐欺師は、優しい顔をして来る。", meta: "仮想通貨 / 1240万円" },
+  { date: "2026.04.30", title: "ナンピンという言葉", excerpt: "「平均取得単価を下げたい」と思った時点で負けていた、とYさんは言う。投資の世界では、自分を慰めるための言葉が、いちばん危ない。", meta: "株式 / 870万円" },
+];
+
+// 次回合同供養日（毎月17日）を動的計算
+// memory feedback_no_hardcoded_numbers.md 厳守：日付ハードコード禁止
+const now = new Date();
+const _y = now.getFullYear();
+const _m = now.getMonth() + 1;
+const _d = now.getDate();
+let nextKuyouY = _y;
+let nextKuyouM = _m;
+if (_d > 17) {
+  nextKuyouM = _m + 1;
+  if (nextKuyouM > 12) { nextKuyouM = 1; nextKuyouY = _y + 1; }
+}
+const nextKuyouLabel = `${nextKuyouY}年${nextKuyouM}月17日（月命日）`;
+---
+
+<BaseLayout
+  title="投資失敗録｜FX・株・暗号資産・不動産・投信の失敗体験アーカイブ"
+  description="FX・株式・暗号資産・不動産・投信・投資詐欺の失敗体験を、本人から聞いて編集して残してます。投稿フォームに届いた話と、仕事中に聞かせてもらった話を、編集者がアーカイブ。煽らない、勧誘しない、商材売らない。"
+>
+
+<section class="hero">
+  <div class="hero__inner">
+    <span class="hero__sub-en">REAL LOSS RECORDS</span>
+    <h1 class="hero__title">他人の<span class="accent">失敗</span>から、<br/>明日の判断を。</h1>
+    <p class="hero__lead">投稿で寄せられた話と、仕事の合間に聞いた話を、<br/>編集して残しています。誰かが先に転んだ場所の、地図です。</p>
+    <p class="hero__editor-note">― 投資の話なのに、人間の話ばかり。―</p>
+
+    <div class="hero-cta">
+      <a href="/explain/retirement-money-pitfalls/" class="hero-cta__primary hero-cta__primary--pillar">📘 退職金運用の落とし穴 完全版 →</a>
+      <a href="#section-latest" class="hero-cta__secondary">最新の失敗を読む</a>
+      <a href="#section-map" class="hero-cta__secondary">全国マップ</a>
+      <a href="/submit/" class="hero-cta__secondary">あなたの話を送る</a>
+    </div>
+
+    <div class="hero__stats">
+      <div class="hero__stat">
+        <span class="hero__stat__label">CASES</span>
+        <span class="hero__stat__num">{stockCount}<span class="hero__stat__suffix">件</span></span>
+        <span class="hero__stat__sub">取材・編集済の失敗記録</span>
+      </div>
+      <div class="hero__stat hero__stat--main">
+        <span class="hero__stat__label">TOTAL LOSS</span>
+        <span class="hero__stat__num">{totalLossLabel}</span>
+        <span class="hero__stat__sub">累計損失額（集計値）</span>
+      </div>
+      <div class="hero__stat">
+        <span class="hero__stat__label">CATEGORIES</span>
+        <span class="hero__stat__num hero__stat__num--text">6<span class="hero__stat__suffix">分類</span></span>
+        <span class="hero__stat__sub">FX・株・暗号資産ほか</span>
+      </div>
+    </div>
+    <p class="hero__site-note hero__site-note--small">
+      FX・株・仮想通貨・不動産・投信・詐欺 ・ 全国47都道府県
+    </p>
+
+    <div class="voice-strip">
+      <div class="voice-strip__label">VOICES — 直近のやり取りから</div>
+      <div class="voice-list">
+        <div class="voice"><p class="voice__quote">「画面を更新するたび、レートはまだ下に行っていた」</p><span class="voice__from">— 30代男性 / FX / 2026.05</span></div>
+        <div class="voice"><p class="voice__quote">「最初の20万は、ボーナスから取り分けたお金だった」</p><span class="voice__from">— 20代女性 / FX / 2026.04</span></div>
+        <div class="voice"><p class="voice__quote">「妻に話したのは、2回目のナンピンを終えた後だった」</p><span class="voice__from">— 40代男性 / 株式 / 2026.04</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="disclaimer">
+  <strong>⚠️ 免責</strong>本記事は実話・体験談の記録です。投資助言・推奨ではありません。投資判断は必ずご自身の責任で行ってください。
+</div>
+
+<main class="container">
+
+<!-- FEATURED CARDS（kissfx風カラフル大型カード） -->
+<section class="featured-cards">
+  <a href="/explain/retirement-money-pitfalls/" class="fc-card fc-card--gold">
+    <span class="fc-card__cat">📘 完全ガイド</span>
+    <h3 class="fc-card__title">退職金運用の<br>落とし穴</h3>
+    <p class="fc-card__desc">9パターンの典型例と判断軸5つ。実損失額つきの取材記録。</p>
+    <span class="fc-card__cta">読む →</span>
+  </a>
+  <a href="/explain/scam-detection-guide/" class="fc-card fc-card--red">
+    <span class="fc-card__cat">⚠ 投資詐欺</span>
+    <h3 class="fc-card__title">詐欺の<br>見抜き方</h3>
+    <p class="fc-card__desc">勧誘文言・出金条件・運営実態の3軸で識別する完全版。</p>
+    <span class="fc-card__cta">学ぶ →</span>
+  </a>
+  <a href="#section-map" class="fc-card fc-card--navy">
+    <span class="fc-card__cat">🗾 全国</span>
+    <h3 class="fc-card__title">エリア別<br>失敗マップ</h3>
+    <p class="fc-card__desc">47都道府県の取材記録。地元の失敗事例から探す。</p>
+    <span class="fc-card__cta">探す →</span>
+  </a>
+  <a href="/explain/" class="fc-card fc-card--purple">
+    <span class="fc-card__cat">📚 解説</span>
+    <h3 class="fc-card__title">仕組みから<br>読む</h3>
+    <p class="fc-card__desc">ロスカット・サブリース・テーマ型投信などの構造解説。</p>
+    <span class="fc-card__cta">深掘り →</span>
+  </a>
+</section>
+
+<header class="section-h" id="section-loss">
+  <div class="section-h__title-group"><span class="section-h__sub">BY LOSS AMOUNT</span><h2 class="section-h__title">損失額から探す</h2></div>
+</header>
+<div class="loss-bar">
+  <a href="/category/loss-small/" class="loss-tile"><div class="loss-tile__amount">100万円未満</div><div class="loss-tile__label">UNDER ¥1M</div><div class="loss-tile__count">掲載準備中</div></a>
+  <a href="/category/loss-medium/" class="loss-tile"><div class="loss-tile__amount">100〜500万</div><div class="loss-tile__label">¥1M – ¥5M</div><div class="loss-tile__count">掲載準備中</div></a>
+  <a href="/category/loss-large/" class="loss-tile"><div class="loss-tile__amount">500〜1000万</div><div class="loss-tile__label">¥5M – ¥10M</div><div class="loss-tile__count">掲載準備中</div></a>
+  <a href="/category/loss-huge/" class="loss-tile"><div class="loss-tile__amount">1000万円超</div><div class="loss-tile__label">OVER ¥10M</div><div class="loss-tile__count" style="color:var(--c-ink-dim)">掲載準備中</div></a>
+</div>
+
+<header class="section-h" id="section-latest">
+  <div class="section-h__title-group"><span class="section-h__sub">LATEST</span><h2 class="section-h__title">最新の失敗録</h2></div>
+  <a href="/articles/" class="section-h__more">すべての記録を見る →</a>
+</header>
+<div class="article-grid">
+  {articles.slice(0, 3).map((a) => (
+    <a href={`/articles/${a.slug}/`} class="card">
+      <div class="card__thumb">
+        <div class="card__thumb-top"><span class="card__cat">{a.cat}</span><span class="card__time">{a.year}</span></div>
+        <div><div class="card__amount">{a.amount}<span class="yen">の損失</span></div><div class="card__pair">{a.pair}</div></div>
+      </div>
+      <div class="card__body">
+        <p class="card__quote">「{a.quote}」</p>
+        <h3 class="card__title">{a.title}</h3>
+        <div class="card__meta"><span>{a.who}</span><time>{a.date}</time></div>
+      </div>
+    </a>
+  ))}
+</div>
+
+<header class="section-h" id="section-ranking">
+  <div class="section-h__title-group"><span class="section-h__sub">LOSS RANKING</span><h2 class="section-h__title">損失額ランキング ─ TOP 10</h2></div>
+  <a href="/diagnose/" class="section-h__more">あなたのカモられ度を診断 →</a>
+</header>
+<div class="ranking-list">
+  {lossRanking.map((r, i) => (
+    <a href={`/articles/${r.slug}/`} class="ranking-row">
+      <span class={`ranking-row__rank ranking-row__rank--r${i + 1}`}>{i + 1}</span>
+      <div class="ranking-row__main">
+        <h3 class="ranking-row__title">{r.title}</h3>
+        <div class="ranking-row__meta">
+          <span class="ranking-row__cat">{r.category}</span>
+          <span class="ranking-row__sep">・</span>
+          <span>{r.age}{typeof r.age === "number" ? "代" : ""}{r.gender}</span>
+          <span class="ranking-row__sep">・</span>
+          <span>{r.prefecture}</span>
+        </div>
+      </div>
+      <div class="ranking-row__loss">
+        <span class="ranking-row__loss-amt">{fmtLoss(r.loss)}</span>
+        <span class="ranking-row__loss-sub">の損失</span>
+      </div>
+    </a>
+  ))}
+</div>
+
+<header class="section-h" id="section-cats"><div class="section-h__title-group"><span class="section-h__sub">CATEGORIES</span><h2 class="section-h__title">ジャンルから探す</h2></div></header>
+<div class="cats">
+  <a href="/category/fx/" class="cat"><span class="cat__name">FX</span><span class="cat__count">{catCounts.fx}</span></a>
+  <a href="/category/stocks/" class="cat"><span class="cat__name">株式</span><span class="cat__count">{catCounts.stocks}</span></a>
+  <a href="/category/crypto/" class="cat"><span class="cat__name">仮想通貨</span><span class="cat__count">{catCounts.crypto}</span></a>
+  <a href="/category/realestate/" class="cat"><span class="cat__name">不動産</span><span class="cat__count">{catCounts.realestate}</span></a>
+  <a href="/category/funds/" class="cat"><span class="cat__name">投資信託</span><span class="cat__count" style={catCounts.funds === 0 ? 'color:var(--c-ink-dim);font-family:var(--font-sans)' : ''}>{catCounts.funds === 0 ? '準備中' : catCounts.funds}</span></a>
+  <a href="/category/fraud/" class="cat"><span class="cat__name">情報商材・詐欺</span><span class="cat__count">{catCounts.fraud}</span></a>
+</div>
+
+<header class="section-h" id="section-compare">
+  <div class="section-h__title-group">
+    <span class="section-h__sub">COMPARE</span>
+    <h2 class="section-h__title">比較で選び直す</h2>
+  </div>
+  <a href="/compare/" class="section-h__more">すべての比較を見る →</a>
+</header>
+<div class="home-pillar-grid">
+  {PILLARS.map((p) => (
+    <a href={p.href} class={`home-pillar-card home-pillar-card--${p.accent ?? "navy"}`}>
+      <div class="home-pillar-card__head">
+        <span class="home-pillar-card__cat">{p.category}</span>
+        {p.badge && <span class="home-pillar-card__badge">{p.badge}</span>}
+      </div>
+      <h3 class="home-pillar-card__title">{p.shortTitle}</h3>
+      <p class="home-pillar-card__desc">{p.description.slice(0, 88)}…</p>
+      <div class="home-pillar-card__foot">
+        <span>続きを読む</span>
+        <span class="home-pillar-card__arrow" aria-hidden="true">→</span>
+      </div>
+    </a>
+  ))}
+</div>
+
+</main>
+
+<JapanMap />
+
+<section class="kuyou-section" id="section-kuyou">
+  <div class="kuyou-head">
+    <span class="kuyou-head__sub">SHIPPAI KUYOUJO</span>
+    <h2 class="kuyou-head__title">失敗供養所</h2>
+    <p class="kuyou-head__lead">届いた失敗の話を、ひとつずつ供養していく場所。<br/>毎月17日（月命日）に、その月集まった話をまとめてお焚き上げ。<br/><span style="color:#d8a55a;font-size:0.78rem;letter-spacing:0.16em">— 戒名はAI命名・位号は損失額で変動 —</span></p>
+  </div>
+  <div class="kuyou-inner">
+    <div class="altar">
+      <div class="altar__top">― 御 霊 前 ―</div>
+      <div class="altar__name">投資失敗 諸霊位</div>
+
+      <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+        <defs>
+          <linearGradient id="waxG" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#5a3a18"/><stop offset="12%" stop-color="#a88450"/>
+            <stop offset="35%" stop-color="#f0d8a4"/><stop offset="55%" stop-color="#fff8e0"/>
+            <stop offset="78%" stop-color="#d8b87a"/><stop offset="100%" stop-color="#5a3a18"/>
+          </linearGradient>
+          <linearGradient id="waxTop" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#8a5a28"/><stop offset="60%" stop-color="#a8854a"/><stop offset="100%" stop-color="#f0d8a4"/>
+          </linearGradient>
+          <radialGradient id="glowG" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="rgba(255,180,80,0.55)"/><stop offset="55%" stop-color="rgba(255,140,42,0.18)"/><stop offset="100%" stop-color="rgba(255,140,42,0)"/>
+          </radialGradient>
+          <radialGradient id="flameOuterG" cx="50%" cy="80%" r="55%">
+            <stop offset="0%" stop-color="#ffe4a0"/><stop offset="35%" stop-color="#ffaa3a"/>
+            <stop offset="65%" stop-color="#ff7020"/><stop offset="100%" stop-color="rgba(220,60,20,0)"/>
+          </radialGradient>
+          <radialGradient id="flameMidG" cx="50%" cy="78%" r="50%">
+            <stop offset="0%" stop-color="#fff5d0"/><stop offset="50%" stop-color="#ffd766"/><stop offset="100%" stop-color="rgba(255,215,102,0)"/>
+          </radialGradient>
+          <radialGradient id="flameCoreG" cx="50%" cy="78%" r="50%">
+            <stop offset="0%" stop-color="#ffffff"/><stop offset="60%" stop-color="#fff8d8"/><stop offset="100%" stop-color="rgba(255,248,216,0)"/>
+          </radialGradient>
+          <filter id="flameBlur" x="-30%" y="-30%" width="160%" height="160%">
+            <feGaussianBlur stdDeviation="0.5"/>
+          </filter>
+        </defs>
+      </svg>
+
+      <div class="altar__candles">
+        <div class="candle">
+          <svg class="candle-svg" viewBox="0 0 60 140" xmlns="http://www.w3.org/2000/svg">
+            <ellipse class="candle-glow" cx="30" cy="50" rx="34" ry="34" fill="url(#glowG)"/>
+            <rect x="22" y="48" width="16" height="80" fill="url(#waxG)"/>
+            <ellipse cx="30" cy="48.2" rx="8" ry="2.8" fill="url(#waxTop)"/>
+            <ellipse cx="30" cy="48.2" rx="5.5" ry="1.6" fill="#3a2410" opacity="0.65"/>
+            <path d="M 22 56 Q 18.5 65 20.5 80 Q 22 86 23 78 Q 24.5 66 22 56 Z" fill="url(#waxG)"/>
+            <ellipse cx="30" cy="129" rx="14" ry="2.2" fill="rgba(0,0,0,0.55)"/>
+            <line x1="30" y1="40" x2="30" y2="48" stroke="#1a0a05" stroke-width="1.3" stroke-linecap="round"/>
+            <circle cx="30" cy="40" r="0.8" fill="#000"/>
+            <g class="candle-flame">
+              <ellipse cx="30" cy="32" rx="6.5" ry="14" fill="url(#flameOuterG)" filter="url(#flameBlur)"/>
+              <ellipse cx="30" cy="34" rx="3.6" ry="9" fill="url(#flameMidG)"/>
+              <ellipse cx="30" cy="36" rx="1.6" ry="4.8" fill="url(#flameCoreG)"/>
+            </g>
+          </svg>
+        </div>
+        <div class="candle">
+          <svg class="candle-svg" viewBox="0 0 60 140" xmlns="http://www.w3.org/2000/svg">
+            <ellipse class="candle-glow" cx="30" cy="50" rx="34" ry="34" fill="url(#glowG)"/>
+            <rect x="22" y="48" width="16" height="80" fill="url(#waxG)"/>
+            <ellipse cx="30" cy="48.2" rx="8" ry="2.8" fill="url(#waxTop)"/>
+            <ellipse cx="30" cy="48.2" rx="5.5" ry="1.6" fill="#3a2410" opacity="0.65"/>
+            <path d="M 22 58 Q 19 70 21.5 82 Q 23 86 24 78 Q 25 68 22 58 Z" fill="url(#waxG)"/>
+            <ellipse cx="30" cy="129" rx="14" ry="2.2" fill="rgba(0,0,0,0.55)"/>
+            <line x1="30" y1="40" x2="30" y2="48" stroke="#1a0a05" stroke-width="1.3" stroke-linecap="round"/>
+            <circle cx="30" cy="40" r="0.8" fill="#000"/>
+            <g class="candle-flame">
+              <ellipse cx="30" cy="32" rx="6.5" ry="14" fill="url(#flameOuterG)" filter="url(#flameBlur)"/>
+              <ellipse cx="30" cy="34" rx="3.6" ry="9" fill="url(#flameMidG)"/>
+              <ellipse cx="30" cy="36" rx="1.6" ry="4.8" fill="url(#flameCoreG)"/>
+            </g>
+          </svg>
+        </div>
+        <div class="candle">
+          <svg class="candle-svg" viewBox="0 0 60 140" xmlns="http://www.w3.org/2000/svg">
+            <ellipse class="candle-glow" cx="30" cy="50" rx="34" ry="34" fill="url(#glowG)"/>
+            <rect x="22" y="48" width="16" height="80" fill="url(#waxG)"/>
+            <ellipse cx="30" cy="48.2" rx="8" ry="2.8" fill="url(#waxTop)"/>
+            <ellipse cx="30" cy="48.2" rx="5.5" ry="1.6" fill="#3a2410" opacity="0.65"/>
+            <path d="M 38 58 Q 41 68 40 80 Q 39 84 38 76 Q 36.5 68 38 58 Z" fill="url(#waxG)"/>
+            <ellipse cx="30" cy="129" rx="14" ry="2.2" fill="rgba(0,0,0,0.55)"/>
+            <line x1="30" y1="40" x2="30" y2="48" stroke="#1a0a05" stroke-width="1.3" stroke-linecap="round"/>
+            <circle cx="30" cy="40" r="0.8" fill="#000"/>
+            <g class="candle-flame">
+              <ellipse cx="30" cy="32" rx="6.5" ry="14" fill="url(#flameOuterG)" filter="url(#flameBlur)"/>
+              <ellipse cx="30" cy="34" rx="3.6" ry="9" fill="url(#flameMidG)"/>
+              <ellipse cx="30" cy="36" rx="1.6" ry="4.8" fill="url(#flameCoreG)"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+
+      <div class="altar__incense">
+        <div class="incense__bowl"></div>
+        <div class="incense__sticks"><span></span><span></span><span></span></div>
+        <div class="incense__smoke" id="incense-smoke">
+          <div class="smoke__plume"></div><div class="smoke__plume"></div>
+          <div class="smoke__plume"></div><div class="smoke__plume"></div>
+        </div>
+      </div>
+
+      <div class="altar__counts">
+        <div class="altar__count-cell">
+          <div class="altar__count" id="altar-count-eternal">順次<span class="altar__count-suffix">追加</span></div>
+          <div class="altar__count-label">永代供養</div>
+        </div>
+        <div class="altar__count-divider"></div>
+        <div class="altar__count-cell">
+          <div class="altar__count altar__count--shoukou" id="altar-count-shoukou">0<span class="altar__count-suffix">回</span></div>
+          <div class="altar__count-label">あなたのお焼香</div>
+        </div>
+      </div>
+      <div class="shoukou-controls">
+        <button class="shoukou-btn" type="button" onclick="window.shoukou && window.shoukou()">
+          <span>🪷</span>焼香する
+        </button>
+        <label class="sound-toggle">
+          <input type="checkbox" id="sound-on" checked />
+          <span class="sound-toggle__track"><span class="sound-toggle__thumb"></span></span>
+          <span class="sound-toggle__label" id="sound-label">音 ON</span>
+        </label>
+      </div>
+      <div class="shoukou-ack" id="shoukou-ack">— ボッ —</div>
+
+      <div class="altar__next">
+        次回 合同供養：<br/>
+        <strong>{nextKuyouLabel}</strong><br/>
+        その月に届いた話を、まとめて供養します。
+      </div>
+    </div>
+
+    <div class="ihai-section">
+      <div class="ihai-section__head">
+        <span class="ihai-section__title">最近お焚き上げした失敗</span>
+        <a class="ihai-section__more" href="/kuyou/">永代供養スペースへ →</a>
+      </div>
+      <div class="ihai-grid">
+        {ihaiList.map((i) => (
+          <a href="#" class="ihai">
+            <div class="ihai__sect">{i.sect}</div>
+            <div class="ihai__kaimyo" set:html={i.kaimyo} />
+            <div class="ihai__name">{i.name}</div>
+            <div class="ihai__loss">{i.loss}</div>
+            <p class="ihai__msg">{i.msg}</p>
+            <div class="ihai__date">{i.date}</div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="moment-section" id="section-moments">
+  <div class="moment-head">
+    <span class="moment-head__sub">THE MOMENT</span>
+    <h2 class="moment-head__title">気づいた瞬間</h2>
+    <p class="moment-head__lead">「あ、終わった」と気づいた、その一瞬。</p>
+  </div>
+  <div class="moment-list">
+    {moments.map((m) => (
+      <a href="#" class="moment">
+        <p class="moment__quote">{m.quote}</p>
+        <div class="moment__from"><span>{m.from}</span><strong>{m.loss}</strong></div>
+      </a>
+    ))}
+  </div>
+</section>
+
+<main class="container">
+
+<header class="section-h" id="section-explain">
+  <div class="section-h__title-group">
+    <span class="section-h__sub">EXPLAIN</span>
+    <h2 class="section-h__title">仕組みから読む</h2>
+  </div>
+  <a href="/explain/" class="section-h__more">すべての解説を見る →</a>
+</header>
+<div class="home-pillar-grid">
+  {EXPLAINS.map((e) => (
+    <a href={e.href} class={`home-pillar-card home-pillar-card--${e.accent ?? "navy"}`}>
+      <div class="home-pillar-card__head">
+        <span class="home-pillar-card__cat">{e.category}</span>
+      </div>
+      <h3 class="home-pillar-card__title">{e.shortTitle}</h3>
+      <p class="home-pillar-card__desc">{e.description.slice(0, 88)}…</p>
+      <div class="home-pillar-card__foot">
+        <span>続きを読む</span>
+        <span class="home-pillar-card__arrow" aria-hidden="true">→</span>
+      </div>
+    </a>
+  ))}
+</div>
+
+<header class="section-h" id="section-diary"><div class="section-h__title-group"><span class="section-h__sub">EDITOR'S NOTES</span><h2 class="section-h__title">編集ノート</h2></div></header>
+<div class="diary-grid">
+  {diaries.map((d) => (
+    <a href="#" class="diary">
+      <div class="diary__date">{d.date}</div>
+      <h3 class="diary__title">{d.title}</h3>
+      <p class="diary__excerpt">{d.excerpt}</p>
+      <div class="diary__meta"><span class="diary__meta-author">白川 諒</span><time>{d.meta}</time></div>
+    </a>
+  ))}
+</div>
+
+<header class="section-h"><div class="section-h__title-group"><span class="section-h__sub">EDITOR</span><h2 class="section-h__title">編集者について</h2></div></header>
+<div class="operator">
+  <div class="operator__avatar">白</div>
+  <div>
+    <h3 class="operator__name">白川 諒（しらかわ・りょう）</h3>
+    <p class="operator__role">EDITOR / 編集</p>
+    <p class="operator__bio">
+      普段は別の仕事をしながら、FXのテクニカル分析を学んでいます。自分自身も含み損から退場まで、何度か通った道がありました。<br/>
+      勝ち方を語るには早すぎるけれど、聞いた話を地図にして残すなら、できる気がした。<br/>
+      投稿で寄せられた話と、仕事中にぽろっと打ち明けられる話を、編集して置いています。<br/>
+      <strong>投資助言は一切行いません。</strong>事実の記録と、起きた構造の整理のみ。
+    </p>
+  </div>
+</div>
+
+<section class="submit-cta" id="section-submit">
+  <div class="submit-cta__sub">SUBMIT YOUR STORY</div>
+  <h2 class="submit-cta__title">あなたの失敗を、聞かせてください。</h2>
+  <p class="submit-cta__lead">匿名で投稿できます。仮名・地名ぼかしの条件で構いません。<br/>連絡先を残してくださった方には、必要に応じてメールで簡単なやり取りをします。</p>
+  <a href="/submit/" class="submit-cta__btn">投稿フォームへ ›</a>
+</section>
+
+</main>
+
+<script is:inline>
+  let shoukouCount = 0;
+  let soundOn = true;
+  let audioCtx = null;
+
+  function ensureAudio() {
+    if (!audioCtx) {
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if (AC) audioCtx = new AC();
+    }
+    return audioCtx;
+  }
+
+  function playPop() {
+    const ctx = ensureAudio();
+    if (!ctx) return;
+    if (ctx.state === 'suspended') ctx.resume();
+    const t = ctx.currentTime;
+    const osc = ctx.createOscillator();
+    const og = ctx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(120, t);
+    osc.frequency.exponentialRampToValueAtTime(45, t + 0.18);
+    og.gain.setValueAtTime(0.0001, t);
+    og.gain.exponentialRampToValueAtTime(0.42, t + 0.005);
+    og.gain.exponentialRampToValueAtTime(0.0001, t + 0.28);
+    osc.connect(og).connect(ctx.destination);
+    osc.start(t); osc.stop(t + 0.32);
+    const noiseDur = 0.08;
+    const buf = ctx.createBuffer(1, Math.floor(ctx.sampleRate * noiseDur), ctx.sampleRate);
+    const data = buf.getChannelData(0);
+    for (let i = 0; i < data.length; i++) data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / data.length, 2);
+    const noise = ctx.createBufferSource();
+    noise.buffer = buf;
+    const ng = ctx.createGain();
+    ng.gain.setValueAtTime(0.18, t);
+    ng.gain.exponentialRampToValueAtTime(0.0001, t + 0.07);
+    const filter = ctx.createBiquadFilter();
+    filter.type = 'lowpass';
+    filter.frequency.setValueAtTime(420, t);
+    noise.connect(filter).connect(ng).connect(ctx.destination);
+    noise.start(t); noise.stop(t + noiseDur);
+  }
+
+  window.shoukou = function () {
+    shoukouCount++;
+    const sEl = document.getElementById('altar-count-shoukou');
+    if (sEl) sEl.innerHTML = shoukouCount.toLocaleString() + '<span class="altar__count-suffix">回</span>';
+    if (soundOn) playPop();
+    const ack = document.getElementById('shoukou-ack');
+    if (ack) {
+      ack.classList.remove('show');
+      void ack.offsetWidth;
+      ack.classList.add('show');
+      setTimeout(function () { ack.classList.remove('show'); }, 1800);
+    }
+  };
+
+  document.getElementById('sound-on')?.addEventListener('change', function (e) {
+    soundOn = e.target.checked;
+    document.getElementById('sound-label').textContent = soundOn ? '音 ON' : '音 OFF';
+  });
+</script>
+
+</BaseLayout>

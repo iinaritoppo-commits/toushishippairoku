@@ -1,0 +1,227 @@
+---
+// 記事末尾の関連リンク集（教訓セクション直後・戒名前）
+// 「同カテゴリの失敗、もっと読む」と「比較から探す」をミックスして配置
+interface ArticleItem {
+  href: string;
+  title: string;
+  meta?: string; // "30代男性・FX・¥3,800,000" のような補足
+}
+interface PillarItem {
+  href: string;
+  title: string;
+  meta?: string;
+}
+interface Props {
+  sameCategory: ArticleItem[]; // 同カテゴリの失敗体験記事
+  pillars: PillarItem[]; // 比較・ピラー記事
+  sameCategoryLabel?: string;
+  pillarsLabel?: string;
+  sameCategoryHeading?: string;
+  pillarsHeading?: string;
+}
+const {
+  sameCategory,
+  pillars,
+  sameCategoryLabel = "SAME GENRE",
+  pillarsLabel = "COMPARE",
+  sameCategoryHeading = "同じジャンルの失敗を、もっと読む",
+  pillarsHeading = "比較で道具を選び直す",
+} = Astro.props;
+---
+<section class="end-mix">
+  <div class="end-mix__head">
+    <span class="end-mix__sub">FOR YOUR NEXT STEP</span>
+    <h2 class="end-mix__title">次にどこへ進むか</h2>
+  </div>
+
+  <div class="end-mix__grid">
+    {sameCategory.length > 0 && (
+      <div class="end-mix__col end-mix__col--same">
+        <div class="end-mix__col-head">
+          <span class="end-mix__col-mark" aria-hidden="true">⚱</span>
+          <div>
+            <span class="end-mix__col-sub">{sameCategoryLabel}</span>
+            <h3 class="end-mix__col-title">{sameCategoryHeading}</h3>
+          </div>
+        </div>
+        <ul class="end-mix__list">
+          {sameCategory.map((a) => (
+            <li>
+              <a href={a.href} class="end-mix__link end-mix__link--same">
+                <span class="end-mix__link-text">
+                  <strong>{a.title}</strong>
+                  {a.meta && <span class="end-mix__link-meta">{a.meta}</span>}
+                </span>
+                <span class="end-mix__link-arrow" aria-hidden="true">→</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+
+    {pillars.length > 0 && (
+      <div class="end-mix__col end-mix__col--pillar">
+        <div class="end-mix__col-head">
+          <span class="end-mix__col-mark" aria-hidden="true">▣</span>
+          <div>
+            <span class="end-mix__col-sub">{pillarsLabel}</span>
+            <h3 class="end-mix__col-title">{pillarsHeading}</h3>
+          </div>
+        </div>
+        <ul class="end-mix__list">
+          {pillars.map((p) => (
+            <li>
+              <a href={p.href} class="end-mix__link end-mix__link--pillar">
+                <span class="end-mix__link-text">
+                  <strong>{p.title}</strong>
+                  {p.meta && <span class="end-mix__link-meta">{p.meta}</span>}
+                </span>
+                <span class="end-mix__link-arrow" aria-hidden="true">→</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+  </div>
+</section>
+
+<style>
+  .end-mix {
+    margin: 56px 0 48px;
+    padding: 36px 32px 38px;
+    background: #ffffff;
+    border: 1px solid var(--c-line);
+    border-radius: 4px;
+    box-shadow: 0 2px 12px rgba(28, 35, 48, 0.04);
+  }
+  .end-mix__head {
+    margin-bottom: 26px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid var(--c-navy);
+  }
+  .end-mix__sub {
+    display: block;
+    font-size: 0.7rem;
+    letter-spacing: 0.48em;
+    color: var(--c-gold);
+    font-weight: 800;
+    margin-bottom: 8px;
+  }
+  .end-mix__title {
+    font-family: var(--font-serif);
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    margin: 0;
+    color: var(--c-ink);
+  }
+  .end-mix__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+  }
+  .end-mix__col {
+    display: flex;
+    flex-direction: column;
+  }
+  .end-mix__col-head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+  .end-mix__col-mark {
+    font-size: 1.4rem;
+    color: var(--c-gold);
+    line-height: 1;
+  }
+  .end-mix__col--pillar .end-mix__col-mark { color: var(--c-navy); }
+  .end-mix__col-sub {
+    display: block;
+    font-size: 0.64rem;
+    letter-spacing: 0.4em;
+    color: var(--c-ink-dim);
+    font-weight: 800;
+    margin-bottom: 4px;
+  }
+  .end-mix__col-title {
+    font-family: var(--font-serif);
+    font-size: 0.98rem;
+    font-weight: 700;
+    color: var(--c-ink);
+    margin: 0;
+    letter-spacing: 0.04em;
+    line-height: 1.5;
+  }
+  .end-mix__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .end-mix__list li { margin: 0; }
+  .end-mix__link {
+    display: grid;
+    grid-template-columns: 1fr 18px;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    background: var(--c-bg);
+    border: 1px solid var(--c-line);
+    border-radius: 3px;
+    text-decoration: none;
+    color: var(--c-ink);
+    transition: all 0.15s ease;
+  }
+  .end-mix__link--same {
+    border-left: 3px solid var(--c-gold-soft);
+  }
+  .end-mix__link--pillar {
+    border-left: 3px solid var(--c-navy);
+  }
+  .end-mix__link:hover {
+    background: #fbfaf2;
+    border-color: var(--c-navy);
+    transform: translateX(2px);
+    text-decoration: none;
+  }
+  .end-mix__link-text {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+  }
+  .end-mix__link-text strong {
+    font-size: 0.94rem;
+    font-weight: 700;
+    line-height: 1.55;
+    letter-spacing: 0.02em;
+    color: var(--c-ink);
+  }
+  .end-mix__link-meta {
+    font-size: 0.74rem;
+    color: var(--c-ink-soft);
+    letter-spacing: 0.04em;
+  }
+  .end-mix__link-arrow {
+    color: var(--c-gold);
+    font-weight: 700;
+    font-size: 0.96rem;
+  }
+  .end-mix__link:hover .end-mix__link-arrow { color: var(--c-navy); }
+
+  @media (max-width: 720px) {
+    .end-mix__grid { grid-template-columns: 1fr; gap: 28px; }
+  }
+  @media (max-width: 540px) {
+    .end-mix { padding: 24px 18px 28px; }
+    .end-mix__title { font-size: 1.12rem; }
+    .end-mix__col-title { font-size: 0.92rem; }
+    .end-mix__link { padding: 10px 12px; }
+    .end-mix__link-text strong { font-size: 0.88rem; }
+  }
+</style>

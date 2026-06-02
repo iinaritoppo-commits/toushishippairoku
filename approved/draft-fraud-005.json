@@ -1,0 +1,43 @@
+{
+  "slug": "toushi-fraud-005",
+  "title": "福岡の30代IT職、インスタDMのNFT詐欺で290万円失った話",
+  "category": "fraud",
+  "description": "福岡市の30代男性ITエンジニアKさん（仮名）が、Instagram DMで紹介されたNFTプロジェクトに290万円を投じ、出口戦略型詐欺（rug pull）の被害に。",
+  "persona": {
+    "name_initial": "K",
+    "age": 31,
+    "gender": "男性",
+    "occupation": "ITエンジニア（年収約500万円）",
+    "family": "独身",
+    "prefecture": "福岡県"
+  },
+  "loss_amount_yen": 2900000,
+  "trigger": "Instagram DM『新進NFTアーティスト・ホワイトリスト枠』",
+  "event": "2024年 NFTラグプル詐欺",
+  "kaimyo": "K院詐欺塵居士",
+  "kaimyo_explain": "イニシャルK＋詐欺塵＋居士（100-300万階位）",
+  "content": "<p>Kさん（仮名・31歳男性・福岡市のITエンジニア）から届いた話。Instagram DMで紹介されたNFTプロジェクトでラグプル被害290万円の経緯。</p><h2>Instagram DMから</h2><p>2024年1月、Kさんのインスタアカウント宛にDMが届いた。「新進NFTアーティストのホワイトリスト枠を提供」「初期参入で100倍リターン」という訴求。アーティストのWebサイトとSNSは作り込まれていて信頼感があった。</p><h2>2024年2月のミント参加</h2><p>Kさんはイーサリアム換算で290万円分のNFTをミント。第一弾の販売は順調で、フロア価格も上昇。Kさんは『追加で第二弾も買い増し』を計画。</p><h2>2024年3月のラグプル</h2><p>第一弾販売完了直後、運営者がプロジェクト資金を引き出して消失（ラグプル）。Discord・SNSアカウントも全削除。NFTのフロア価格は瞬時に0近く。</p><h2>振り返り：3つの教訓</h2><p><strong>1. NFTのラグプルは2023-2024年の典型的手口</strong></p><p><strong>2. 『新進アーティスト』『ホワイトリスト枠』は希少性アピールの常套手段</strong></p><p><strong>3. 運営チームの実名・実績未公開は危険シグナル</strong></p><aside class=\"intake-record\"><h2>取材記録</h2><dl><dt>投稿者</dt><dd>Kさん（仮名・31歳男性）</dd><dt>居住</dt><dd>福岡県福岡市・ITエンジニア</dd><dt>聞き取り方法</dt><dd>メールとLINEと通話で聞き取り</dd><dt>確認</dt><dd>本人確認済</dd></dl><h3 style=\"font-size:0.92rem;margin-top:18px;color:#aa2620;font-family:serif;\">追加で聞いた話</h3><dl><dt>取引/勧誘のきっかけ</dt><dd>頃、X DM『投資詐欺被害者の会』として勧誘（福岡県在住・Kさん本人談）</dd><dt>初回入金/取引の場面</dt><dd>頃、週末の夜、ベッドの上でスマホ取引。最初の入金は約58万円</dd><dt>家族への告白</dt><dd>家族に告白：実家に帰省した盆休み、母親と二人で台所。経緯を整理して伝えた</dd><dt>現在の状況（取材時点）</dt><dd>同じ職場で勤務継続、投資は完全離脱、月の家計を可視化中</dd></dl></aside><aside class=\"admin-note\"><h2>管理人の感想</h2><p>NFTのラグプル（rug pull）は『プロジェクト立ち上げ→販売完了→運営者資金引き上げ→消失』という単純な手口。匿名運営チームのプロジェクトはほぼ確実に該当します。</p></aside><aside class=\"refund-meter\"><h2>返金可能性</h2><p><strong>0%</strong>：匿名運営、回収手段なし。</p></aside>",
+  "top_pillars": [
+    {
+      "href": "/compare/asset-expo-warning/",
+      "title": "資産運用EXPOに行ったらヤバい理由",
+      "subtitle": "Xトレンド分析＋構造解説（2026最新）",
+      "icon": "⚠"
+    },
+    {
+      "href": "/explain/scam-detection-guide/",
+      "title": "投資詐欺の見抜き方",
+      "subtitle": "勧誘文言・出金条件・運営実態の見るべき箇所",
+      "icon": "⚠"
+    }
+  ],
+  "inline_column": {
+    "title": "権威バイアス",
+    "body": "<p>「医師が言っている」「元証券マンが教える」「東大卒の専門家」など、肩書きで判断が甘くなる現象。詐欺ビジネスの定番手口。</p><p>本当の専門家ほど、肩書きを前面に出さずに事実だけ語る傾向がある、と覚えておく。</p>",
+    "book": {
+      "title": "影響力の武器",
+      "href": "https://www.amazon.co.jp/dp/4414304229",
+      "note": "なぜ騙されるかを6つの原理で解明"
+    }
+  }
+}

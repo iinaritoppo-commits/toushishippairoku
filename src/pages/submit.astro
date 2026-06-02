@@ -1,0 +1,124 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+<BaseLayout
+  title="投稿フォーム"
+  description="投資失敗の体験談を投稿してください。匿名OK・連絡先任意・仮名対応。"
+  showQuickNav={false}
+>
+
+<main class="static-page">
+
+<header class="page-h">
+  <span class="page-h__sub">SUBMIT</span>
+  <h1 class="page-h__title">あなたの失敗を、聞かせてください</h1>
+  <p class="page-h__lead">匿名で投稿できます。<br/>連絡先は任意・仮名対応・損失額のレンジ表記OK。</p>
+  <div class="page-h__meta"><strong>最終更新</strong>2026年5月9日</div>
+</header>
+
+<h2>投稿の流れ</h2>
+<ol>
+  <li>下のフォームに、失敗の概要を書いて送信</li>
+  <li>連絡先を残してくださった方には、必要に応じてメールで簡単なやり取り</li>
+  <li>編集者（白川）が記事として再構成</li>
+  <li>連絡先がある場合は、公開前に本人確認</li>
+  <li>サイトに掲載＋永代供養スペースへ</li>
+</ol>
+
+<div class="notice">
+  <strong class="notice__title">📝 投稿時にお願いしたいこと</strong>
+  <ul style="padding-left:20px;margin:10px 0 0">
+    <li>事実に基づいた内容でお願いします（脚色・誇張なし）</li>
+    <li>第三者を名指しで批判する内容は掲載できません</li>
+    <li>金融商品取引業者の業務妨害になる内容は掲載できません</li>
+    <li>本人の同意がある場合のみ掲載します（同意なしの公開は一切ありません）</li>
+  </ul>
+</div>
+
+<h2>投稿フォーム</h2>
+
+<form class="submit-form" method="POST" action="#" onsubmit="alert('準備中（Google Forms か Formspree 連携予定）'); return false;">
+  <div class="form-row">
+    <label for="alias">仮名・イニシャル <small>（任意）</small></label>
+    <input id="alias" name="alias" type="text" placeholder="M.T / 田中 など"/>
+  </div>
+  <div class="form-row form-row--two">
+    <div>
+      <label for="age">年代</label>
+      <select id="age" name="age">
+        <option value="">選択しない</option>
+        <option>10代</option><option>20代</option><option>30代</option>
+        <option>40代</option><option>50代</option><option>60代以上</option>
+      </select>
+    </div>
+    <div>
+      <label for="gender">性別 <small>（任意）</small></label>
+      <select id="gender" name="gender">
+        <option value="">選択しない</option>
+        <option>男性</option><option>女性</option><option>その他</option>
+      </select>
+    </div>
+  </div>
+  <div class="form-row">
+    <label for="prefecture">居住都道府県 <small>（任意・地図に反映されます）</small></label>
+    <select id="prefecture" name="prefecture">
+      <option value="">選択しない</option>
+      <option>北海道</option><option>青森県</option><option>岩手県</option><option>宮城県</option>
+      <option>秋田県</option><option>山形県</option><option>福島県</option><option>茨城県</option>
+      <option>栃木県</option><option>群馬県</option><option>埼玉県</option><option>千葉県</option>
+      <option>東京都</option><option>神奈川県</option><option>新潟県</option><option>富山県</option>
+      <option>石川県</option><option>福井県</option><option>山梨県</option><option>長野県</option>
+      <option>岐阜県</option><option>静岡県</option><option>愛知県</option><option>三重県</option>
+      <option>滋賀県</option><option>京都府</option><option>大阪府</option><option>兵庫県</option>
+      <option>奈良県</option><option>和歌山県</option><option>鳥取県</option><option>島根県</option>
+      <option>岡山県</option><option>広島県</option><option>山口県</option><option>徳島県</option>
+      <option>香川県</option><option>愛媛県</option><option>高知県</option><option>福岡県</option>
+      <option>佐賀県</option><option>長崎県</option><option>熊本県</option><option>大分県</option>
+      <option>宮崎県</option><option>鹿児島県</option><option>沖縄県</option>
+    </select>
+  </div>
+  <div class="form-row">
+    <label for="genre">ジャンル <small>（複数選択可）</small></label>
+    <div class="form-checks">
+      <label><input type="checkbox" name="genre" value="fx"/>FX</label>
+      <label><input type="checkbox" name="genre" value="stocks"/>株式</label>
+      <label><input type="checkbox" name="genre" value="crypto"/>仮想通貨</label>
+      <label><input type="checkbox" name="genre" value="realestate"/>不動産</label>
+      <label><input type="checkbox" name="genre" value="funds"/>投資信託</label>
+      <label><input type="checkbox" name="genre" value="fraud"/>詐欺・情報商材</label>
+    </div>
+  </div>
+  <div class="form-row">
+    <label for="amount">損失額のレンジ</label>
+    <select id="amount" name="amount">
+      <option value="">選択しない</option>
+      <option>〜10万円</option><option>10万〜50万円</option><option>50万〜100万円</option>
+      <option>100万〜300万円</option><option>300万〜500万円</option><option>500万〜1000万円</option>
+      <option>1000万〜3000万円</option><option>3000万円以上</option>
+    </select>
+  </div>
+  <div class="form-row">
+    <label for="story">失敗の概要 <small>（必須・自由記述）</small></label>
+    <textarea id="story" name="story" rows="10" required placeholder="いつ・どんな投資で・なぜ失敗したか、思いつく順で大丈夫です。&#10;&#10;例：&#10;・米雇用統計の発表でFXに賭けたら、3分で口座が空になった&#10;・LINEで届いた『内部情報』を信じて未上場トークンを買った&#10;・ナンピンを4回繰り返したら身動きが取れなくなった"></textarea>
+  </div>
+  <div class="form-row">
+    <label for="email">メールアドレス <small>（任意・記事化前に確認したい場合のみ）</small></label>
+    <input id="email" name="email" type="email" placeholder="example@example.com"/>
+  </div>
+  <div class="form-row">
+    <label class="form-consent">
+      <input type="checkbox" required/>
+      <span>編集方針・プライバシーポリシーに同意します（<a href="/policy/" target="_blank">編集方針</a>／<a href="/privacy/" target="_blank">プライバシー</a>）</span>
+    </label>
+  </div>
+  <button type="submit" class="form-submit">投稿する</button>
+</form>
+
+<div class="notice" style="margin-top:32px">
+  <strong class="notice__title">📮 メールでも受け付けています</strong>
+  フォームに抵抗がある方は、editor@toushishippairoku.com（準備中）まで直接ご連絡ください。
+</div>
+
+</main>
+
+</BaseLayout>

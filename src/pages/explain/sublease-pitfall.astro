@@ -1,0 +1,209 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import TopAffiliateBox from "../../components/TopAffiliateBox.astro";
+import EndAffiliateMix from "../../components/EndAffiliateMix.astro";
+import NewsletterCTA from "../../components/NewsletterCTA.astro";
+import AdSenseSlot from "../../components/AdSenseSlot.astro";
+
+const title = "サブリースの2年見直し条項 ─ 「家賃保証」が外れる構造的理由";
+const description = "サブリース契約の家賃保証は永久じゃない。法律と契約条項に組み込まれた「2年見直し」の仕組みと、保証家賃が下げられる典型タイミングを整理。";
+const updatedAt = "2026-05-25";
+
+const topPillars = [
+  { href: "/compare/asset-expo-warning/", title: "資産運用EXPOに行ったらヤバい本当の理由", subtitle: "ワンルーム勧誘の温床になっている", icon: "⚠" },
+  { href: "/explain/scam-detection-guide/", title: "投資詐欺の見抜き方", subtitle: "9シグナルで識別する3軸の整理", icon: "⚠" },
+];
+
+const breadcrumbs = [
+  { name: "投資失敗録", url: "/" },
+  { name: "解説", url: "/explain/" },
+  { name: "サブリースの2年見直し条項", url: "/explain/sublease-pitfall/" },
+];
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  showQuickNav={false}
+  pageType="article"
+  articleMeta={{ headline: title, category: "不動産 / 解説", datePublished: updatedAt, dateModified: updatedAt, author: "白川 諒" }}
+  breadcrumbs={breadcrumbs}
+>
+  <article class="explain-page">
+    <nav class="breadcrumb">
+      <a href="/">トップ</a><span>›</span><a href="/explain/">解説</a><span>›</span><span>サブリースの2年見直し条項</span>
+    </nav>
+
+    <header class="explain-head">
+      <span class="explain-head__cat">不動産 / 解説</span>
+      <h1 class="explain-head__title">{title}</h1>
+      <p class="explain-head__lead">
+        「30年家賃保証」と言われて契約したサブリースが、2年後にあっさり家賃下げの通知が来る。<br />
+        これは詐欺じゃなくて、契約書と法律に明記された「正規の仕組み」。先に知っておくと回避できる。
+      </p>
+      <div class="explain-head__meta">
+        <span><strong>更新</strong>{updatedAt}</span>
+        <span><strong>編集</strong>白川 諒</span>
+      </div>
+    </header>
+
+    <TopAffiliateBox pillars={topPillars} heading="先に押さえておくと話が早い" subLabel="BACKGROUND READING" />
+
+    <AdSenseSlot slot="explain-header" format="rectangle" />
+
+    <section class="explain-section">
+      <h2 class="explain-h2">サブリースは「家賃保証」じゃなくて「一括借上げ」</h2>
+      <p>
+        サブリースは、サブリース会社がオーナーから物件を一括で借上げて、オーナーに定額家賃を支払う仕組み。<br />
+        契約上はサブリース会社が「借主」、オーナーが「貸主」になる。
+      </p>
+      <p>
+        ここがポイント。借主であるサブリース会社は、借地借家法に守られている。<br />
+        つまり、借主の立場で「家賃が高すぎる」と主張して、家賃の引き下げを請求する権利がある。
+      </p>
+      <p class="explain-callout">
+        「家賃保証」と謳いつつ、借地借家法上は普通の賃貸借契約。<br />
+        借主（サブリース会社）が家賃減額を請求できる、という構造そのものは契約初日から組み込まれている。
+      </p>
+    </section>
+
+    <section class="explain-section">
+      <h2 class="explain-h2">2年見直し条項が標準実装されている理由</h2>
+      <p>
+        多くのサブリース契約には「2年ごとの賃料改定」が明記されている。<br />
+        理由はシンプルで、サブリース会社にとって「2年あれば周辺相場のデータが揃う」「2年単位なら借主から減額請求しやすい」というオペレーション設計から。
+      </p>
+      <p>
+        契約書のどこかに以下のような文言が必ず入っている。
+      </p>
+      <ul class="explain-bullet">
+        <li>「2年ごとに賃料を見直すものとする」</li>
+        <li>「周辺相場の変化により、賃料を改定することがある」</li>
+        <li>「経済情勢の変化等により、当社は賃料の減額を請求できる」</li>
+        <li>「協議が整わない場合、借地借家法に基づき調停・訴訟による解決を図る」</li>
+      </ul>
+      <p>
+        営業時の口頭説明では「家賃保証」だけが強調されるが、契約書のこの条項を読まずに契約すると、2年後に「家賃下げます」の通知で初めて気づくことになる。
+      </p>
+    </section>
+
+    <section class="explain-section">
+      <h2 class="explain-h2">家賃が下げられる典型タイミング</h2>
+      <div class="explain-card">
+        <div class="explain-card__no">①</div>
+        <div class="explain-card__body">
+          <strong>契約2年経過時の定期見直し</strong>
+          <p>最初の見直しタイミング。サブリース会社が「周辺相場の変化」を理由に家賃減額を提示してくる。多くの場合、月家賃の10-30%カットが提示される。</p>
+        </div>
+      </div>
+      <div class="explain-card">
+        <div class="explain-card__no">②</div>
+        <div class="explain-card__body">
+          <strong>築古化のフェーズ</strong>
+          <p>築10年・15年・20年で、空室率上昇とリンクして再度減額交渉が来る。築20年超で月家賃が半分以下になるケースもある。</p>
+        </div>
+      </div>
+      <div class="explain-card">
+        <div class="explain-card__no">③</div>
+        <div class="explain-card__body">
+          <strong>近隣の競合物件供給時</strong>
+          <p>同エリアに新築サブリース物件が大量供給された時、周辺相場が下がる。それを根拠に減額が来る。</p>
+        </div>
+      </div>
+      <div class="explain-card">
+        <div class="explain-card__no">④</div>
+        <div class="explain-card__body">
+          <strong>サブリース会社の経営悪化</strong>
+          <p>サブリース会社自体が経営不振になると、一斉減額・契約解除が起きる。レオパレス問題が典型。</p>
+        </div>
+      </div>
+    </section>
+
+    <AdSenseSlot slot="explain-middle" format="in-feed" />
+
+    <section class="explain-section">
+      <h2 class="explain-h2">契約前に確認すべき4項目</h2>
+      <ol class="explain-list">
+        <li><strong>賃料改定条項の頻度と方法</strong>（2年か3年か、協議か通知か）</li>
+        <li><strong>免責期間の有無と長さ</strong>（入退去時の家賃ゼロ期間）</li>
+        <li><strong>原状回復・修繕費の負担区分</strong>（オーナー負担とサブリース会社負担の境界）</li>
+        <li><strong>中途解約条項</strong>（オーナー側からの解約は基本不可なケースが多い）</li>
+      </ol>
+      <p>
+        これらを口頭の説明じゃなく、契約書本文で確認する。納得できない条項があれば、その物件は見送る判断もあり。
+      </p>
+    </section>
+
+    <section class="explain-failures">
+      <h3>2年見直しが実際に効いた失敗体験</h3>
+      <ul>
+        <li><a href="/articles/toushi-realestate-expo-001/">資産運用EXPOで契約したワンルーム、5年で1820万円失った40代会社員</a></li>
+      </ul>
+    </section>
+
+    <EndAffiliateMix
+      sameCategory={[
+        { href: "/articles/toushi-realestate-expo-001/", title: "資産運用EXPOで契約したワンルーム、5年で1820万円", meta: "40代男性・不動産・1820万円" },
+      ]}
+      pillars={[
+        { href: "/compare/asset-expo-warning/", title: "資産運用EXPOに行ったらヤバい理由", meta: "Xトレンド分析＋構造解説" },
+        { href: "/explain/scam-detection-guide/", title: "投資詐欺の見抜き方", meta: "9シグナルで識別する3軸" },
+      ]}
+      sameCategoryLabel="REAL CASE"
+      pillarsLabel="RELATED"
+      sameCategoryHeading="サブリース問題の実例"
+      pillarsHeading="関連する比較・解説"
+    />
+
+    <NewsletterCTA />
+    <AdSenseSlot slot="explain-footer" format="rectangle" />
+  </article>
+</BaseLayout>
+
+<style>
+  .explain-page { max-width: 820px; margin: 0 auto; padding: 0 24px 60px; }
+  .breadcrumb { max-width: 820px; margin: 20px auto 0; padding: 0 24px; font-size: 0.78rem; color: var(--c-ink-dim); }
+  .breadcrumb a { color: var(--c-navy); text-decoration: none; }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb span { margin: 0 6px; color: var(--c-gold); }
+
+  .explain-head { padding: 32px 0 24px; border-bottom: 2px solid var(--c-navy); margin-bottom: 28px; }
+  .explain-head__cat { display: inline-block; background: var(--c-navy); color: var(--c-gold); font-size: 0.7rem; font-weight: 800; letter-spacing: 0.16em; padding: 5px 14px; border-radius: 2px; margin-bottom: 16px; }
+  .explain-head__title { font-family: var(--font-serif); font-size: clamp(1.4rem, 3.2vw, 1.8rem); font-weight: 700; color: var(--c-ink); margin: 0 0 16px; line-height: 1.55; letter-spacing: 0.06em; }
+  .explain-head__lead { margin: 0 0 18px; font-size: 0.98rem; color: var(--c-ink-soft); line-height: 2; }
+  .explain-head__meta { display: flex; flex-wrap: wrap; gap: 18px; font-size: 0.82rem; color: var(--c-ink-soft); }
+  .explain-head__meta strong { color: var(--c-ink-dim); margin-right: 6px; }
+
+  .explain-section { margin: 36px 0; }
+  .explain-h2 { font-family: var(--font-serif); font-size: 1.28rem; font-weight: 700; color: var(--c-ink); letter-spacing: 0.06em; margin: 0 0 16px; padding-bottom: 10px; border-bottom: 2px solid var(--c-navy); }
+  .explain-section p { font-size: 0.96rem; line-height: 2.0; color: var(--c-ink); margin: 0 0 12px; }
+  .explain-section strong { color: var(--c-navy-deep); }
+
+  .explain-card { display: grid; grid-template-columns: 52px 1fr; gap: 16px; align-items: start; background: #ffffff; border: 1px solid var(--c-line); border-left: 4px solid var(--c-loss); border-radius: 3px; padding: 16px 18px 16px 14px; margin: 0 0 12px; }
+  .explain-card__no { font-family: "Helvetica Neue", sans-serif; font-size: 1.6rem; font-weight: 900; color: var(--c-loss); text-align: center; line-height: 1; padding-top: 4px; }
+  .explain-card__body strong { display: block; font-family: var(--font-serif); font-size: 1.02rem; font-weight: 700; color: var(--c-ink); margin-bottom: 8px; line-height: 1.55; }
+  .explain-card__body p { margin: 0 !important; font-size: 0.9rem !important; line-height: 1.85 !important; color: var(--c-ink-soft) !important; }
+
+  .explain-callout { margin: 16px 0 0 !important; padding: 16px 18px; background: linear-gradient(180deg, #fbf6e6 0%, #f5edcc 100%); border-left: 4px solid var(--c-gold); font-size: 0.92rem !important; line-height: 1.95 !important; }
+
+  .explain-bullet { list-style: none; margin: 12px 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+  .explain-bullet li { padding: 8px 14px 8px 28px; background: #ffffff; border-left: 3px solid var(--c-navy); border-radius: 2px; position: relative; font-size: 0.9rem; line-height: 1.8; }
+  .explain-bullet li::before { content: "▸"; position: absolute; left: 10px; top: 8px; color: var(--c-navy); }
+
+  .explain-list { list-style: none; margin: 0; padding: 0; counter-reset: ex-list; display: flex; flex-direction: column; gap: 12px; }
+  .explain-list li { counter-increment: ex-list; padding: 14px 16px 14px 52px; background: #ffffff; border: 1px solid var(--c-line); border-left: 3px solid var(--c-gold); border-radius: 3px; position: relative; font-size: 0.94rem; line-height: 1.85; }
+  .explain-list li::before { content: counter(ex-list, decimal-leading-zero); position: absolute; left: 14px; top: 14px; font-family: "Helvetica Neue", sans-serif; font-weight: 900; font-size: 1rem; color: var(--c-gold); }
+
+  .explain-failures { margin: 40px 0; padding: 20px 22px; background: var(--c-bg); border-left: 3px solid var(--c-loss); border-radius: 3px; }
+  .explain-failures h3 { margin: 0 0 10px; font-size: 0.94rem; color: var(--c-loss); letter-spacing: 0.04em; }
+  .explain-failures ul { margin: 0; padding-left: 18px; }
+  .explain-failures a { color: var(--c-navy); }
+
+  @media (max-width: 540px) {
+    .explain-page { padding: 0 18px 50px; }
+    .breadcrumb { padding: 0 18px; }
+    .explain-h2 { font-size: 1.1rem; }
+    .explain-card { grid-template-columns: 40px 1fr; gap: 12px; padding: 14px 14px 14px 10px; }
+    .explain-card__no { font-size: 1.3rem; }
+  }
+</style>

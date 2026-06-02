@@ -1,0 +1,626 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import AdSenseSlot from "../../components/AdSenseSlot.astro";
+import NewsletterCTA from "../../components/NewsletterCTA.astro";
+
+const title = "退職金運用で絶対に避けるべき9つの落とし穴｜実例から学ぶ判断軸（2026年版）";
+const description = "退職金1,000万円〜3,000万円の運用で繰り返される失敗パターンを、本サイトの取材記録から9つに整理。ファンドラップ・毎月分配型投信・ワンルームマンション・AIテーマ型・FX自動売買・暗号資産・サブリース不動産・海外バイナリー・MLM。被害金額と気付いた瞬間、家族との会話まで実例ベースで総まとめ。";
+const updatedAt = "2026-06-02";
+
+const breadcrumbs = [
+  { name: "投資失敗録", url: "/" },
+  { name: "解説", url: "/explain/" },
+  { name: "退職金運用の落とし穴 完全版", url: "/explain/retirement-money-pitfalls/" },
+];
+
+const articleLD = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: title,
+  description,
+  datePublished: updatedAt,
+  dateModified: updatedAt,
+  author: { "@type": "Person", name: "白川 諒", url: "https://toushishippairoku.com/about/" },
+  publisher: {
+    "@type": "Organization",
+    name: "投資失敗録",
+    logo: { "@type": "ImageObject", url: "https://toushishippairoku.com/site-logo.svg" },
+  },
+  mainEntityOfPage: { "@type": "WebPage", "@id": "https://toushishippairoku.com/explain/retirement-money-pitfalls/" },
+  inLanguage: "ja-JP",
+  articleSection: "退職金運用 / 投資詐欺解説",
+};
+
+const faqLD = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "退職金運用で最も多い失敗パターンは何ですか",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "本サイトの取材記録のなかで最も多いのは『銀行窓口・証券会社窓口でのファンドラップ／毎月分配型投信』『資産運用EXPO経由のワンルームマンション』『SNS広告のFX自動売買ツール』の3パターンです。共通点は『プロにお任せ／節税効果／自動化』という安心ワードの提示と、手数料・元本払戻金・空室リスクといった構造上のコストが説明時に小さく見える設計になっている点です。",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "退職金運用の前に最低限やるべきことは何ですか",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "1）月の生活費の24か月分を生活防衛資金として銀行預金に確保する、2）夫婦／家族で運用方針を共有する、3）契約前に一晩持ち帰る、の3点です。退職金は『最後のまとまった現金』であり、年金支給開始までの空白期間を支える原資です。月の収入が止まった後に取り戻すことが難しい性質のお金です。",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "ファンドラップとインデックス投信、結局どっちが良いんですか",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "本サイトでは特定商品の推奨はしませんが、コスト構造の差は明確です。ファンドラップは年率2.5〜3.5%の手数料、インデックス投信は年率0.1〜0.2%の信託報酬。20年運用すると、手数料差が運用益の60%以上を削る計算になります。『プロに任せる安心感』は20年で見ると追加コストとして表面化します。",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "退職金を全額一括で投資するのは危険ですか",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "本サイトの取材では、退職金の50%以上を一括投入したケースで失敗報告が集中しています。タイミング集中リスクと、含み損が出た時に追加資金で取り戻せない構造が原因です。リスクのある運用は、退職金のうち生活防衛資金を引いた残りを、12〜36か月かけて時間分散する設計が現実的です。",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "被害に気付いた後、何をすればいいですか",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "1）契約書・運用報告書・勧誘時の説明資料を全部保管する、2）家族に状況を共有する、3）消費生活センター（188）に相談する、4）金額が大きければ弁護士相談（法テラス 0570-078374 が初手として無料相談可）。クーリングオフ期間（契約から8日間）を過ぎていても、不実告知・断定的判断の提供が立証できれば取消の余地があります。",
+      },
+    },
+  ],
+};
+---
+<BaseLayout
+  title={title}
+  description={description}
+  showQuickNav={false}
+  pageType="article"
+  articleMeta={{
+    headline: title,
+    category: "退職金運用 / 投資失敗 完全版",
+    datePublished: updatedAt,
+    dateModified: updatedAt,
+    author: "白川 諒",
+  }}
+  breadcrumbs={breadcrumbs}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(articleLD)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqLD)} />
+
+  <article class="pillar">
+    <nav class="bc">
+      <a href="/">投資失敗録</a><span>›</span>
+      <a href="/explain/">解説</a><span>›</span>
+      <span>退職金運用の落とし穴 完全版</span>
+    </nav>
+
+    <header class="pillar-header">
+      <span class="pillar-eyebrow">RETIREMENT MONEY</span>
+      <h1>退職金運用で絶対に避けるべき9つの落とし穴<br><small>実例から学ぶ判断軸（2026年版）</small></h1>
+      <p class="pillar-lead">
+        本サイト『投資失敗録』には、退職金運用で失敗した方の取材記録が累積している。
+        本人の同意を得て、実損失額・気付いた瞬間・家族との会話までを記録している。
+        この記事は、そこから繰り返し出てくる<strong>9つの典型パターン</strong>を、
+        判断軸ごとに整理した総合ガイドだ。
+      </p>
+      <p class="pillar-meta">
+        編集者：白川 諒 ／ 最終更新：{updatedAt} ／ 想定読了時間：約25分
+      </p>
+    </header>
+
+    <section class="toc">
+      <h2>目次</h2>
+      <ol>
+        <li><a href="#intro">退職金運用の3つの構造的リスク</a></li>
+        <li><a href="#pattern-01">落とし穴 1：ファンドラップ ─ 「プロにお任せ」の代償</a></li>
+        <li><a href="#pattern-02">落とし穴 2：毎月分配型投信 ─ 配当原資が元本だった</a></li>
+        <li><a href="#pattern-03">落とし穴 3：ワンルームマンション ─ 節税×サブリースの組み合わせ</a></li>
+        <li><a href="#pattern-04">落とし穴 4：AIテーマ型投信 ─ ブームのピークで売り出される</a></li>
+        <li><a href="#pattern-05">落とし穴 5：FX自動売買ツール ─ 「設定するだけで月収」の構造</a></li>
+        <li><a href="#pattern-06">落とし穴 6：暗号資産の高利回り運用 ─ 内部情報と上場前</a></li>
+        <li><a href="#pattern-07">落とし穴 7：サブリース不動産 ─ 2年見直し条項という時限装置</a></li>
+        <li><a href="#pattern-08">落とし穴 8：海外バイナリー・コピートレード ─ 出金できない仕組み</a></li>
+        <li><a href="#pattern-09">落とし穴 9：MLM・投資型副業 ─ 紹介経由で広がる連鎖商法</a></li>
+        <li><a href="#common-structure">9パターンの共通構造</a></li>
+        <li><a href="#judgment-framework">退職金運用 5つの判断フレーム</a></li>
+        <li><a href="#family-conversation">家族との話し方</a></li>
+        <li><a href="#after-damage">被害発覚後の動き方</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ol>
+    </section>
+
+    <AdSenseSlot slot="pillar-retirement-top" label="広告" format="responsive" />
+
+    <section id="intro">
+      <h2>退職金運用の3つの構造的リスク</h2>
+      <p>
+        本サイトの取材記録を整理すると、退職金運用の失敗には3つの構造的な共通点がある。
+      </p>
+      <p>
+        <strong>1つ目は『金額の集中』</strong>。
+        退職金は人生のなかで最大級の現金収入で、一度に1,000万円〜3,000万円が口座に振り込まれる。
+        この規模の現金を持ち慣れていない状態で、最初の運用判断を求められる構造になる。
+      </p>
+      <p>
+        <strong>2つ目は『時間の非対称性』</strong>。
+        退職後は新規収入が止まる。会社員時代なら『失敗しても来月の給料で取り戻せる』設計だが、
+        退職後は失敗の機会損失を埋め戻すことができない。
+        年金支給開始までの空白期間（5年〜10年）を、退職金の取り崩しで支える前提になる。
+      </p>
+      <p>
+        <strong>3つ目は『相談先の偏り』</strong>。
+        退職金が振り込まれた段階で、銀行窓口・証券会社窓口・FP相談・職場の元同僚・家族など、
+        運用に関する助言の出元が一斉に増える。
+        ただし、その多くは『販売側』の立場で助言を提供している。中立な助言を見分ける手間が、
+        この段階で増えるのが現実だ。
+      </p>
+      <p>
+        以下、本サイトに集まった9つの典型パターンを、それぞれ実損失額・気付いた瞬間・
+        判断軸の3点で整理する。
+      </p>
+    </section>
+
+    <section id="pattern-01" class="pattern-block">
+      <h2>落とし穴 1：ファンドラップ ─ 「プロにお任せ」の代償</h2>
+      <p>
+        ファンドラップは、投資判断を運用会社に一任する商品。表面的には『プロが市場環境に応じて
+        リバランスしてくれる』という安心感を提供する。
+        本サイトに届いた取材記録のなかで、退職金運用の入口として最も多く報告されているパターンだ。
+      </p>
+      <p>
+        実例：神奈川県の50代女性Mさんは、資産運用EXPOで契約したファンドラップに退職金1,000万円を投入。
+        3年で実質380万円台の損失が確定した。年率3.3%の手数料が複利でリターンを侵食する設計に、
+        3年目の運用報告書で初めて気付いたケースだ。
+      </p>
+      <p>
+        構造的な特徴は、<strong>『手数料総額が長期で複利で効く』</strong>点にある。
+        年率3.3%の手数料は、20年運用するとリターンの60%以上を削る計算になる。
+        インデックス投信の信託報酬（0.1〜0.2%前後）と比較すると、長期では決定的な差になる。
+      </p>
+      <p>
+        判断軸：『プロにお任せ』は安心料ではなく追加コストだ。
+        コスト構造を10年・20年積算で確認したうえで判断する。
+        詳しい数字とMさんの取材記録は<a href="/articles/toushi-fund-expo-001/">こちらの記事</a>に。
+        毎月分配型投信を組み合わせた別パターンは<a href="/articles/toushi-funds-002/">この記事</a>。
+      </p>
+    </section>
+
+    <section id="pattern-02" class="pattern-block">
+      <h2>落とし穴 2：毎月分配型投信 ─ 配当原資が元本だった</h2>
+      <p>
+        毎月分配型投信は、月単位で分配金が振り込まれる設計の投資信託。
+        退職金運用で『年金が出るまでの生活費の足し』として勧められる定番商品だ。
+        ただし、分配金の内訳には『普通分配金』と『元本払戻金（特別分配金）』の2種類があり、
+        後者は<strong>実質的には自分が出した元本が戻ってきているだけ</strong>になる。
+      </p>
+      <p>
+        実例：千葉県の64歳男性Hさんは、銀行窓口で勧められた毎月分配型投信に退職金1,500万円を投入。
+        毎月16.5万円の分配金が入っていたが、その約8割が元本払戻金だった。
+        3年目に長男から指摘されて初めて、運用報告書の『分配金の内訳』欄を見た。
+        実質損失は約420万円。
+      </p>
+      <p>
+        構造的な特徴は、<strong>『毎月の入金額が満足度を上げて、内訳確認の習慣を作らせない』</strong>点。
+        合計額しか見ないと、運用が順調なように見える。
+        実態を確認するには、月次の運用報告書で『分配金内訳』と『純資産総額の推移』を毎月確認する必要がある。
+      </p>
+      <p>
+        判断軸：分配金の総額ではなく、純資産総額の推移で判断する。
+        Hさんの取材記録の詳細は<a href="/articles/toushi-funds-002/">この記事</a>。
+      </p>
+    </section>
+
+    <section id="pattern-03" class="pattern-block">
+      <h2>落とし穴 3：ワンルームマンション ─ 節税×サブリースの組み合わせ</h2>
+      <p>
+        ワンルームマンション投資は、退職金・高所得層向けの定番商品。
+        『節税できる』『サブリースで家賃保証』『退職金の数%で残りの人生が変わる』という
+        3点セットで提案されることが多い。
+      </p>
+      <p>
+        実例：東京都の40代会社員Nさんは、資産運用EXPOで契約した都内中古ワンルームに、
+        頭金80万円・35年ローンを組んだ。5年で売却損1,820万円が確定した。
+        サブリース家賃の2年見直しで月家賃が15万円→11.5万円に減額、
+        同時期に変動金利が0.5%→1.2%に上昇、月の収支がマイナスに転じた。
+      </p>
+      <p>
+        実例②：東京都の40代勤務医Yさんは、同僚医師の紹介で都内中古ワンルーム2戸を約4,800万円で購入。
+        5年保有後の売却査定で約1,100万円の含み損が確定した。
+        節税効果（年73万円）は確かにあったが、物件価値の下落幅がそれを上回った。
+      </p>
+      <p>
+        構造的な特徴は、<strong>『節税効果と物件価値下落が対称になる』</strong>点。
+        減価償却で会計上の赤字を作る設計は、実際の物件価値も同じペースで下がっている。
+        最終的には、節税で得した金額と、物件価値の下落幅がほぼ相殺される設計になりがちだ。
+      </p>
+      <p>
+        判断軸：節税効果と物件価値下落を同じ表に並べて20年シミュレーションする。
+        Nさんの取材記録は<a href="/articles/toushi-realestate-expo-001/">こちら</a>、
+        Yさんの取材記録は<a href="/articles/toushi-realestate-002/">こちら</a>。
+      </p>
+    </section>
+
+    <AdSenseSlot slot="pillar-retirement-mid1" label="広告" format="responsive" />
+
+    <section id="pattern-04" class="pattern-block">
+      <h2>落とし穴 4：AIテーマ型投信 ─ ブームのピークで売り出される</h2>
+      <p>
+        テーマ型投資信託は、特定のテーマ（AI関連・メタバース・5G・グリーンエネルギー等）に
+        集中投資する設計の商品。退職金運用というより、追加運用の選択肢として登場することが多い。
+        ただし、退職金の一部を『攻めの運用』として配分するパターンで損失報告が増えている。
+      </p>
+      <p>
+        実例：東京都の45歳男性Kさんは、2024年夏のAIブーム期に証券会社アプリの特集で見た
+        『AI関連厳選』テーマ型投信に300万円を初回投入。半年で評価額が35%上昇、
+        追加500万円を投入して総額800万円にした後、2025年後半のブーム終了で評価額が約410万円まで下落した。
+      </p>
+      <p>
+        構造的な特徴は、<strong>『テーマ型投信は売れる時期に売り出される』</strong>点。
+        証券会社がアプリのトップに『AI関連』を出してきた時点で、すでにブームのピーク近くだった可能性が高い。
+        販売側のタイミング（売れる時に売る）と、買う側のタイミング（リターンが見えてから買う）が、
+        構造的にずれている。
+      </p>
+      <p>
+        判断軸：『過去1年のリターン+78%』は『これからの1年』を保証しない。
+        Kさんの取材記録は<a href="/articles/toushi-funds-003/">こちら</a>。
+        類似パターンとして、新NISA成長投資枠での米国レバレッジ型ETF集中投資で評価額が半額になった
+        ケース（<a href="/articles/toushi-stocks-002/">42歳エンジニアMさんの記録</a>）、
+        信用取引4倍ロングで決算ショックを受けたケース
+        （<a href="/articles/toushi-stocks-003/">36歳営業職Aさんの記録</a>）も参考。
+      </p>
+    </section>
+
+    <section id="pattern-05" class="pattern-block">
+      <h2>落とし穴 5：FX自動売買ツール ─ 「設定するだけで月収」の構造</h2>
+      <p>
+        FX自動売買ツール（EA・MAM・コピートレードなど）は、SNS広告・YouTube・LINEオプチャ経由で
+        退職金層にも届く商品。『設定するだけで月収30万円〜』『過去5年の年率リターン50%以上』
+        という数字で勧誘されるケースが多い。
+      </p>
+      <p>
+        構造的な特徴は、<strong>『過去のバックテスト結果と、実運用時のスリッページ・スプレッドの差』</strong>。
+        宣伝されるリターンは、理想的な約定条件でのシミュレーション値。
+        実運用ではスリッページ（注文時の価格ズレ）と高スプレッドで、想定の半分以下のリターンになることが多い。
+      </p>
+      <p>
+        さらに、自動売買ツール販売者の多くは、ツール販売収益と、提携FX業者からのアフィリエイト
+        報酬（IB報酬）で収益を上げている。利用者がトレードで損失を出すほど、業者からのIB報酬が増える
+        ケースもあり、販売者と利用者の利害が一致していない構造もある。
+      </p>
+      <p>
+        判断軸：過去リターンの『シミュレーションか実運用か』を確認する。実運用なら『誰の口座での記録か』
+        『約定履歴の検証可能性』を確認する。本サイトのFX失敗事例パターンは
+        <a href="/explain/fx-shippai-patterns/">この記事</a>に詳しい。
+        FX自動売買詐欺の構造は<a href="/explain/fx-jido-baibai-sagi/">この記事</a>。
+        個別株の信用取引4倍レバレッジで追証→強制決済の連鎖が起きたケース
+        （<a href="/articles/toushi-stocks-003/">36歳営業職Aさんの記録</a>）も、レバレッジ商品の
+        構造的リスクとして併読推奨。
+      </p>
+    </section>
+
+    <section id="pattern-06" class="pattern-block">
+      <h2>落とし穴 6：暗号資産の高利回り運用 ─ 内部情報と上場前</h2>
+      <p>
+        暗号資産（仮想通貨）の高利回り運用は、退職金層にも届く新型の運用提案だ。
+        『月利5%』『年利60%』『上場前の特別枠』『内部情報』というキーワードで勧誘されるパターンが、
+        本サイトの取材記録で繰り返し報告されている。
+      </p>
+      <p>
+        構造的な特徴は、<strong>『高利回り運用の原資が、新規入金者の資金』</strong>になっている設計
+        （いわゆるポンジ・スキーム）。
+        最初の数か月は約束通りの配当が振り込まれる。一部の利用者は実際に出金できる。
+        その『出金成功例』が次の入金者を呼び込む構造になり、運営側が逃げる直前まで配当が続くケースもある。
+      </p>
+      <p>
+        判断軸：『配当の原資が運用益か、新規入金者の資金か』を確認する。
+        この原資を運営側が明確に説明できない場合、ポンジ・スキームの可能性を疑う。
+        詳しい暗号資産詐欺のパターンは<a href="/explain/crypto-scam-patterns/">この記事</a>。
+        X（旧Twitter）のDM経由でNFT詐欺に遭った35歳エンジニアの取材記録は
+        <a href="/articles/toushi-crypto-026/">こちら</a>も併読推奨。
+      </p>
+    </section>
+
+    <section id="pattern-07" class="pattern-block">
+      <h2>落とし穴 7：サブリース不動産 ─ 2年見直し条項という時限装置</h2>
+      <p>
+        サブリース契約は、不動産投資の家賃保証として広く使われている。
+        ただし、契約書には『2年ごとの賃料改定』『1年前通知での解約』『大規模修繕は所有者負担』
+        という条項が含まれていることが多い。これらが時限装置のように働くケースが、本サイトの記録に
+        繰り返し登場する。
+      </p>
+      <p>
+        実例：千葉県の53歳男性Jさんは、地方の築古アパート1棟（表面利回り15%）を4,200万円で購入。
+        4年間で累計持ち出し約890万円。空室増加と修繕費280万円が直撃し、満室時の収支設計が
+        前提から崩れた。
+      </p>
+      <p>
+        構造的な特徴は、<strong>『満室時の収支で計算した35年プランが、空室・家賃下落・金利上昇・
+        修繕費発生で前提から崩れる』</strong>点。
+        サブリース2年見直しは、近隣相場の変化を理由に家賃が下げられる。地方の人口減少エリアでは
+        2年ごとの減額が常態化する。
+      </p>
+      <p>
+        判断軸：満室時ではなく、想定空室率と家賃下落率を入れた20年シミュレーションで判断する。
+        サブリース2年見直しの構造詳細は<a href="/explain/sublease-pitfall/">この記事</a>。
+        Jさんの取材記録は<a href="/articles/toushi-realestate-003/">こちら</a>。
+      </p>
+    </section>
+
+    <section id="pattern-08" class="pattern-block">
+      <h2>落とし穴 8：海外バイナリー・コピートレード ─ 出金できない仕組み</h2>
+      <p>
+        海外バイナリーオプション・コピートレードは、海外業者経由で日本人投資家に届く商品。
+        『金商法の規制外』『日本の業者よりリターンが高い』という訴求で、退職金層にも届くケースがある。
+      </p>
+      <p>
+        構造的な特徴は、<strong>『入金は簡単・出金は困難』の設計</strong>。
+        入金は暗号資産送金・国際送金で素早く処理される。
+        出金時には『取引履歴の確認のため本人確認書類の再提出が必要』『一定額以上は手数料発生』
+        『出金前にボーナス分の取引量達成が必要』など、複数のステップが挟まれる。
+        最終的に、運営側のサーバーが応答しなくなる、業者が業務停止する、というパターンが報告されている。
+      </p>
+      <p>
+        判断軸：日本の金商法登録業者か。出金実績の検証可能性。
+        被害発覚後の対応は、海外業者相手だと国内法での回収が極めて困難。
+      </p>
+    </section>
+
+    <AdSenseSlot slot="pillar-retirement-mid2" label="広告" format="responsive" />
+
+    <section id="pattern-09" class="pattern-block">
+      <h2>落とし穴 9：MLM・投資型副業 ─ 紹介経由で広がる連鎖商法</h2>
+      <p>
+        MLM（連鎖販売取引）・投資型副業は、副業詐欺のカテゴリと重なるが、退職金層への勧誘も増えている。
+        『退職金で初期投資すれば、紹介報酬で月収50万円』『元自衛官・元銀行員・元医師が参加』
+        という訴求で、退職者コミュニティ経由で広がるパターンがある。
+      </p>
+      <p>
+        構造的な特徴は、<strong>『紹介報酬の原資が、新規入会者の入金』</strong>になっている設計。
+        商品の実利益より、紹介の連鎖で収益が成立する仕組み。
+        退職金の運用先として勧められた段階で、すでに『運用』ではなく『連鎖販売の入会金』に近い性質を持つ。
+      </p>
+      <p>
+        過去の有名事案（ジャパンライフ・安愚楽牧場・L&G・テキシアジャパン等）も、勧誘構造は類似している。
+        姉妹サイト『副業詐欺録』で<a href="https://fukugyousagiroku.com/category/jirei/" target="_blank" rel="noopener">過去事案カテゴリ</a>として整理している。
+      </p>
+      <p>
+        判断軸：『紹介の連鎖で収益が成立する設計か』『商品の実利益と紹介報酬の比率』を確認する。
+      </p>
+    </section>
+
+    <section id="common-structure">
+      <h2>9パターンの共通構造</h2>
+      <p>
+        9つの典型パターンを並べると、3つの共通点が浮かび上がる。
+      </p>
+      <h3>共通点 1：『プロにお任せ／節税／自動化／高利回り』のキーワード</h3>
+      <p>
+        勧誘時に必ず登場する4つのキーワードがある。<strong>『プロにお任せ』</strong>（ファンドラップ）、
+        <strong>『節税できる』</strong>（ワンルームマンション）、<strong>『設定するだけで自動』</strong>
+        （FX自動売買・コピートレード）、<strong>『年利○%保証』</strong>（暗号資産・海外バイナリー）。
+        どれも『判断を相手に委ねる』『自分で確認しなくてもいい』という安心感を提供する設計だ。
+      </p>
+      <h3>共通点 2：『初期の数字が、後半まで続くと前提される』設計</h3>
+      <p>
+        ファンドラップの初年度リターン、毎月分配型の最初の数か月の分配、ワンルームのサブリース保証家賃、
+        AI関連の半年リターン、FX自動売買のバックテスト結果。
+        どれも『最初の数字』が魅力的だが、長期で見ると前提が崩れる構造を持つ。
+        商品の設計時に『最初の数字』が最も大きくなるよう調整されていることが多い。
+      </p>
+      <h3>共通点 3：『気付くまでに3〜5年』のタイムラグ</h3>
+      <p>
+        本サイトの取材記録で、被害者が問題に気付くまでの平均期間は3〜5年。
+        毎月分配型は3年目、ワンルーム不動産は5年目、ファンドラップは3年目、AIテーマ型は1.5年目、
+        サブリースは2年目（家賃見直し時）。
+        この期間中に、契約解除のクーリングオフ期間は徒過済となり、解約手数料・売却損が
+        最大化するタイミングが訪れる設計になっている。
+      </p>
+    </section>
+
+    <section id="judgment-framework">
+      <h2>退職金運用 5つの判断フレーム</h2>
+      <p>
+        9パターンの共通構造から逆算すると、退職金運用の判断には5つの最低限のフレームが必要だ。
+      </p>
+      <h3>フレーム 1：10年・20年複利での『手数料総額』を計算する</h3>
+      <p>
+        『年率』表記は短期では小さく見える。年3%の手数料も、20年複利で計算するとリターンの60%以上を
+        削る。すべての投資判断は『20年積算手数料』で比較する。
+      </p>
+      <h3>フレーム 2：『最初の数字』ではなく『前提が崩れた後の数字』で判断する</h3>
+      <p>
+        サブリース家賃が下がった場合、変動金利が1%上昇した場合、空室率が10%になった場合、
+        ブームが終わった場合。前提が崩れた時のシナリオで採算が取れるかを確認する。
+      </p>
+      <h3>フレーム 3：『販売側の利益構造』を確認する</h3>
+      <p>
+        その商品で、販売側はどう儲けるのか。手数料3%、紹介報酬20%、IB報酬月10万円、サブリース手数料10%。
+        販売側の利益構造が分かれば、商品設計の理由が見える。
+      </p>
+      <h3>フレーム 4：『家族会議を一晩持ち帰る』</h3>
+      <p>
+        即決を求められる契約は、ほぼ全て後悔につながる設計。
+        『今月の枠はあと2席』『次回開講は半年後』『キャンペーン今月末まで』は、
+        判断時間を短縮させるための言葉として典型的に使われる。
+      </p>
+      <h3>フレーム 5：『運用額の50%以上を1商品に集中させない』</h3>
+      <p>
+        本サイトの取材記録で、退職金の50%以上を一括投入したケースで失敗報告が集中している。
+        商品間の分散だけでなく、時間軸の分散（12〜36か月の段階投入）も判断軸に入れる。
+      </p>
+    </section>
+
+    <AdSenseSlot slot="pillar-retirement-mid3" label="広告" format="responsive" />
+
+    <section id="family-conversation">
+      <h2>家族との話し方</h2>
+      <p>
+        本サイトの取材記録で、もう一つ繰り返し登場するのが『家族に黙って契約した』というパターンだ。
+        ファンドラップ、ワンルームマンション、FX自動売買、コーチング、コンサル。
+        被害が発覚した時に、配偶者から最初に投げかけられた言葉が
+        <strong>『なんで一人で決めたの』</strong>だった、という証言が多い。
+      </p>
+      <p>
+        運用判断は本人の責任だが、運用額が大きくなるほど『家族の生活設計』に直結する。
+        退職金は夫婦の老後の原資として共同管理する設計に切り替えるタイミングでもある。
+      </p>
+      <p>
+        家族会議で確認する最低限の項目は、運用商品名・運用金額・想定リターン・想定リスク・解約条件・
+        販売側の利益構造・3年後／5年後／10年後の想定シナリオの7つ。
+        これを一晩持ち帰ったうえで判断する設計に変えると、即決を求める勧誘の大半を回避できる。
+      </p>
+    </section>
+
+    <section id="after-damage">
+      <h2>被害発覚後の動き方</h2>
+      <p>
+        既に被害が発生している場合は、以下の順序で動く。
+      </p>
+      <ol class="action-list">
+        <li><strong>証拠保全</strong>：契約書、運用報告書、勧誘時の説明資料、メール・LINE・SMSのやり取り、録音記録、入出金履歴を全部保管する。</li>
+        <li><strong>家族への共有</strong>：配偶者・成人した子どもに状況を共有する。一人で判断を続けると、追加被害につながりやすい。</li>
+        <li><strong>消費生活センター（188）</strong>：電話相談無料。担当者がケースの分類と次のステップを案内してくれる。クーリングオフ期間内なら、その場で書面の書き方も案内可能。</li>
+        <li><strong>弁護士相談</strong>：金額が大きい場合、または不実告知・断定的判断の提供が立証できそうな場合。法テラス（0570-078374）が初手として無料相談可能。詳しい弁護士相談の流れは<a href="/houoku/">本サイトの法的回収ガイド</a>に。</li>
+        <li><strong>追加投資の停止</strong>：『今売ると損失確定するから、もう少し追加で運用すれば取り戻せる』という説明は、被害拡大の典型パターン。同じ商品への追加投資は止める。</li>
+      </ol>
+    </section>
+
+    <NewsletterCTA />
+
+    <section id="faq">
+      <h2>FAQ</h2>
+      <details>
+        <summary>退職金運用で最も多い失敗パターンは何ですか</summary>
+        <p>
+          本サイトの取材記録のなかで最も多いのは『銀行窓口・証券会社窓口でのファンドラップ／毎月分配型投信』
+          『資産運用EXPO経由のワンルームマンション』『SNS広告のFX自動売買ツール』の3パターン。
+          共通点は『プロにお任せ／節税効果／自動化』という安心ワードの提示と、
+          手数料・元本払戻金・空室リスクといった構造上のコストが説明時に小さく見える設計になっている点。
+        </p>
+      </details>
+      <details>
+        <summary>退職金運用の前に最低限やるべきことは何ですか</summary>
+        <p>
+          1）月の生活費の24か月分を生活防衛資金として銀行預金に確保する、
+          2）夫婦／家族で運用方針を共有する、
+          3）契約前に一晩持ち帰る、の3点。
+          退職金は『最後のまとまった現金』であり、年金支給開始までの空白期間を支える原資。
+          月の収入が止まった後に取り戻すことが難しい性質のお金。
+        </p>
+      </details>
+      <details>
+        <summary>ファンドラップとインデックス投信、結局どっちが良いんですか</summary>
+        <p>
+          本サイトでは特定商品の推奨はしないが、コスト構造の差は明確。
+          ファンドラップは年率2.5〜3.5%の手数料、インデックス投信は年率0.1〜0.2%の信託報酬。
+          20年運用すると、手数料差が運用益の60%以上を削る計算になる。
+          『プロに任せる安心感』は20年で見ると追加コストとして表面化する。
+        </p>
+      </details>
+      <details>
+        <summary>退職金を全額一括で投資するのは危険ですか</summary>
+        <p>
+          本サイトの取材では、退職金の50%以上を一括投入したケースで失敗報告が集中している。
+          タイミング集中リスクと、含み損が出た時に追加資金で取り戻せない構造が原因。
+          リスクのある運用は、退職金のうち生活防衛資金を引いた残りを、
+          12〜36か月かけて時間分散する設計が現実的。
+        </p>
+      </details>
+      <details>
+        <summary>被害に気付いた後、何をすればいいですか</summary>
+        <p>
+          1）契約書・運用報告書・勧誘時の説明資料を全部保管する、
+          2）家族に状況を共有する、
+          3）消費生活センター（188）に相談する、
+          4）金額が大きければ弁護士相談（法テラス 0570-078374 が初手として無料相談可）。
+          クーリングオフ期間（契約から8日間）を過ぎていても、不実告知・断定的判断の提供が
+          立証できれば取消の余地がある。
+        </p>
+      </details>
+    </section>
+
+    <section class="conclusion">
+      <h2>まとめ</h2>
+      <p>
+        退職金運用の落とし穴は、9パターンに分けると見通しが立ちやすい。
+        いずれも『プロにお任せ／節税／自動化／高利回り』のキーワードで入り、
+        『最初の数字』で安心させ、『気付くまでに3〜5年』のタイムラグを設計している。
+      </p>
+      <p>
+        判断軸は5つ。<strong>20年積算手数料の計算、前提が崩れた後の数字、販売側の利益構造、
+        家族会議、運用額の分散</strong>。
+        この5つを通したうえで残った商品は、検討に値する設計と言える。
+      </p>
+      <p>
+        個別の取材記録は、サイト内の<a href="/articles/">取材記録一覧</a>から検索できる。
+        本サイト『投資失敗録』は、運用商品の推奨も非推奨もしない。
+        失敗の構造を整理して、判断材料として残すアーカイブだ。
+      </p>
+      <p class="last-update">最終更新：{updatedAt}　編集：白川 諒</p>
+    </section>
+  </article>
+
+  <style>
+    .pillar {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 24px 20px 96px;
+      color: var(--color-text);
+      line-height: 1.95;
+    }
+    .bc { font-size: 0.78rem; color: var(--color-text-muted); margin-bottom: 20px; letter-spacing: 0.04em; }
+    .bc a { color: var(--color-text-soft); text-decoration: none; }
+    .bc a:hover { color: var(--color-accent); }
+    .bc span { margin: 0 6px; }
+    .pillar-header { padding: 32px 0 28px; border-bottom: 2px solid var(--color-border); margin-bottom: 36px; }
+    .pillar-eyebrow { display: inline-block; font-size: 0.7rem; letter-spacing: 0.36em; color: var(--color-accent); font-weight: 700; margin-bottom: 14px; }
+    .pillar-header h1 { font-size: clamp(1.7rem, 4.5vw, 2.3rem); line-height: 1.45; font-family: var(--font-serif); font-weight: 900; margin: 0 0 22px; letter-spacing: 0.04em; }
+    .pillar-header h1 small { display: block; font-size: 0.65em; color: var(--color-text-soft); margin-top: 12px; font-weight: 700; }
+    .pillar-lead { font-size: 1.05rem; color: var(--color-text); margin: 0 0 18px; }
+    .pillar-lead strong { color: var(--color-accent); }
+    .pillar-meta { font-size: 0.82rem; color: var(--color-text-muted); margin: 0; }
+
+    .toc { background: #faf7f3; border: 1px solid var(--color-border); padding: 24px 28px; margin-bottom: 36px; border-radius: 4px; }
+    .toc h2 { font-size: 1.1rem; margin: 0 0 14px; font-family: var(--font-serif); color: var(--color-text); border: none; padding: 0; }
+    .toc ol { margin: 0; padding-left: 22px; font-size: 0.92rem; }
+    .toc li { margin-bottom: 6px; }
+    .toc a { color: var(--color-accent); text-decoration: none; }
+    .toc a:hover { text-decoration: underline; }
+
+    .pillar h2 { font-size: 1.5rem; font-family: var(--font-serif); font-weight: 900; color: var(--color-text); margin: 48px 0 18px; padding-bottom: 10px; border-bottom: 2px solid var(--color-accent); letter-spacing: 0.04em; }
+    .pillar h3 { font-size: 1.15rem; font-family: var(--font-serif); font-weight: 800; color: var(--color-text); margin: 28px 0 12px; padding-left: 14px; border-left: 4px solid var(--color-accent); }
+    .pillar p { margin: 0 0 16px; }
+    .pillar p strong { color: var(--color-accent); background: linear-gradient(transparent 60%, #ffe8e0 60%); padding: 0 3px; }
+    .pillar a { color: var(--color-accent); }
+    .pattern-block { background: #fffdfb; border: 1px solid var(--color-border); border-left: 4px solid var(--color-accent); padding: 24px 28px; margin: 36px 0; border-radius: 0 4px 4px 0; }
+    .pattern-block h2 { margin-top: 0; border-bottom: none; padding-bottom: 0; }
+
+    .action-list { padding-left: 22px; }
+    .action-list li { margin-bottom: 12px; }
+    .action-list li strong { color: var(--color-accent); }
+
+    details { border: 1px solid var(--color-border); margin-bottom: 10px; padding: 14px 18px; border-radius: 4px; background: #fff; }
+    details summary { cursor: pointer; font-weight: 700; color: var(--color-text); font-family: var(--font-serif); }
+    details[open] summary { margin-bottom: 10px; }
+    details p { margin: 0; font-size: 0.95rem; }
+
+    .conclusion { margin-top: 60px; padding: 28px; background: #faf7f3; border: 1px solid var(--color-border); border-radius: 4px; }
+    .conclusion h2 { margin-top: 0; }
+    .last-update { font-size: 0.82rem; color: var(--color-text-muted); margin: 16px 0 0; }
+
+    @media (max-width: 640px) {
+      .pillar { padding: 16px 14px 64px; }
+      .toc { padding: 18px 16px; }
+      .pattern-block { padding: 18px 16px; }
+      .conclusion { padding: 20px 16px; }
+    }
+  </style>
+</BaseLayout>

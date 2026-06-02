@@ -1,0 +1,183 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import TopAffiliateBox from "../../components/TopAffiliateBox.astro";
+import EndAffiliateMix from "../../components/EndAffiliateMix.astro";
+import NewsletterCTA from "../../components/NewsletterCTA.astro";
+import AdSenseSlot from "../../components/AdSenseSlot.astro";
+
+const title = "ロスカットの仕組み ─ 「指定レートで切る」と「次の約定可能レートで切る」の違い";
+const description = "FXのロスカットが本当に効くかどうかは、設定レートで切る仕様か、次の約定可能レートで切る仕様かで決まる。スリッページの発生メカニズムと、口座選びで見るべき箇所を整理。";
+const updatedAt = "2026-05-25";
+
+const topPillars = [
+  { href: "/compare/fx-no-margin-call/", title: "追証なしFX口座 比較2026", subtitle: "ロスカット仕様で選ぶFX口座5社の整理", icon: "▶" },
+  { href: "/explain/scam-detection-guide/", title: "投資詐欺の見抜き方", subtitle: "9シグナルで識別する3軸の整理", icon: "⚠" },
+];
+
+const breadcrumbs = [
+  { name: "投資失敗録", url: "/" },
+  { name: "解説", url: "/explain/" },
+  { name: "ロスカットの仕組み", url: "/explain/loss-cut-mechanism/" },
+];
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  showQuickNav={false}
+  pageType="article"
+  articleMeta={{ headline: title, category: "FX / 解説", datePublished: updatedAt, dateModified: updatedAt, author: "白川 諒" }}
+  breadcrumbs={breadcrumbs}
+>
+  <article class="explain-page">
+    <nav class="breadcrumb">
+      <a href="/">トップ</a><span>›</span><a href="/explain/">解説</a><span>›</span><span>ロスカットの仕組み</span>
+    </nav>
+
+    <header class="explain-head">
+      <span class="explain-head__cat">FX / 解説</span>
+      <h1 class="explain-head__title">{title}</h1>
+      <p class="explain-head__lead">
+        ロスカット設定は「保険」じゃなくて「保険に見える仕様」のことが多い。<br />
+        指定レート時点で本当に切れるのか、次の約定可能レートまで滑るのか。この差で口座残高の桁が変わる。
+      </p>
+      <div class="explain-head__meta">
+        <span><strong>更新</strong>{updatedAt}</span>
+        <span><strong>編集</strong>白川 諒</span>
+      </div>
+    </header>
+
+    <TopAffiliateBox pillars={topPillars} heading="先に読んでおくと話が早い" subLabel="BACKGROUND READING" />
+
+    <AdSenseSlot slot="explain-header" format="rectangle" />
+
+    <section class="explain-section">
+      <h2 class="explain-h2">ロスカットには2つの執行モデルがある</h2>
+      <p>
+        FX口座ごとに、ロスカット執行のロジックは2つに分かれる。<br />
+        多くの初学者は「設定したレートで自動的に止まる」と思っているけれど、実際の仕様はそれより複雑。
+      </p>
+      <div class="explain-card">
+        <div class="explain-card__no">A</div>
+        <div class="explain-card__body">
+          <strong>モデルA：指定レート時点で切る</strong>
+          <p>証拠金維持率が一定水準を下回った瞬間に、システムが自動で決済発注を出す。発注は出るけれど、約定するレートは「その時点で取引可能な最良値」になる。流動性が消えている時は、指定レートから大きく離れたところで約定する。</p>
+        </div>
+      </div>
+      <div class="explain-card">
+        <div class="explain-card__no">B</div>
+        <div class="explain-card__body">
+          <strong>モデルB：次の約定可能レートで切る</strong>
+          <p>発注は出すが、実際に約定するレートは「次に板にぶつかるレート」になる。指標発表時・流動性が消えた瞬間など、板が薄い時は数十pips〜数百pips先まで滑る。これがスリッページ。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="explain-section">
+      <h2 class="explain-h2">スリッページがロスカットを「保険」じゃなくする</h2>
+      <p>
+        証拠金100万円・USD/JPYで75万通貨ロング・ロスカット水準50%という設定で、実際に何が起きるかを並べてみる。
+      </p>
+      <p>
+        平常時：USD/JPYが−150pipsまで下げると、ロスカットが発動。指定レートから±2-3pipsで約定する。損失約150万円台。<br />
+        この場合、ロスカットは「保険」として機能している。
+      </p>
+      <p>
+        指標発表時：USD/JPYが−350pipsまで一気に走る。指定の−150pipsを通り過ぎてから、板にぶつかった−330pips付近で約定する。<br />
+        スリッページ約180pips。実際の損失は約337万円。証拠金100万円を超えて、追証約237万円が発生する。
+      </p>
+      <p class="explain-callout">
+        ロスカットの「水準」より、ロスカットが「どのレートで約定するか」の方が、実は重要。<br />
+        FX口座を選ぶときに見るべきはこの仕様。
+      </p>
+    </section>
+
+    <section class="explain-section">
+      <h2 class="explain-h2">口座を選ぶときに確認する3項目</h2>
+      <ol class="explain-list">
+        <li>
+          <strong>ロスカット水準</strong>（証拠金維持率の何%でロスカットが発動するか）。50%だと余裕大、100%だと早期執行で追証リスク小。
+        </li>
+        <li>
+          <strong>スリッページ補償の有無</strong>。一部の国内FXは「指定価格保証」を一部の条件で実装している。約款で確認する。
+        </li>
+        <li>
+          <strong>強制ロスカットの執行優先度</strong>。指値・逆指値・成行・強制ロスカットの執行順位を確認。強制ロスカットが最優先で執行される口座を選ぶ。
+        </li>
+      </ol>
+      <p>
+        これら3つを確認した上で、自分のトレードスタイル（短期/中長期）と組み合わせる。FX口座の比較記事は別途まとめてあるので、口座選びの実務はそちらを参照。
+      </p>
+    </section>
+
+    <AdSenseSlot slot="explain-middle" format="in-feed" />
+
+    <section class="explain-failures">
+      <h3>このメカニズムが実際に効いた失敗体験</h3>
+      <ul>
+        <li><a href="/articles/fx-380man/">380万円が3分で消えた話 ─ FX指標発表での全損</a></li>
+      </ul>
+    </section>
+
+    <EndAffiliateMix
+      sameCategory={[
+        { href: "/articles/fx-380man/", title: "380万円が3分で消えた話 ─ FX指標発表での全損", meta: "30代男性・FX・指標発表" },
+      ]}
+      pillars={[
+        { href: "/compare/fx-no-margin-call/", title: "追証なしFX口座 比較2026", meta: "ロスカット仕様で選ぶFX口座5社" },
+        { href: "/explain/scam-detection-guide/", title: "投資詐欺の見抜き方", meta: "9シグナルで識別する3軸" },
+      ]}
+      sameCategoryLabel="REAL CASE"
+      pillarsLabel="RELATED"
+      sameCategoryHeading="ロスカットが間に合わなかった体験"
+      pillarsHeading="関連する比較・解説"
+    />
+
+    <NewsletterCTA />
+    <AdSenseSlot slot="explain-footer" format="rectangle" />
+  </article>
+</BaseLayout>
+
+<style>
+  .explain-page { max-width: 820px; margin: 0 auto; padding: 0 24px 60px; }
+  .breadcrumb { max-width: 820px; margin: 20px auto 0; padding: 0 24px; font-size: 0.78rem; color: var(--c-ink-dim); }
+  .breadcrumb a { color: var(--c-navy); text-decoration: none; }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb span { margin: 0 6px; color: var(--c-gold); }
+
+  .explain-head { padding: 32px 0 24px; border-bottom: 2px solid var(--c-navy); margin-bottom: 28px; }
+  .explain-head__cat { display: inline-block; background: var(--c-navy); color: var(--c-gold); font-size: 0.7rem; font-weight: 800; letter-spacing: 0.16em; padding: 5px 14px; border-radius: 2px; margin-bottom: 16px; }
+  .explain-head__title { font-family: var(--font-serif); font-size: clamp(1.4rem, 3.2vw, 1.8rem); font-weight: 700; color: var(--c-ink); margin: 0 0 16px; line-height: 1.55; letter-spacing: 0.06em; }
+  .explain-head__lead { margin: 0 0 18px; font-size: 0.98rem; color: var(--c-ink-soft); line-height: 2; }
+  .explain-head__meta { display: flex; flex-wrap: wrap; gap: 18px; font-size: 0.82rem; color: var(--c-ink-soft); }
+  .explain-head__meta strong { color: var(--c-ink-dim); margin-right: 6px; }
+
+  .explain-section { margin: 36px 0; }
+  .explain-h2 { font-family: var(--font-serif); font-size: 1.28rem; font-weight: 700; color: var(--c-ink); letter-spacing: 0.06em; margin: 0 0 16px; padding-bottom: 10px; border-bottom: 2px solid var(--c-navy); }
+  .explain-section p { font-size: 0.96rem; line-height: 2.0; color: var(--c-ink); margin: 0 0 12px; }
+  .explain-section strong { color: var(--c-navy-deep); }
+
+  .explain-card { display: grid; grid-template-columns: 52px 1fr; gap: 16px; align-items: start; background: #ffffff; border: 1px solid var(--c-line); border-left: 4px solid var(--c-gold); border-radius: 3px; padding: 16px 18px 16px 14px; margin: 0 0 12px; }
+  .explain-card__no { font-family: "Helvetica Neue", sans-serif; font-size: 1.6rem; font-weight: 900; color: var(--c-gold); text-align: center; line-height: 1; padding-top: 4px; }
+  .explain-card__body strong { display: block; font-family: var(--font-serif); font-size: 1.02rem; font-weight: 700; color: var(--c-ink); margin-bottom: 8px; line-height: 1.55; }
+  .explain-card__body p { margin: 0 !important; font-size: 0.9rem !important; line-height: 1.85 !important; color: var(--c-ink-soft) !important; }
+
+  .explain-callout { margin: 16px 0 0 !important; padding: 16px 18px; background: linear-gradient(180deg, #fbf6e6 0%, #f5edcc 100%); border-left: 4px solid var(--c-gold); font-size: 0.92rem !important; line-height: 1.95 !important; }
+
+  .explain-list { list-style: none; margin: 0; padding: 0; counter-reset: ex-list; display: flex; flex-direction: column; gap: 12px; }
+  .explain-list li { counter-increment: ex-list; padding: 14px 16px 14px 52px; background: #ffffff; border: 1px solid var(--c-line); border-left: 3px solid var(--c-gold); border-radius: 3px; position: relative; font-size: 0.94rem; line-height: 1.85; }
+  .explain-list li::before { content: counter(ex-list, decimal-leading-zero); position: absolute; left: 14px; top: 14px; font-family: "Helvetica Neue", sans-serif; font-weight: 900; font-size: 1rem; color: var(--c-gold); }
+
+  .explain-failures { margin: 40px 0; padding: 20px 22px; background: var(--c-bg); border-left: 3px solid var(--c-loss); border-radius: 3px; }
+  .explain-failures h3 { margin: 0 0 10px; font-size: 0.94rem; color: var(--c-loss); letter-spacing: 0.04em; }
+  .explain-failures ul { margin: 0; padding-left: 18px; }
+  .explain-failures a { color: var(--c-navy); }
+
+  @media (max-width: 540px) {
+    .explain-page { padding: 0 18px 50px; }
+    .breadcrumb { padding: 0 18px; }
+    .explain-h2 { font-size: 1.1rem; }
+    .explain-card { grid-template-columns: 40px 1fr; gap: 12px; padding: 14px 14px 14px 10px; }
+    .explain-card__no { font-size: 1.3rem; }
+  }
+</style>

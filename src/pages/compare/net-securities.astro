@@ -1,0 +1,370 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import TopAffiliateBox from "../../components/TopAffiliateBox.astro";
+import PillarCompareTable from "../../components/PillarCompareTable.astro";
+import EndAffiliateMix from "../../components/EndAffiliateMix.astro";
+import NewsletterCTA from "../../components/NewsletterCTA.astro";
+import AdSenseSlot from "../../components/AdSenseSlot.astro";
+
+const title = "ネット証券3社の整理2026 ─ SBI・楽天・松井を「新NISA・米国株・サポート」で並べる";
+const description = "新NISAをこれから始める人向けに、SBI証券・楽天証券・松井証券の3社を「投信本数・国内株手数料・米国株・クレカ積立・サポート」で観察整理。EXPO行く前に家で30分で完結する代替案。";
+const updatedAt = "2026-05-25";
+
+const topPillars = [
+  { href: "/compare/asset-expo-warning/", title: "資産運用EXPOに行ったらヤバい理由", subtitle: "EXPOに行く2-3時間を、家でこの30分に置き換える", icon: "⚠" },
+  { href: "/explain/scam-detection-guide/", title: "投資詐欺の見抜き方", subtitle: "9シグナルで識別する3軸の整理", icon: "⚠" },
+];
+
+const netSecItems = [
+  {
+    name: "SBI証券",
+    tagline: "国内ネット証券最大手。新NISAの投信本数・IPO取扱でトップクラス。",
+    badge: "編集者観察",
+    specs: [
+      { label: "新NISAつみたて投信", value: "220本以上", highlight: true },
+      { label: "国内株手数料", value: "ゼロ革命（条件付き0円）" },
+      { label: "米国株手数料", value: "約定代金の0.45%" },
+      { label: "クレカ積立", value: "三井住友カード 1.0-3.0%" },
+      { label: "対応ポイント", value: "V・Ponta・d・JAL" },
+      { label: "IPO取扱", value: "業界トップクラス" },
+    ],
+    pros: [
+      "新NISAの投信本数・IPO取扱で頭ひとつ抜けている",
+      "ポイント連携が一通り揃う（V/Ponta/d/JAL）",
+      "クレカ積立の還元率が高い（条件次第で3.0%）",
+      "夜間取引・PTS取引にも対応",
+    ],
+    cons: [
+      "ツールUIが情報量多めで、初学者は最初慣れが必要",
+      "サイト導線が複雑との声がある",
+      "サポートはチャット中心で電話は限定的",
+    ],
+    pickFor: "とにかく王道を1社で完結させたい人・IPO狙いたい人",
+    ctaText: "SBI証券 公式サイト",
+    ctaHref: "#asp-sbi-securities",
+    ctaNote: "※ASP承認後にアフィリリンクへ差し替え予定",
+  },
+  {
+    name: "楽天証券",
+    tagline: "楽天経済圏のユーザーならコスパが頭抜ける。アプリiSPEEDが評判。",
+    badge: "編集者観察",
+    specs: [
+      { label: "新NISAつみたて投信", value: "220本以上", highlight: true },
+      { label: "国内株手数料", value: "ゼロコース（条件付き0円）" },
+      { label: "米国株手数料", value: "約定代金の0.45%" },
+      { label: "クレカ積立", value: "楽天カード 0.5-1.0%" },
+      { label: "対応ポイント", value: "楽天ポイント" },
+      { label: "アプリ", value: "iSPEED（初学者向けに人気）" },
+    ],
+    pros: [
+      "楽天カード積立で楽天ポイント獲得",
+      "アプリiSPEEDがシンプルで初学者向き",
+      "楽天市場・モバイル等の経済圏連動で日常の支払とリンク",
+      "投資情報メディア「トウシル」が情報源として強い",
+    ],
+    cons: [
+      "楽天ポイント以外のポイント連携は弱い",
+      "楽天経済圏の改悪（SPU・ポイント還元率変更）リスクあり",
+      "米国株手数料はSBI同等で差別化はポイント側",
+    ],
+    pickFor: "楽天カード・楽天市場ユーザー・スマホ完結派",
+    ctaText: "楽天証券 公式サイト",
+    ctaHref: "#asp-rakuten-securities",
+    ctaNote: "※ASP承認後にアフィリリンクへ差し替え予定",
+  },
+  {
+    name: "松井証券",
+    tagline: "1日100万円以下なら国内株手数料無料の老舗。電話サポートの安心感。",
+    badge: "編集者観察",
+    specs: [
+      { label: "新NISAつみたて投信", value: "220本以上", highlight: true },
+      { label: "国内株手数料", value: "1日100万円以下 0円" },
+      { label: "米国株手数料", value: "約定代金の0.495%" },
+      { label: "クレカ積立", value: "JCB CARD W等 0.5-1.0%" },
+      { label: "電話サポート", value: "業界評価高め" },
+      { label: "投資相談", value: "投信工房（自動診断）" },
+    ],
+    pros: [
+      "電話サポートが手厚く、初学者の質問に答えてくれる",
+      "1日100万円以下の国内株取引は手数料無料",
+      "投信工房という自動診断ツールがある",
+      "1918年創業の老舗・経営の安定感",
+    ],
+    cons: [
+      "ポイント還元はSBI・楽天と比べて控えめ",
+      "ツール画面はやや古めとの声",
+      "IPO取扱本数は2社より少なめ",
+    ],
+    pickFor: "電話で質問しながら少額で始めたい初学者・40-60代",
+    ctaText: "松井証券 公式サイト",
+    ctaHref: "#asp-matsui-securities",
+    ctaNote: "※ASP承認後にアフィリリンクへ差し替え予定",
+  },
+];
+
+const breadcrumbs = [
+  { name: "投資失敗録", url: "/" },
+  { name: "比較", url: "/compare/" },
+  { name: "ネット証券3社の整理2026", url: "/compare/net-securities/" },
+];
+
+const faqs = [
+  {
+    q: "3社全部開設すべき？それとも1社？",
+    a: "結論から言うと、メイン1社で十分です。当サイトに集まった失敗体験を見ても、複数口座で資金を分散すると管理が雑になり、税金処理（特定口座源泉徴収有り/無し）の混乱で損失が膨らむケースが多い。最初はメイン1社、慣れてからサブを足す、の順番がおすすめ。",
+  },
+  {
+    q: "新NISAは3社で違いある？",
+    a: "新NISA枠は人ひとりに1つだけです。途中で証券会社を変えると、その年は新NISA枠を使いきった扱いになる場合があるので、最初の証券会社選びが結構大事。投信本数は3社とも220本以上で大差なし。違いはクレカ積立還元率とポイント連携で出る。",
+  },
+  {
+    q: "ポイント還元って結局どれくらい違う？",
+    a: "クレカ積立月10万円・年12万円積立として、SBI×三井住友カードゴールド（1.0%）で年12,000円、楽天×楽天カード（0.5-1.0%）で年6,000-12,000円、松井×JCB（0.5-1.0%）で年6,000-12,000円。年1万円前後の差です。20年で20万円。長期で見ると無視できないけど、最初の選択で人生変わるほどではない。",
+  },
+  {
+    q: "EXPOで聞いたファンドラップとどっちがいい？",
+    a: "ネット証券のインデックス投信のほうが圧倒的に有利。ファンドラップの年間手数料3%超に対し、ネット証券のインデックス投信は0.1%前後。20年複利で計算すると、リターンの60%以上が手数料で消える商品設計。実例は別記事で1,000万円のファンドラップが3年で380万円消えた話を取材して残してます。",
+  },
+  {
+    q: "電話で相談しながらやりたい",
+    a: "松井証券が3社の中では電話サポートに比較優位があります。それでも不安なら、独立系のファイナンシャル・プランナー相談を併用する選択肢もあり。投資判断は最終的に本人責任ですが、最初の方針整理だけ専門家に聞くのは合理的。",
+  },
+];
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  showQuickNav={false}
+  pageType="article"
+  articleMeta={{ headline: title, category: "株式・投信 / 比較", datePublished: updatedAt, dateModified: updatedAt, author: "白川 諒" }}
+  breadcrumbs={breadcrumbs}
+>
+  <article class="pillar-page">
+    <nav class="breadcrumb">
+      <a href="/">トップ</a><span>›</span><a href="/compare/">比較</a><span>›</span><span>ネット証券3社の整理2026</span>
+    </nav>
+
+    <header class="pillar-head">
+      <span class="pillar-head__cat">株式・投信 / 比較</span>
+      <h1 class="pillar-head__title">{title}</h1>
+      <p class="pillar-head__lead">
+        新NISAをこれから始める人向けに、ネット証券大手3社の「投信本数・国内株手数料・米国株・クレカ積立・サポート」を編集者観察として並べた。<br />
+        EXPOに2-3時間使う前に、家で30分でできる代替案として読んでほしい。
+      </p>
+      <div class="pillar-head__meta">
+        <span><strong>更新</strong>{updatedAt}</span>
+        <span><strong>取り上げ数</strong>3社</span>
+        <span><strong>編集</strong>白川 諒</span>
+      </div>
+    </header>
+
+    <TopAffiliateBox pillars={topPillars} heading="先に押さえておくと話が早い" subLabel="BACKGROUND READING" />
+
+    <AdSenseSlot slot="pillar-header" format="rectangle" />
+
+    <section class="pillar-section">
+      <h2 class="pillar-h2">3社の基本スタンス</h2>
+      <p>
+        ネット証券は2024年以降の国内株手数料ゼロ化で、料金面の差はほぼ消えた。<br />
+        現在の選定軸は「ポイント連携・クレカ積立・サポート体制・アプリの使い勝手」の4つに集約される。
+      </p>
+      <p>
+        本記事は当サイトで集めた失敗体験を踏まえた編集者観察。<br />
+        「最強の1社」を選ぶ目的じゃなくて、「自分の生活スタイルに合う1社」を見つけるための整理として使ってほしい。
+      </p>
+      <p class="pillar-note">
+        ※本記事は投資助言ではない。各社の最新スペックは公式サイトで必ず確認してから判断してください。
+      </p>
+    </section>
+
+    <PillarCompareTable
+      items={netSecItems}
+      caption="ネット証券大手3社の整理（編集者観察）"
+      axesLabel="SELECTION AXES"
+      axesNote="選定の軸：新NISA投信本数・国内株/米国株手数料・クレカ積立還元率・ポイント連携・サポート体制"
+    />
+
+    <AdSenseSlot slot="pillar-middle" format="in-feed" />
+
+    <section class="pillar-section">
+      <h2 class="pillar-h2">「こんな人なら、これ」の3パターン</h2>
+      <ol class="pillar-list">
+        <li>
+          <strong>とにかく王道で完結させたい・IPO狙いたい → SBI証券</strong>。投信本数・IPO取扱・ポイント連携の総合力が抜けている。三井住友カード持ちならクレカ積立還元1.0-3.0%。
+        </li>
+        <li>
+          <strong>楽天経済圏に住んでる・スマホ完結派 → 楽天証券</strong>。楽天カード積立で楽天ポイント獲得＋楽天市場の支払と直結。アプリiSPEEDの操作性が初学者にやさしい。
+        </li>
+        <li>
+          <strong>電話で聞きながら少額で始めたい → 松井証券</strong>。1日100万円以下の国内株手数料は0円、電話サポートが3社中最も評価高め。40-60代に特に向く。
+        </li>
+      </ol>
+      <p class="pillar-callout">
+        重要なのは「自分の使う日常サービス」と組み合わせること。<br />
+        楽天市場使うなら楽天、Vポイント貯めるならSBI、サポート重視なら松井。生活側の都合で選んで間違いない。
+      </p>
+    </section>
+
+    <section class="pillar-section">
+      <h2 class="pillar-h2">EXPOで「ファンドラップ」を勧められた人へ</h2>
+      <p>
+        本サイトに集まった被害体験で、最も「気づきにくい損失」を生んでいるのがファンドラップ。<br />
+        ネット証券のインデックス投信（信託報酬0.1%前後）と、ファンドラップ（年間手数料3%超）の差は、20年複利で60%超のリターン差になる。
+      </p>
+      <p>
+        EXPOで聞いた「プロにお任せで安心」というセールス文言は、複利で削られる手数料の前では機能しない。<br />
+        資産運用を始めたい時、最初の30分でやることはネット証券で口座を作って、全世界株 or S&P500のインデックス投信を月数千円から積立設定すること。これだけで十分。
+      </p>
+    </section>
+
+    <section class="pillar-failures">
+      <div class="pillar-failures__head">
+        <span class="pillar-failures__sub">REAL CASES</span>
+        <h2 class="pillar-failures__title">「家でネット証券」を選ばずに起きた失敗</h2>
+      </div>
+      <p class="pillar-failures__intro">
+        本サイトに集まった、「ネット証券で完結させる」を選ばずに、EXPO・ファンドラップ・ワンルームへ進んでしまった人たちの体験。
+      </p>
+      <ul class="pillar-failures__list">
+        <li>
+          <a href="/articles/toushi-fund-expo-001/">
+            <span class="pillar-failures__icon" aria-hidden="true">⚱</span>
+            <span class="pillar-failures__text">
+              <strong>EXPOで契約したファンドラップ、3年で380万円が消えた</strong>
+              <span>50代女性・投信・380万円</span>
+            </span>
+            <span class="pillar-failures__arrow" aria-hidden="true">→</span>
+          </a>
+        </li>
+        <li>
+          <a href="/articles/toushi-realestate-expo-001/">
+            <span class="pillar-failures__icon" aria-hidden="true">⚱</span>
+            <span class="pillar-failures__text">
+              <strong>EXPOで契約したワンルーム、5年で1820万円失った</strong>
+              <span>40代男性・不動産・1820万円</span>
+            </span>
+            <span class="pillar-failures__arrow" aria-hidden="true">→</span>
+          </a>
+        </li>
+      </ul>
+    </section>
+
+    <AdSenseSlot slot="pillar-faq-before" format="rectangle" />
+
+    <section class="pillar-faq">
+      <div class="pillar-faq__head">
+        <span class="pillar-faq__sub">FAQ</span>
+        <h2 class="pillar-faq__title">よく届く質問</h2>
+      </div>
+      <div class="pillar-faq__list">
+        {faqs.map((f, i) => (
+          <details class="pillar-faq__item" open={i === 0}>
+            <summary>
+              <span class="pillar-faq__q-mark" aria-hidden="true">Q</span>
+              <span class="pillar-faq__q-text">{f.q}</span>
+            </summary>
+            <div class="pillar-faq__a">
+              <span class="pillar-faq__a-mark" aria-hidden="true">A</span>
+              <p>{f.a}</p>
+            </div>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <EndAffiliateMix
+      sameCategory={[
+        { href: "/articles/toushi-fund-expo-001/", title: "EXPOで契約したファンドラップ、3年で380万円", meta: "50代女性・投信・380万円" },
+        { href: "/articles/toushi-realestate-expo-001/", title: "EXPOで契約したワンルーム、5年で1820万円", meta: "40代男性・不動産・1820万円" },
+      ]}
+      pillars={[
+        { href: "/compare/asset-expo-warning/", title: "資産運用EXPOに行ったらヤバい理由", meta: "Xトレンド分析＋構造解説" },
+        { href: "/explain/scam-detection-guide/", title: "投資詐欺の見抜き方 完全版", meta: "9シグナルで識別する3軸" },
+      ]}
+      sameCategoryLabel="REAL CASES"
+      pillarsLabel="RELATED PILLARS"
+      sameCategoryHeading="家でネット証券を選ばなかった結果"
+      pillarsHeading="関連する比較・解説"
+    />
+
+    <NewsletterCTA />
+    <AdSenseSlot slot="pillar-footer" format="rectangle" />
+  </article>
+</BaseLayout>
+
+<style>
+  .pillar-page { max-width: 880px; margin: 0 auto; padding: 0 24px 60px; }
+  .breadcrumb { max-width: 880px; margin: 20px auto 0; padding: 0 24px; font-size: 0.78rem; color: var(--c-ink-dim); }
+  .breadcrumb a { color: var(--c-navy); text-decoration: none; }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb span { margin: 0 6px; color: var(--c-gold); }
+
+  .pillar-head { padding: 36px 0 28px; border-bottom: 2px solid var(--c-navy); margin-bottom: 32px; }
+  .pillar-head__cat { display: inline-block; background: var(--c-gold); color: var(--c-navy-deep); font-size: 0.7rem; font-weight: 800; letter-spacing: 0.16em; padding: 5px 14px; border-radius: 2px; margin-bottom: 18px; }
+  .pillar-head__title { font-family: var(--font-serif); font-size: clamp(1.5rem, 3.6vw, 2rem); font-weight: 700; color: var(--c-ink); margin: 0 0 18px; line-height: 1.55; letter-spacing: 0.06em; }
+  .pillar-head__lead { margin: 0 0 22px; font-size: 1rem; color: var(--c-ink-soft); line-height: 2; }
+  .pillar-head__meta { display: flex; flex-wrap: wrap; gap: 20px; font-size: 0.84rem; color: var(--c-ink-soft); }
+  .pillar-head__meta strong { color: var(--c-ink-dim); margin-right: 8px; font-weight: 700; letter-spacing: 0.06em; }
+
+  .pillar-section { margin: 42px 0; }
+  .pillar-h2 { font-family: var(--font-serif); font-size: 1.36rem; font-weight: 700; color: var(--c-ink); letter-spacing: 0.08em; margin: 0 0 18px; padding-bottom: 12px; border-bottom: 2px solid var(--c-navy); }
+  .pillar-section p { font-size: 0.98rem; line-height: 2.05; color: var(--c-ink); margin: 0 0 14px; }
+  .pillar-section strong { color: var(--c-navy-deep); }
+  .pillar-note { margin: 18px 0 0 !important; padding: 12px 14px; background: var(--c-warn-bg); border-left: 3px solid var(--c-warn-border); font-size: 0.86rem !important; color: #5a4815 !important; }
+  .pillar-list { list-style: none; margin: 0; padding: 0; counter-reset: pillar-list; display: flex; flex-direction: column; gap: 14px; }
+  .pillar-list li { counter-increment: pillar-list; padding: 16px 18px 16px 56px; background: #ffffff; border: 1px solid var(--c-line); border-left: 3px solid var(--c-gold); border-radius: 3px; position: relative; font-size: 0.96rem; line-height: 1.9; }
+  .pillar-list li::before { content: counter(pillar-list, decimal-leading-zero); position: absolute; left: 16px; top: 16px; font-family: "Helvetica Neue", sans-serif; font-weight: 900; font-size: 1.1rem; color: var(--c-gold); }
+  .pillar-list li strong { color: var(--c-navy-deep); }
+  .pillar-callout { margin: 22px 0 0 !important; padding: 18px 20px; background: linear-gradient(180deg, #fbf6e6 0%, #f5edcc 100%); border-left: 4px solid var(--c-gold); font-size: 0.94rem !important; line-height: 1.95 !important; }
+
+  .pillar-failures { margin: 56px 0 48px; padding: 32px 30px 34px; background: var(--c-bg); border: 1px solid var(--c-line); border-left: 4px solid var(--c-loss); border-radius: 4px; }
+  .pillar-failures__head { margin-bottom: 18px; }
+  .pillar-failures__sub { display: block; font-size: 0.68rem; letter-spacing: 0.44em; color: var(--c-loss); font-weight: 800; margin-bottom: 8px; }
+  .pillar-failures__title { font-family: var(--font-serif); font-size: 1.16rem; font-weight: 700; color: var(--c-ink); margin: 0; letter-spacing: 0.06em; line-height: 1.55; }
+  .pillar-failures__intro { margin: 0 0 18px; font-size: 0.92rem; color: var(--c-ink-soft); line-height: 1.9; }
+  .pillar-failures__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+  .pillar-failures__list li { margin: 0; }
+  .pillar-failures__list a { display: grid; grid-template-columns: 28px 1fr 18px; align-items: center; gap: 12px; padding: 14px 16px; background: #ffffff; border: 1px solid var(--c-line); border-radius: 3px; text-decoration: none; color: var(--c-ink); transition: all 0.15s ease; }
+  .pillar-failures__list a:hover { border-color: var(--c-loss); background: #fdf5f5; transform: translateX(2px); text-decoration: none; }
+  .pillar-failures__icon { color: var(--c-loss); font-size: 1.15rem; line-height: 1; }
+  .pillar-failures__text { display: flex; flex-direction: column; gap: 3px; }
+  .pillar-failures__text strong { font-size: 0.96rem; font-weight: 700; line-height: 1.55; color: var(--c-ink); }
+  .pillar-failures__text span { font-size: 0.76rem; color: var(--c-ink-soft); letter-spacing: 0.04em; }
+  .pillar-failures__arrow { color: var(--c-loss); font-weight: 700; }
+
+  .pillar-faq { margin: 56px 0 48px; }
+  .pillar-faq__head { margin-bottom: 18px; }
+  .pillar-faq__sub { display: block; font-size: 0.68rem; letter-spacing: 0.44em; color: var(--c-gold); font-weight: 800; margin-bottom: 8px; }
+  .pillar-faq__title { font-family: var(--font-serif); font-size: 1.36rem; font-weight: 700; color: var(--c-ink); margin: 0 0 12px; padding-bottom: 12px; border-bottom: 2px solid var(--c-navy); letter-spacing: 0.08em; }
+  .pillar-faq__list { display: flex; flex-direction: column; gap: 10px; }
+  .pillar-faq__item { background: #ffffff; border: 1px solid var(--c-line); border-radius: 3px; overflow: hidden; }
+  .pillar-faq__item summary { list-style: none; cursor: pointer; padding: 16px 18px; display: grid; grid-template-columns: 28px 1fr 20px; align-items: center; gap: 14px; background: var(--c-bg); border-bottom: 1px solid transparent; transition: background 0.15s ease; }
+  .pillar-faq__item summary::-webkit-details-marker { display: none; }
+  .pillar-faq__item summary::after { content: "+"; color: var(--c-gold); font-size: 1.4rem; font-weight: 700; line-height: 1; grid-column: 3; }
+  .pillar-faq__item[open] summary { border-bottom-color: var(--c-line); }
+  .pillar-faq__item[open] summary::after { content: "−"; }
+  .pillar-faq__item summary:hover { background: var(--c-bg-soft); }
+  .pillar-faq__q-mark { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; background: var(--c-navy); color: var(--c-gold); border-radius: 50%; font-family: "Helvetica Neue", sans-serif; font-weight: 900; font-size: 0.86rem; }
+  .pillar-faq__q-text { font-size: 0.96rem; font-weight: 700; color: var(--c-ink); line-height: 1.5; letter-spacing: 0.02em; }
+  .pillar-faq__a { padding: 16px 18px; display: grid; grid-template-columns: 28px 1fr; gap: 14px; background: #ffffff; }
+  .pillar-faq__a-mark { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; background: var(--c-gold); color: var(--c-navy-deep); border-radius: 50%; font-family: "Helvetica Neue", sans-serif; font-weight: 900; font-size: 0.86rem; align-self: start; }
+  .pillar-faq__a p { margin: 0; font-size: 0.92rem; line-height: 1.95; color: var(--c-ink); }
+
+  @media (max-width: 540px) {
+    .pillar-page { padding: 0 18px 50px; }
+    .breadcrumb { padding: 0 18px; }
+    .pillar-head { padding: 24px 0 20px; margin-bottom: 24px; }
+    .pillar-h2 { font-size: 1.18rem; }
+    .pillar-section p { font-size: 0.92rem; }
+    .pillar-list li { padding: 14px 14px 14px 48px; font-size: 0.9rem; }
+    .pillar-list li::before { left: 12px; top: 14px; font-size: 1rem; }
+    .pillar-failures { padding: 22px 18px 24px; }
+    .pillar-failures__title { font-size: 1.04rem; }
+    .pillar-faq__title { font-size: 1.18rem; }
+    .pillar-faq__item summary { padding: 14px 14px; grid-template-columns: 26px 1fr 18px; gap: 10px; }
+    .pillar-faq__q-text { font-size: 0.9rem; }
+    .pillar-faq__a { padding: 14px; gap: 10px; }
+    .pillar-faq__a p { font-size: 0.88rem; }
+  }
+</style>

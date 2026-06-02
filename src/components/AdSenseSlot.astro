@@ -1,0 +1,117 @@
+---
+// Google AdSense 広告枠の標準化コンポーネント
+// 審査前はプレースホルダ、審査後は env で client/slot を差し替えるだけで本番化
+// PUBLIC_ADSENSE_CLIENT と PUBLIC_ADSENSE_<slot大文字> で env 注入
+interface Props {
+  slot: string; // 例: "header" "lessons-before" "inline" "sidebar"
+  format?: "rectangle" | "in-feed" | "vertical" | "responsive";
+  label?: string; // 視覚ラベル "広告" デフォルト
+  placeholder?: boolean; // 強制プレースホルダ表示（プレビュー用）
+}
+const { slot, format = "rectangle", label = "広告", placeholder = false } = Astro.props;
+
+const client = import.meta.env.PUBLIC_ADSENSE_CLIENT ?? "";
+const slotEnvKey = `PUBLIC_ADSENSE_SLOT_${slot.replace(/[^a-zA-Z0-9]/g, "_").toUpperCase()}`;
+const slotId = (import.meta.env as any)[slotEnvKey] ?? "";
+
+const isLive = !placeholder && client && slotId;
+---
+{isLive ? (
+  <aside class={`ad-slot ad-slot--${format}`} aria-label="広告">
+    <span class="ad-slot__label">{label}</span>
+    <ins
+      class="adsbygoogle"
+      style="display:block"
+      data-ad-client={client}
+      data-ad-slot={slotId}
+      data-ad-format={format === "responsive" ? "auto" : format}
+      data-full-width-responsive={format === "responsive" ? "true" : undefined}
+    ></ins>
+    <script is:inline>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+  </aside>
+) : (
+  <aside class={`ad-slot ad-slot--${format} ad-slot--placeholder`} aria-label="広告枠（準備中）">
+    <span class="ad-slot__label">{label}</span>
+    <div class="ad-slot__placeholder">
+      <span class="ad-slot__placeholder-mark" aria-hidden="true">▭</span>
+      <span class="ad-slot__placeholder-text">広告枠 / AdSense審査通過後に自動配信</span>
+      <span class="ad-slot__placeholder-slot">slot: {slot}</span>
+    </div>
+  </aside>
+)}
+
+<style>
+  .ad-slot {
+    margin: 28px 0;
+    text-align: center;
+  }
+  .ad-slot__label {
+    display: block;
+    font-size: 0.62rem;
+    letter-spacing: 0.42em;
+    color: var(--c-ink-dim);
+    font-weight: 700;
+    margin-bottom: 8px;
+    text-align: left;
+  }
+  .ad-slot--rectangle .adsbygoogle,
+  .ad-slot--rectangle .ad-slot__placeholder {
+    min-height: 280px;
+    max-width: 336px;
+    margin: 0 auto;
+  }
+  .ad-slot--in-feed .adsbygoogle,
+  .ad-slot--in-feed .ad-slot__placeholder {
+    min-height: 120px;
+  }
+  .ad-slot--vertical .adsbygoogle,
+  .ad-slot--vertical .ad-slot__placeholder {
+    min-height: 600px;
+    max-width: 160px;
+    margin: 0 auto;
+  }
+  .ad-slot--responsive .adsbygoogle,
+  .ad-slot--responsive .ad-slot__placeholder {
+    min-height: 100px;
+  }
+
+  .ad-slot__placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: repeating-linear-gradient(
+      45deg,
+      #f3efe5,
+      #f3efe5 10px,
+      #fbfaf6 10px,
+      #fbfaf6 20px
+    );
+    border: 1px dashed var(--c-line);
+    color: var(--c-ink-dim);
+    padding: 30px 20px;
+  }
+  .ad-slot__placeholder-mark {
+    font-size: 1.6rem;
+    color: var(--c-gold);
+    line-height: 1;
+  }
+  .ad-slot__placeholder-text {
+    font-size: 0.78rem;
+    color: var(--c-ink-soft);
+    letter-spacing: 0.04em;
+  }
+  .ad-slot__placeholder-slot {
+    font-family: "Helvetica Neue", sans-serif;
+    font-size: 0.7rem;
+    color: var(--c-ink-dim);
+    letter-spacing: 0.06em;
+    background: #fff;
+    padding: 2px 8px;
+    border-radius: 2px;
+    border: 1px solid var(--c-line);
+  }
+</style>

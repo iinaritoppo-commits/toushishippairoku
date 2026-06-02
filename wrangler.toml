@@ -1,0 +1,16 @@
+# Cloudflare Pages 設定（雛型）
+# 公開時の参考用：実際の deploy は GitHub 連携 or wrangler CLI で実施
+name = "toushi-shippai-roku"
+compatibility_date = "2026-05-09"
+
+# Pages Build Settings
+# - Framework preset: Astro
+# - Build command: npm run build
+# - Build output directory: dist
+# - Root directory: /
+# - Node version: 22
+
+# Production environment
+[env.production]
+# 本番ドメイン接続後に追加
+# routes = [{ pattern = "toushi-shippai-roku.com/*", zone_name = "toushi-shippai-roku.com" }]

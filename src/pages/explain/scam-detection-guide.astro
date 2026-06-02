@@ -1,0 +1,492 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import TopAffiliateBox from "../../components/TopAffiliateBox.astro";
+import PillarCompareTable from "../../components/PillarCompareTable.astro";
+import EndAffiliateMix from "../../components/EndAffiliateMix.astro";
+import NewsletterCTA from "../../components/NewsletterCTA.astro";
+import AdSenseSlot from "../../components/AdSenseSlot.astro";
+
+const title =
+  "投資詐欺の見抜き方 完全版 ─ 勧誘文言・出金条件・運営実態の3軸で識別する";
+const description =
+  "投資詐欺の典型パターンを「勧誘文言・出金条件・運営実態」の3軸で整理。本サイトに集まった被害体験から共通項を抽出し、被害発覚後の対応フロー、弁護士相談の選び方まで一通り。";
+const updatedAt = "2026-05-25";
+
+const topPillars = [
+  {
+    href: "/compare/asset-expo-warning/",
+    title: "資産運用EXPOに行ったらヤバい本当の理由",
+    subtitle: "詐欺の入口として最も多く報告されている場",
+    icon: "⚠",
+  },
+  {
+    href: "/explain/crypto-scam-patterns/",
+    title: "仮想通貨詐欺の典型パターン",
+    subtitle: "「内部情報」「上場前」「LINE紹介」の構造",
+    icon: "⚠",
+  },
+];
+
+// 弁護士相談先（編集者整理・推奨ランキングではない）
+const lawyerItems = [
+  {
+    name: "法テラス（日本司法支援センター）",
+    tagline: "国が設立した公的相談窓口。収入条件に応じて無料相談・費用立替制度あり。",
+    badge: "公的機関",
+    specs: [
+      { label: "初回相談料", value: "条件次第で無料", highlight: true },
+      { label: "対応ジャンル", value: "投資詐欺・消費者被害ほか全般" },
+      { label: "費用立替", value: "民事法律扶助制度あり" },
+      { label: "受付", value: "0570-078374・全国窓口" },
+    ],
+    pros: [
+      "公的機関なので料金透明・営業色なし",
+      "収入条件を満たせば民事法律扶助で費用立替",
+      "対応ジャンルが幅広いので、ジャンル不問で第一歩に最適",
+    ],
+    cons: [
+      "担当弁護士を選べないケースが多い",
+      "予約が混みやすく、緊急対応は別ルートが必要",
+    ],
+    pickFor: "費用面が心配・まず無料で方針相談したい人",
+    ctaText: "法テラス 公式サイト",
+    ctaHref: "https://www.houterasu.or.jp/",
+    ctaNote: "公的機関のため、アフィリリンクではない直接リンク",
+  },
+  {
+    name: "ベリーベスト法律事務所",
+    tagline: "全国展開の大手法律事務所。投資詐欺・消費者被害の取扱実績が公開されている。",
+    badge: "編集者観察",
+    specs: [
+      { label: "初回相談料", value: "投資詐欺は無料相談あり", highlight: true },
+      { label: "拠点数", value: "全国60拠点以上" },
+      { label: "対応", value: "電話・オンライン相談可" },
+      { label: "費用", value: "成功報酬型のプラン多数" },
+    ],
+    pros: [
+      "拠点が多く、対面相談しやすい",
+      "投資詐欺の取扱事例がサイトで公開されている",
+      "オンライン相談に対応している",
+    ],
+    cons: [
+      "事務所規模が大きい分、担当弁護士との相性に差が出やすい",
+      "成功報酬型プランは契約条件をよく確認する必要がある",
+    ],
+    pickFor: "詐欺被害の前例が豊富な事務所に頼みたい人",
+    ctaText: "ベリーベスト法律事務所 公式",
+    ctaHref: "#asp-verybest",
+    ctaNote: "※ASP承認後にアフィリリンクへ差し替え予定",
+  },
+  {
+    name: "アディーレ法律事務所",
+    tagline: "テレビCMでも知られる大手。消費者被害・過払金・詐欺案件の窓口対応に強み。",
+    badge: "編集者観察",
+    specs: [
+      { label: "初回相談料", value: "投資詐欺は無料相談あり", highlight: true },
+      { label: "拠点数", value: "全国60拠点以上" },
+      { label: "受付", value: "24時間Web受付対応" },
+      { label: "費用", value: "成功報酬型・分割対応あり" },
+    ],
+    pros: [
+      "Web受付が24時間で動きやすい",
+      "消費者被害の窓口対応に慣れたスタッフ体制",
+      "費用は成功報酬＋分割対応で初期負担を抑えられる",
+    ],
+    cons: [
+      "営業色を感じる人もいる",
+      "個別案件の弁護士相性は問い合わせ時に確認推奨",
+    ],
+    pickFor: "深夜・休日でもまず連絡を入れたい人",
+    ctaText: "アディーレ法律事務所 公式",
+    ctaHref: "#asp-adire",
+    ctaNote: "※ASP承認後にアフィリリンクへ差し替え予定",
+  },
+];
+
+const breadcrumbs = [
+  { name: "投資失敗録", url: "/" },
+  { name: "解説", url: "/explain/" },
+  { name: "投資詐欺の見抜き方", url: "/explain/scam-detection-guide/" },
+];
+
+const faqs = [
+  {
+    q: "「絶対儲かる」と言われたら100%詐欺？",
+    a: "投資の世界で「絶対儲かる」「元本保証で年利10%」などと断言する勧誘は、金融商品取引法違反の可能性が高いです。正規業者は法令で「絶対」「必ず」の表現を禁じられているため、この言葉が出た時点で正規業者ではない、と判断していい。",
+  },
+  {
+    q: "もう振り込んでしまった。回収できる？",
+    a: "送金から時間が浅いほど、回収可能性は高い傾向にあります。最初の対応は3つ。①取引銀行への組戻し依頼、②警察への被害届、③消費者ホットライン188への相談。並行して弁護士相談を進めると、選択肢が広がりやすい。",
+  },
+  {
+    q: "海外業者の詐欺被害は泣き寝入り？",
+    a: "海外業者の場合、加害者特定と回収はハードルが高くなります。ただし、国内の振込先口座（中継口座）が使われているケースが多く、口座凍結請求は国内でも可能。被害金額が大きい場合は、必ず弁護士相談で実態を整理してから判断するべき。",
+  },
+  {
+    q: "弁護士相談は怖い。費用が読めない。",
+    a: "投資詐欺・消費者被害の相談に限れば、初回無料相談を実施している事務所が多いです。費用が不安なら、まず法テラス（公的機関・収入条件次第で無料）が最も低リスクの第一歩。法テラス経由で弁護士を紹介してもらうルートもあります。",
+  },
+  {
+    q: "家族にバレずに相談したい",
+    a: "電話・オンライン相談を活用すれば、家族に知られず進められます。連絡先は本人の携帯のみ・郵便物は事務所からの追跡可能なものに限定する、などの配慮を相談時に依頼できます。",
+  },
+];
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  showQuickNav={false}
+  pageType="article"
+  articleMeta={{
+    headline: title,
+    category: "投資詐欺 / 解説",
+    datePublished: updatedAt,
+    dateModified: updatedAt,
+    author: "白川 諒",
+  }}
+  breadcrumbs={breadcrumbs}
+>
+  <article class="pillar-page">
+    <nav class="breadcrumb">
+      <a href="/">トップ</a><span>›</span>
+      <a href="/explain/">解説</a><span>›</span>
+      <span>投資詐欺の見抜き方</span>
+    </nav>
+
+    <header class="pillar-head pillar-head--warning">
+      <span class="pillar-head__cat">投資詐欺 / 解説</span>
+      <h1 class="pillar-head__title">{title}</h1>
+      <p class="pillar-head__lead">
+        本サイトに集まった被害体験から、投資詐欺の共通項を「勧誘文言・出金条件・運営実態」の3軸で抽出した。<br />
+        被害発覚後の対応フローと、弁護士相談の選び方も編集者整理として残しておく。
+      </p>
+      <div class="pillar-head__meta">
+        <span><strong>更新</strong>{updatedAt}</span>
+        <span><strong>整理軸</strong>3軸 / 9シグナル</span>
+        <span><strong>編集</strong>白川 諒</span>
+      </div>
+    </header>
+
+    <TopAffiliateBox
+      pillars={topPillars}
+      heading="先に押さえておくと話が早い"
+      subLabel="BACKGROUND READING"
+    />
+
+    <AdSenseSlot slot="explain-header" format="rectangle" />
+
+    <section class="pillar-section">
+      <h2 class="pillar-h2">3軸で見ると、詐欺はだいたい識別できる</h2>
+      <p>
+        投資詐欺は形を変え続けるけれど、共通する特徴は「勧誘文言・出金条件・運営実態」の3軸に集約される。<br />
+        本サイトに集まった70件以上の体験から共通項を抜き出すと、9つのシグナルが見えてくる。
+      </p>
+      <p>
+        以下のうち2つ以上が当てはまる時点で、勧誘から離れる判断をする方が安全。
+      </p>
+    </section>
+
+    <section class="pillar-section">
+      <h2 class="pillar-h2">軸1：勧誘文言（3シグナル）</h2>
+      <div class="signal-card">
+        <div class="signal-card__num">01</div>
+        <div class="signal-card__body">
+          <strong>「絶対儲かる」「元本保証」「必ず増える」</strong>
+          <p>金融商品取引法で禁止されている文言。正規業者なら口にしない。投資の世界で「絶対」が成立しないことは、その業者が一番よく知っている。</p>
+        </div>
+      </div>
+      <div class="signal-card">
+        <div class="signal-card__num">02</div>
+        <div class="signal-card__body">
+          <strong>「あなただけ」「内部情報」「限定枠」</strong>
+          <p>希少性の演出は、判断を急がせて思考停止に持ち込む典型手口。本当の特別待遇なら、わざわざ広く声をかけない。</p>
+        </div>
+      </div>
+      <div class="signal-card">
+        <div class="signal-card__num">03</div>
+        <div class="signal-card__body">
+          <strong>「上場前」「IPO前」「ローンチ前」</strong>
+          <p>未上場銘柄・未公開トークンへの個人勧誘は、ほぼ100%詐欺と思っていい。正規プロセスでは、未公開銘柄は適格機関投資家にしか提供されない。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="pillar-section">
+      <h2 class="pillar-h2">軸2：出金条件（3シグナル）</h2>
+      <div class="signal-card">
+        <div class="signal-card__num">04</div>
+        <div class="signal-card__body">
+          <strong>「出金には追加手数料」「税金が必要」</strong>
+          <p>カモリストの最終回収フェーズで使われる典型フレーズ。本物の利益から手数料を「先払い」させる正規金融機関は存在しない。</p>
+        </div>
+      </div>
+      <div class="signal-card">
+        <div class="signal-card__num">05</div>
+        <div class="signal-card__body">
+          <strong>「最低◯ヶ月ロック」「ロックアップ期間」</strong>
+          <p>引き出せない期間が異常に長い、または出金条件が後から変わる場合は要警戒。正規業者は契約時の条件を後から変えない。</p>
+        </div>
+      </div>
+      <div class="signal-card">
+        <div class="signal-card__num">06</div>
+        <div class="signal-card__body">
+          <strong>「KYC審査再実施」「アカウント認証手数料」</strong>
+          <p>本人確認の名目で追加送金を要求するパターン。正規業者は本人確認に費用を取らない。これを言われた時点で、それまでの入金分も諦める判断が早ければ被害は小さい。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="pillar-section">
+      <h2 class="pillar-h2">軸3：運営実態（3シグナル）</h2>
+      <div class="signal-card">
+        <div class="signal-card__num">07</div>
+        <div class="signal-card__body">
+          <strong>送金先が個人名義・海外口座</strong>
+          <p>正規業者なら必ず法人口座。個人名義口座への送金を指示された時点で、ほぼ100%詐欺。海外口座経由は資金移動の追跡を困難にする目的。</p>
+        </div>
+      </div>
+      <div class="signal-card">
+        <div class="signal-card__num">08</div>
+        <div class="signal-card__body">
+          <strong>金融庁登録・法人登記が確認できない</strong>
+          <p>金融庁の登録業者一覧、国税庁の法人番号公表サイトで5分で確認できる。確認できない業者は、その時点で関与しない判断をする。</p>
+        </div>
+      </div>
+      <div class="signal-card">
+        <div class="signal-card__num">09</div>
+        <div class="signal-card__body">
+          <strong>連絡手段がLINEのみ、所在地が貸オフィス</strong>
+          <p>LINEのみ連絡・所在地が貸オフィスやバーチャルオフィスの場合、いつでも雲隠れできる体制。被害発覚時に追跡不能になる確率が高い。</p>
+        </div>
+      </div>
+    </section>
+
+    <AdSenseSlot slot="explain-middle" format="in-feed" />
+
+    <section class="pillar-section">
+      <h2 class="pillar-h2">被害発覚後の対応フロー</h2>
+      <ol class="pillar-list">
+        <li>
+          <strong>即時の対応</strong>：取引銀行に組戻し依頼。送金から時間が浅いほど回収可能性が上がる。同時に、相手とのやり取り（LINE・メール・通話履歴）をすべてスクリーンショット保存。
+        </li>
+        <li>
+          <strong>消費者ホットライン 188</strong>：全国の消費生活センターに繋がる無料窓口。状況整理と次の動きの方針を一緒に組み立ててくれる。最初の電話は188から。
+        </li>
+        <li>
+          <strong>警察への被害届</strong>：管轄警察署（生活安全課）に被害届を提出。事件番号を取得しておくと、その後の動きが進めやすい。
+        </li>
+        <li>
+          <strong>弁護士相談</strong>：費用面が心配なら法テラスから。被害金額が大きい・回収可能性を本格的に詰めたいなら、投資詐欺の取扱実績がある事務所へ。
+        </li>
+        <li>
+          <strong>口座凍結請求</strong>：振込先口座が国内銀行の場合、被害届と並行して銀行に口座凍結請求を出す。複数被害者が確認されれば、被害回復分配金の対象になり得る。
+        </li>
+      </ol>
+      <p class="pillar-callout">
+        重要なのは「動揺している今、ひとりで判断しない」。<br />
+        消費者ホットライン 188 か、信頼できる人に最初の30分で話すだけで、その後の選択肢の数が変わる。
+      </p>
+    </section>
+
+    <PillarCompareTable
+      items={lawyerItems}
+      caption="投資詐欺の弁護士相談 ─ 3つの選択肢（編集者観察）"
+      axesLabel="SELECTION AXES"
+      axesNote="選定の軸：初回相談料・対応ジャンルの幅・拠点数（対面のしやすさ）・費用体系（成功報酬型か）・受付時間"
+    />
+
+    <section class="pillar-failures">
+      <div class="pillar-failures__head">
+        <span class="pillar-failures__sub">REAL CASES</span>
+        <h2 class="pillar-failures__title">9シグナルが当てはまった、実際の被害体験</h2>
+      </div>
+      <p class="pillar-failures__intro">
+        本サイトに集まった、9シグナルのいくつかが当てはまった被害体験を抜粋。同じ手口の被害を避けるための一次資料として読める。
+      </p>
+      <ul class="pillar-failures__list">
+        <li>
+          <a href="/articles/toushi-crypto-expo-001/">
+            <span class="pillar-failures__icon" aria-hidden="true">⚱</span>
+            <span class="pillar-failures__text">
+              <strong>資産運用EXPOで紹介された「上場前トークン」、620万円が連絡途絶で消えた</strong>
+              <span>30代男性・仮想通貨・620万円</span>
+            </span>
+            <span class="pillar-failures__arrow" aria-hidden="true">→</span>
+          </a>
+        </li>
+        <li>
+          <a href="/articles/toushi-fraud-expo-001/">
+            <span class="pillar-failures__icon" aria-hidden="true">⚱</span>
+            <span class="pillar-failures__text">
+              <strong>EXPO来場後の電話地獄、FX自動売買ツール280万円</strong>
+              <span>30代男性・派遣社員・大阪府</span>
+            </span>
+            <span class="pillar-failures__arrow" aria-hidden="true">→</span>
+          </a>
+        </li>
+      </ul>
+    </section>
+
+    <AdSenseSlot slot="explain-faq-before" format="rectangle" />
+
+    <section class="pillar-faq">
+      <div class="pillar-faq__head">
+        <span class="pillar-faq__sub">FAQ</span>
+        <h2 class="pillar-faq__title">よく届く質問</h2>
+      </div>
+      <div class="pillar-faq__list">
+        {faqs.map((f, i) => (
+          <details class="pillar-faq__item" open={i === 0}>
+            <summary>
+              <span class="pillar-faq__q-mark" aria-hidden="true">Q</span>
+              <span class="pillar-faq__q-text">{f.q}</span>
+            </summary>
+            <div class="pillar-faq__a">
+              <span class="pillar-faq__a-mark" aria-hidden="true">A</span>
+              <p>{f.a}</p>
+            </div>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <EndAffiliateMix
+      sameCategory={[
+        { href: "/articles/toushi-crypto-expo-001/", title: "EXPOで紹介された「上場前トークン」、620万円", meta: "30代男性・仮想通貨・620万円" },
+        { href: "/articles/toushi-fraud-expo-001/", title: "EXPO来場後の電話地獄、FX自動売買ツール被害", meta: "30代男性・詐欺・280万円" },
+      ]}
+      pillars={[
+        { href: "/compare/asset-expo-warning/", title: "資産運用EXPOに行ったらヤバい理由", meta: "Xトレンド分析＋構造解説" },
+        { href: "/compare/fx-no-margin-call/", title: "追証なしFX口座 比較2026", meta: "ロスカット仕様で選ぶFX口座" },
+      ]}
+      sameCategoryLabel="REAL CASES"
+      pillarsLabel="RELATED PILLARS"
+      sameCategoryHeading="実際の被害体験から読み解く"
+      pillarsHeading="関連する比較・解説"
+    />
+
+    <NewsletterCTA
+      title="騙される前に届く「9つの危険信号」チェックリスト"
+      description="今からやろうとしている投資、本記事の9シグナルを3分で確認できるPDF版。<br/>登録した人にだけ届く週1便で、新しい手口と被害体験を続けて配信。"
+    />
+
+    <AdSenseSlot slot="explain-footer" format="rectangle" />
+  </article>
+</BaseLayout>
+
+<style>
+  .pillar-page { max-width: 880px; margin: 0 auto; padding: 0 24px 60px; }
+  .breadcrumb { max-width: 880px; margin: 20px auto 0; padding: 0 24px; font-size: 0.78rem; color: var(--c-ink-dim); }
+  .breadcrumb a { color: var(--c-navy); text-decoration: none; }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb span { margin: 0 6px; color: var(--c-gold); }
+
+  .pillar-head { padding: 36px 0 28px; border-bottom: 2px solid var(--c-navy); margin-bottom: 32px; }
+  .pillar-head--warning { border-bottom-color: var(--c-loss); }
+  .pillar-head__cat { display: inline-block; background: var(--c-loss); color: #fff; font-size: 0.7rem; font-weight: 800; letter-spacing: 0.16em; padding: 5px 14px; border-radius: 2px; margin-bottom: 18px; }
+  .pillar-head__title { font-family: var(--font-serif); font-size: clamp(1.45rem, 3.6vw, 2rem); font-weight: 700; color: var(--c-ink); margin: 0 0 18px; line-height: 1.55; letter-spacing: 0.06em; }
+  .pillar-head__lead { margin: 0 0 22px; font-size: 1rem; color: var(--c-ink-soft); line-height: 2; }
+  .pillar-head__meta { display: flex; flex-wrap: wrap; gap: 20px; font-size: 0.84rem; color: var(--c-ink-soft); }
+  .pillar-head__meta strong { color: var(--c-ink-dim); margin-right: 8px; font-weight: 700; letter-spacing: 0.06em; }
+
+  .pillar-section { margin: 42px 0; }
+  .pillar-h2 { font-family: var(--font-serif); font-size: 1.36rem; font-weight: 700; color: var(--c-ink); letter-spacing: 0.08em; margin: 0 0 18px; padding-bottom: 12px; border-bottom: 2px solid var(--c-navy); }
+  .pillar-section p { font-size: 0.98rem; line-height: 2.05; color: var(--c-ink); margin: 0 0 14px; }
+  .pillar-section strong { color: var(--c-navy-deep); }
+
+  .signal-card {
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    gap: 18px;
+    align-items: start;
+    background: #ffffff;
+    border: 1px solid var(--c-line);
+    border-left: 4px solid var(--c-loss);
+    border-radius: 3px;
+    padding: 18px 20px 18px 14px;
+    margin: 0 0 14px;
+  }
+  .signal-card__num {
+    font-family: "Helvetica Neue", sans-serif;
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: var(--c-loss);
+    line-height: 1;
+    letter-spacing: 0.02em;
+    text-align: center;
+    padding-top: 4px;
+  }
+  .signal-card__body { min-width: 0; }
+  .signal-card__body strong {
+    display: block;
+    font-family: var(--font-serif);
+    font-size: 1.04rem;
+    font-weight: 700;
+    color: var(--c-ink);
+    margin-bottom: 8px;
+    line-height: 1.55;
+    letter-spacing: 0.04em;
+  }
+  .signal-card__body p {
+    margin: 0 !important;
+    font-size: 0.92rem !important;
+    line-height: 1.9 !important;
+    color: var(--c-ink-soft) !important;
+  }
+
+  .pillar-list { list-style: none; margin: 0; padding: 0; counter-reset: pillar-list; display: flex; flex-direction: column; gap: 14px; }
+  .pillar-list li { counter-increment: pillar-list; padding: 16px 18px 16px 56px; background: #ffffff; border: 1px solid var(--c-line); border-left: 3px solid var(--c-gold); border-radius: 3px; position: relative; font-size: 0.96rem; line-height: 1.9; }
+  .pillar-list li::before { content: counter(pillar-list, decimal-leading-zero); position: absolute; left: 16px; top: 16px; font-family: "Helvetica Neue", sans-serif; font-weight: 900; font-size: 1.1rem; color: var(--c-gold); }
+  .pillar-list li strong { color: var(--c-navy-deep); }
+
+  .pillar-callout { margin: 22px 0 0 !important; padding: 18px 20px; background: linear-gradient(180deg, #fbf6e6 0%, #f5edcc 100%); border-left: 4px solid var(--c-gold); font-size: 0.94rem !important; line-height: 1.95 !important; }
+
+  .pillar-failures { margin: 56px 0 48px; padding: 32px 30px 34px; background: var(--c-bg); border: 1px solid var(--c-line); border-left: 4px solid var(--c-loss); border-radius: 4px; }
+  .pillar-failures__head { margin-bottom: 18px; }
+  .pillar-failures__sub { display: block; font-size: 0.68rem; letter-spacing: 0.44em; color: var(--c-loss); font-weight: 800; margin-bottom: 8px; }
+  .pillar-failures__title { font-family: var(--font-serif); font-size: 1.16rem; font-weight: 700; color: var(--c-ink); margin: 0; letter-spacing: 0.06em; line-height: 1.55; }
+  .pillar-failures__intro { margin: 0 0 18px; font-size: 0.92rem; color: var(--c-ink-soft); line-height: 1.9; }
+  .pillar-failures__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+  .pillar-failures__list li { margin: 0; }
+  .pillar-failures__list a { display: grid; grid-template-columns: 28px 1fr 18px; align-items: center; gap: 12px; padding: 14px 16px; background: #ffffff; border: 1px solid var(--c-line); border-radius: 3px; text-decoration: none; color: var(--c-ink); transition: all 0.15s ease; }
+  .pillar-failures__list a:hover { border-color: var(--c-loss); background: #fdf5f5; transform: translateX(2px); text-decoration: none; }
+  .pillar-failures__icon { color: var(--c-loss); font-size: 1.15rem; line-height: 1; }
+  .pillar-failures__text { display: flex; flex-direction: column; gap: 3px; }
+  .pillar-failures__text strong { font-size: 0.96rem; font-weight: 700; line-height: 1.55; color: var(--c-ink); }
+  .pillar-failures__text span { font-size: 0.76rem; color: var(--c-ink-soft); letter-spacing: 0.04em; }
+  .pillar-failures__arrow { color: var(--c-loss); font-weight: 700; }
+
+  .pillar-faq { margin: 56px 0 48px; }
+  .pillar-faq__head { margin-bottom: 18px; }
+  .pillar-faq__sub { display: block; font-size: 0.68rem; letter-spacing: 0.44em; color: var(--c-gold); font-weight: 800; margin-bottom: 8px; }
+  .pillar-faq__title { font-family: var(--font-serif); font-size: 1.36rem; font-weight: 700; color: var(--c-ink); margin: 0 0 12px; padding-bottom: 12px; border-bottom: 2px solid var(--c-navy); letter-spacing: 0.08em; }
+  .pillar-faq__list { display: flex; flex-direction: column; gap: 10px; }
+  .pillar-faq__item { background: #ffffff; border: 1px solid var(--c-line); border-radius: 3px; overflow: hidden; }
+  .pillar-faq__item summary { list-style: none; cursor: pointer; padding: 16px 18px; display: grid; grid-template-columns: 28px 1fr 20px; align-items: center; gap: 14px; background: var(--c-bg); border-bottom: 1px solid transparent; transition: background 0.15s ease; }
+  .pillar-faq__item summary::-webkit-details-marker { display: none; }
+  .pillar-faq__item summary::after { content: "+"; color: var(--c-gold); font-size: 1.4rem; font-weight: 700; line-height: 1; grid-column: 3; }
+  .pillar-faq__item[open] summary { border-bottom-color: var(--c-line); }
+  .pillar-faq__item[open] summary::after { content: "−"; }
+  .pillar-faq__item summary:hover { background: var(--c-bg-soft); }
+  .pillar-faq__q-mark { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; background: var(--c-navy); color: var(--c-gold); border-radius: 50%; font-family: "Helvetica Neue", sans-serif; font-weight: 900; font-size: 0.86rem; }
+  .pillar-faq__q-text { font-size: 0.96rem; font-weight: 700; color: var(--c-ink); line-height: 1.5; letter-spacing: 0.02em; }
+  .pillar-faq__a { padding: 16px 18px; display: grid; grid-template-columns: 28px 1fr; gap: 14px; background: #ffffff; }
+  .pillar-faq__a-mark { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; background: var(--c-gold); color: var(--c-navy-deep); border-radius: 50%; font-family: "Helvetica Neue", sans-serif; font-weight: 900; font-size: 0.86rem; align-self: start; }
+  .pillar-faq__a p { margin: 0; font-size: 0.92rem; line-height: 1.95; color: var(--c-ink); }
+
+  @media (max-width: 540px) {
+    .pillar-page { padding: 0 18px 50px; }
+    .breadcrumb { padding: 0 18px; }
+    .pillar-head { padding: 24px 0 20px; margin-bottom: 24px; }
+    .pillar-h2 { font-size: 1.18rem; }
+    .pillar-section p { font-size: 0.92rem; }
+    .signal-card { grid-template-columns: 48px 1fr; gap: 12px; padding: 14px 14px 14px 10px; }
+    .signal-card__num { font-size: 1.4rem; }
+    .signal-card__body strong { font-size: 0.96rem; }
+    .pillar-list li { padding: 14px 14px 14px 48px; font-size: 0.9rem; }
+    .pillar-list li::before { left: 12px; top: 14px; font-size: 1rem; }
+    .pillar-failures { padding: 22px 18px 24px; }
+    .pillar-faq__title { font-size: 1.18rem; }
+  }
+</style>

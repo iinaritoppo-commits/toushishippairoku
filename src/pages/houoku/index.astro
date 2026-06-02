@@ -1,0 +1,70 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+// 法則記事一覧（src/data/houoku.ts に分離する想定だが、初期はここに）
+const articles = [
+  {
+    slug: "8-patterns",
+    title: "投資で大損する人の8つの共通行動 ─ 取材記録から抽出",
+    excerpt: "本サイトに集まった失敗記録を、ペルソナ・きっかけ・経緯で全件タグ付け。8つの共通行動パターンが浮かび上がった。あなたがいくつ当てはまるかチェック。",
+    cat: "全カテゴリ横断",
+    readMin: 10,
+    date: "2026.05.11",
+  },
+  // 今後追加：FX編・仮想通貨編・詐欺編・主婦編・退職世代編 等
+];
+---
+<BaseLayout
+  title="失敗の法則"
+  description="本サイトに集まった失敗記録から、共通する行動パターン・心理・きっかけを抽出した分析シリーズ。実話の集合知。"
+>
+
+<section class="houoku-list">
+  <header class="houoku-list__head">
+    <span class="houoku-list__sub">PATTERNS OF LOSS</span>
+    <h1 class="houoku-list__title">失敗の法則</h1>
+    <p class="houoku-list__lead">本サイトに集まった失敗記録から、共通する行動パターン・心理・きっかけを抽出した分析シリーズ。<br/>実話の集合知から見えてくる『大損する人』の特徴を、データで言語化していきます。</p>
+  </header>
+
+  <div class="houoku-list__grid">
+    {articles.map((a) => (
+      <a href={`/houoku/${a.slug}/`} class="houoku-card">
+        <span class="houoku-card__cat">{a.cat}</span>
+        <h2 class="houoku-card__title">{a.title}</h2>
+        <p class="houoku-card__excerpt">{a.excerpt}</p>
+        <div class="houoku-card__meta">
+          <span>📖 約{a.readMin}分</span>
+          <time>{a.date}</time>
+        </div>
+      </a>
+    ))}
+  </div>
+
+  <p class="houoku-list__coming">
+    今後の追加予定：「FX破産する人の3つの共通点」「主婦投資の罠5パターン」「退職世代が大損する4つの理由」 他
+  </p>
+</section>
+
+<style>
+  .houoku-list { max-width: 960px; margin: 0 auto; padding: 60px 24px 80px; }
+  .houoku-list__head { text-align: center; margin-bottom: 44px; }
+  .houoku-list__sub { display: inline-block; font-size: 0.7rem; letter-spacing: 0.55em; color: var(--c-gold); font-weight: 700; margin-bottom: 14px; }
+  .houoku-list__title { font-size: 2.2rem; font-weight: 900; letter-spacing: 0.12em; margin: 0 0 18px; }
+  .houoku-list__lead { color: var(--c-ink-soft); line-height: 1.95; font-size: 0.94rem; max-width: 620px; margin: 0 auto; }
+  .houoku-list__grid { display: grid; grid-template-columns: 1fr; gap: 18px; }
+  .houoku-card { display: block; padding: 26px 28px; background: #fff; border: 1px solid var(--c-line); border-radius: 6px; text-decoration: none; color: var(--c-ink); transition: all 0.15s; }
+  .houoku-card:hover { transform: translateY(-2px); border-color: var(--c-gold); box-shadow: 0 6px 20px rgba(0,0,0,0.06); text-decoration: none; }
+  .houoku-card__cat { display: inline-block; font-size: 0.68rem; letter-spacing: 0.22em; color: var(--c-navy); font-weight: 700; padding: 4px 10px; background: rgba(26,58,110,0.08); border-radius: 2px; margin-bottom: 14px; }
+  .houoku-card__title { font-size: 1.3rem; font-weight: 900; margin: 0 0 12px; letter-spacing: 0.04em; line-height: 1.5; color: var(--c-ink); }
+  .houoku-card__excerpt { color: var(--c-ink-soft); line-height: 1.85; font-size: 0.88rem; margin: 0 0 16px; }
+  .houoku-card__meta { display: flex; justify-content: space-between; font-size: 0.76rem; color: var(--c-ink-dim); letter-spacing: 0.04em; }
+  .houoku-list__coming { text-align: center; margin-top: 36px; color: var(--c-ink-dim); font-size: 0.84rem; line-height: 1.85; padding: 20px; background: rgba(0,0,0,0.02); border-radius: 4px; }
+  @media (max-width: 540px) {
+    .houoku-list { padding: 44px 16px 64px; }
+    .houoku-list__title { font-size: 1.65rem; }
+    .houoku-card { padding: 22px 20px; }
+    .houoku-card__title { font-size: 1.1rem; }
+  }
+</style>
+
+</BaseLayout>

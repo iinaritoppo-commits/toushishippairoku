@@ -1,0 +1,83 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { prefectureStats } from "../../data/prefectures";
+import { articles } from "../../data/articles";
+
+export async function getStaticPaths() {
+  return prefectureStats.map((p) => ({
+    params: { slug: p.slug },
+    props: { pref: p },
+  }));
+}
+
+const { pref } = Astro.props;
+
+// 仮：今は記事と都道府県の紐付けを直接持っていないので、全記事から「ジャンル一致もしくは仮マッピング」で表示
+// 後の Phase で articles.ts に prefectureId フィールドを追加して厳密にマッピングする
+const mapPrefToSlugs: Record<number, string[]> = {
+  13: ["fx-380man", "fraud-380man", "stocks-40man"], // 東京：M.T, S.M, Y.S
+  12: ["real-620man"],     // 千葉：N.H
+  1:  ["fraud-480man"],    // 北海道：K.S
+  23: ["crypto-320man"],   // 愛知：D.W
+  11: ["stocks-280man"],   // 埼玉：Y.A
+  27: ["fx-200man"],       // 大阪：R.K
+  40: ["info-148man"],     // 福岡：T.O
+  14: ["fx-18man"],        // 神奈川：H.K
+};
+
+const articleSlugs = mapPrefToSlugs[pref.id] || [];
+const prefArticles = articleSlugs
+  .map((s) => articles.find((a) => a.slug === s))
+  .filter(Boolean);
+---
+<BaseLayout
+  title={`${pref.name}の投資失敗事例 ─ ${pref.cases}件 / ${pref.amount}`}
+  description={`${pref.name}在住の方から届いた投資失敗体験。投稿ベースの実話アーカイブ。`}
+  showQuickNav={false}
+>
+
+<nav class="breadcrumb">
+  <a href="/">トップ</a><span>›</span><a href="/#section-map">全国マップ</a><span>›</span>{pref.name}
+</nav>
+
+<main class="static-page">
+
+<header class="page-h">
+  <span class="page-h__sub">PREFECTURE / {pref.slug.toUpperCase()}</span>
+  <h1 class="page-h__title">{pref.name}の投資失敗事例</h1>
+  <p class="page-h__lead">{pref.name}在住の方から届いた失敗体験を、投稿と編集で記録しています。<br/>掲載件数：<strong>{pref.cases}件</strong>／合計損失額：<strong>{pref.amount}</strong></p>
+  <div class="page-h__meta"><strong>最終更新</strong>2026年5月9日</div>
+</header>
+
+<h2>{pref.name}に届いた失敗体験</h2>
+
+{prefArticles.length === 0 ? (
+  <p>準備中です。</p>
+) : (
+  <div class="article-grid" style="grid-template-columns:1fr">
+    {prefArticles.map((a) => (
+      <a href={`/articles/${a.slug}/`} class="card">
+        <div class="card__thumb">
+          <div class="card__thumb-top"><span class="card__cat">{a.category}</span><span class="card__time">{a.year}</span></div>
+          <div><div class="card__amount">{a.amountDisplay}<span class="yen">の損失</span></div><div class="card__pair">{a.pair}</div></div>
+        </div>
+        <div class="card__body">
+          <p class="card__quote">「{a.cardQuote}」</p>
+          <h3 class="card__title">{a.cardTitle}</h3>
+          <div class="card__meta"><span>{a.who}</span><time>{a.date}</time></div>
+        </div>
+      </a>
+    ))}
+  </div>
+)}
+
+<h2>投稿・お便りを受け付けています</h2>
+<p>{pref.name}でも、まだ掲載できていない投資失敗の話が多くあるはずです。<br/>地元の話、聞かせてください。</p>
+<p><a href="/submit/" class="submit-cta__btn" style="display:inline-block;background:var(--c-navy);color:#fff;padding:12px 28px;text-decoration:none;border-radius:3px;font-weight:700">投稿フォームへ →</a></p>
+
+<h2>地図に戻る</h2>
+<p><a href="/#section-map">← 全国マップへ戻る</a></p>
+
+</main>
+
+</BaseLayout>

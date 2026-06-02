@@ -1,0 +1,255 @@
+---
+// メルマガ・LINE誘導ボックス
+// PV非依存の継続収益源（執筆ルールv1.1の重要動線）
+// 配置場所：失敗体験記事の末尾、戒名の手前
+interface Props {
+  title?: string;
+  description?: string;
+  formAction?: string; // Mailchimp等のフォームURL（未設定時はプレースホルダ）
+  ctaText?: string;
+  noteText?: string;
+  lineUrl?: string; // LINE公式アカウント友達追加URL（あれば併用）
+  variant?: "default" | "compact";
+}
+const {
+  title = "失敗を避けるためのチェックリスト（無料PDF）",
+  description = "今からやろうとしている投資、9つの危険信号を3分で確認できる。<br/>登録した人にだけ届く週1便で、新しい体験談と心の動きの解説も同時に。",
+  formAction = "",
+  ctaText = "PDFを受け取る",
+  noteText = "登録は無料・配信停止はいつでも1クリックで可能",
+  lineUrl = "",
+  variant = "default",
+} = Astro.props;
+---
+<aside class={`newsletter newsletter--${variant}`} aria-label="メルマガ登録">
+  <div class="newsletter__bg" aria-hidden="true"></div>
+  <div class="newsletter__inner">
+    <div class="newsletter__head">
+      <span class="newsletter__mark" aria-hidden="true">✉</span>
+      <span class="newsletter__sub">FREE CHECKLIST</span>
+    </div>
+    <h2 class="newsletter__title">{title}</h2>
+    <p class="newsletter__desc" set:html={description} />
+
+    <form class="newsletter__form" action={formAction || "#"} method="post" novalidate>
+      <label class="newsletter__field">
+        <span class="newsletter__field-label">メールアドレス</span>
+        <input
+          type="email"
+          name="email"
+          placeholder="your@example.com"
+          autocomplete="email"
+          required
+          class="newsletter__input"
+        />
+      </label>
+      <button type="submit" class="newsletter__cta">
+        <span>{ctaText}</span>
+        <span class="newsletter__cta-arrow" aria-hidden="true">→</span>
+      </button>
+    </form>
+
+    {lineUrl && (
+      <div class="newsletter__line">
+        <span class="newsletter__line-or">もしくは</span>
+        <a href={lineUrl} class="newsletter__line-btn" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">
+            <path d="M19.365 9.863c.349 0 .63.285.631.631 0 .345-.282.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.282.629-.63.629h-2.386c-.346 0-.627-.285-.627-.629V8.108c0-.345.281-.63.63-.63h2.386c.346 0 .627.285.627.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63.346 0 .628.285.628.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/>
+          </svg>
+          <span>LINEで受け取る</span>
+        </a>
+      </div>
+    )}
+
+    <p class="newsletter__note">{noteText}</p>
+  </div>
+</aside>
+
+<style>
+  .newsletter {
+    position: relative;
+    margin: 56px 0 48px;
+    padding: 40px 36px 38px;
+    background: linear-gradient(135deg, #102348 0%, #1a3a6e 100%);
+    color: #fff;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 8px 28px rgba(16, 35, 72, 0.18);
+  }
+  .newsletter__bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 88% 22%, rgba(200, 154, 74, 0.18) 0%, transparent 50%),
+      radial-gradient(circle at 12% 78%, rgba(184, 49, 42, 0.08) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .newsletter__inner { position: relative; z-index: 1; max-width: 580px; margin: 0 auto; }
+  .newsletter__head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .newsletter__mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: var(--c-gold);
+    color: var(--c-navy-deep);
+    border-radius: 50%;
+    font-size: 1.05rem;
+    font-weight: 800;
+  }
+  .newsletter__sub {
+    font-size: 0.72rem;
+    letter-spacing: 0.42em;
+    color: var(--c-gold);
+    font-weight: 800;
+  }
+  .newsletter__title {
+    font-family: var(--font-serif);
+    font-size: 1.26rem;
+    font-weight: 700;
+    color: #fff;
+    margin: 0 0 14px;
+    line-height: 1.55;
+    letter-spacing: 0.06em;
+  }
+  .newsletter__desc {
+    margin: 0 0 22px;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.92rem;
+    line-height: 1.85;
+    letter-spacing: 0.02em;
+  }
+
+  .newsletter__form {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 10px;
+    align-items: stretch;
+  }
+  .newsletter__field {
+    display: block;
+    position: relative;
+  }
+  .newsletter__field-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+  .newsletter__input {
+    width: 100%;
+    padding: 14px 16px;
+    background: rgba(255, 255, 255, 0.96);
+    border: 1px solid rgba(200, 154, 74, 0.35);
+    border-radius: 3px;
+    font-size: 0.96rem;
+    font-family: inherit;
+    color: var(--c-ink);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+  .newsletter__input:focus {
+    outline: none;
+    border-color: var(--c-gold);
+    box-shadow: 0 0 0 3px rgba(200, 154, 74, 0.22);
+  }
+  .newsletter__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px 24px;
+    background: var(--c-gold);
+    color: var(--c-navy-deep);
+    border: none;
+    border-radius: 3px;
+    font-family: inherit;
+    font-size: 0.96rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+  }
+  .newsletter__cta:hover {
+    background: #e0b65a;
+    transform: translateY(-1px);
+  }
+  .newsletter__cta-arrow { font-size: 1rem; font-weight: 900; }
+
+  .newsletter__line {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 18px;
+    padding-top: 18px;
+    border-top: 1px dashed rgba(255, 255, 255, 0.25);
+  }
+  .newsletter__line-or {
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.66);
+    letter-spacing: 0.08em;
+  }
+  .newsletter__line-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    background: #06c755;
+    color: #fff;
+    border-radius: 3px;
+    text-decoration: none;
+    font-size: 0.88rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    transition: all 0.15s ease;
+  }
+  .newsletter__line-btn:hover {
+    background: #04a544;
+    text-decoration: none;
+    color: #fff;
+    transform: translateY(-1px);
+  }
+
+  .newsletter__note {
+    margin: 18px 0 0;
+    text-align: center;
+    font-size: 0.76rem;
+    color: rgba(255, 255, 255, 0.62);
+    letter-spacing: 0.04em;
+  }
+
+  @media (max-width: 540px) {
+    .newsletter { padding: 28px 22px 30px; }
+    .newsletter__title { font-size: 1.12rem; letter-spacing: 0.04em; }
+    .newsletter__desc { font-size: 0.88rem; }
+    .newsletter__form { grid-template-columns: 1fr; gap: 10px; }
+    .newsletter__cta { padding: 13px 20px; }
+    .newsletter__line { flex-direction: column; gap: 10px; align-items: stretch; }
+    .newsletter__line-btn { justify-content: center; }
+  }
+</style>
+
+<script is:inline>
+  // フォームのプレースホルダ送信防止（formAction が空の場合）
+  document.querySelectorAll(".newsletter__form").forEach((form) => {
+    const action = form.getAttribute("action");
+    if (!action || action === "#") {
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const cta = form.querySelector(".newsletter__cta span");
+        const orig = cta?.textContent;
+        if (cta) {
+          cta.textContent = "準備中・近日公開";
+          setTimeout(() => { cta.textContent = orig ?? ""; }, 2500);
+        }
+      });
+    }
+  });
+</script>

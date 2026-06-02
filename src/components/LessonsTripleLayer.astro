@@ -1,0 +1,443 @@
+---
+// 教訓セクション 3層構造（執筆ルールv1.1の本サイト最大の収益動線）
+//   A層：心理・反省ポイント＋書籍アフィリ
+//   B層：比較・ピラー記事への内部リンク（★最重要・メインCV動線）
+//   C層：専門家相談（弁護士・FP・カウンセラー）
+interface BookLink {
+  title: string;
+  href: string;
+  author?: string;
+  note?: string;
+}
+interface PillarLink {
+  title: string;
+  href: string;
+  subtitle?: string;
+}
+interface ExpertLink {
+  title: string;
+  href: string;
+  subtitle?: string;
+  type?: "lawyer" | "fp" | "counselor" | "other";
+}
+interface Props {
+  displayName: string;
+  reasons: string[]; // 反省ポイント（HTML可）
+  books?: BookLink[];
+  pillars: PillarLink[]; // ★必須
+  experts?: ExpertLink[];
+  editNote?: string;
+}
+const {
+  displayName,
+  reasons,
+  books = [],
+  pillars,
+  experts = [],
+  editNote,
+} = Astro.props;
+
+const defaultEditNote = `以下は${displayName}さん個人の体験から整理した視点で、当サイトからの投資助言・売買推奨ではない。投資判断は読者本人の責任で。`;
+---
+<section class="lessons-triple">
+  <div class="lessons-triple__head">
+    <span class="lessons-triple__sub">LESSONS &amp; CONSIDERATIONS</span>
+    <h2 class="lessons-triple__title">{displayName}さんの体験から、整理できること</h2>
+    <p class="lessons-triple__editnote">
+      <strong>編集者注：</strong>{editNote ?? defaultEditNote}
+    </p>
+  </div>
+
+  {/* ============ 層A：心理・反省 ============ */}
+  <div class="lessons-layer lessons-layer--a">
+    <div class="lessons-layer__head">
+      <span class="lessons-layer__step">A</span>
+      <div class="lessons-layer__titles">
+        <span class="lessons-layer__sub">REFLECTION</span>
+        <h3 class="lessons-layer__title">心理と反省ポイント</h3>
+      </div>
+    </div>
+    <ul class="lessons-layer__list">
+      {reasons.map((r) => <li set:html={r} />)}
+    </ul>
+    {books.length > 0 && (
+      <div class="lessons-layer__books">
+        <span class="lessons-layer__books-label">参考になった本</span>
+        <ul class="lessons-layer__books-list">
+          {books.map((b) => (
+            <li>
+              <a href={b.href} rel="sponsored noopener" target="_blank">
+                <span class="lessons-layer__book-icon" aria-hidden="true">📘</span>
+                <span class="lessons-layer__book-text">
+                  <strong>{b.title}</strong>
+                  {b.author && <span class="lessons-layer__book-author">{b.author}</span>}
+                  {b.note && <span class="lessons-layer__book-note">{b.note}</span>}
+                </span>
+                <span class="lessons-layer__book-arrow" aria-hidden="true">↗</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+  </div>
+
+  {/* ============ 層B：比較・ピラー（★メイン動線） ============ */}
+  <div class="lessons-layer lessons-layer--b">
+    <div class="lessons-layer__head">
+      <span class="lessons-layer__step">B</span>
+      <div class="lessons-layer__titles">
+        <span class="lessons-layer__sub">PRACTICAL CHOICE</span>
+        <h3 class="lessons-layer__title">もう一度選び直すなら</h3>
+      </div>
+    </div>
+    <p class="lessons-layer__intro">
+      失敗した道具・口座・サービスを今からどう選び直すか。<br />
+      比較記事で軸を整理してから動くと、同じ罠を踏みにくい。
+    </p>
+    <ul class="lessons-layer__pillars">
+      {pillars.map((p) => (
+        <li>
+          <a href={p.href} class="lessons-layer__pillar">
+            <span class="lessons-layer__pillar-mark" aria-hidden="true">▸</span>
+            <span class="lessons-layer__pillar-text">
+              <strong>{p.title}</strong>
+              {p.subtitle && <span>{p.subtitle}</span>}
+            </span>
+            <span class="lessons-layer__pillar-arrow" aria-hidden="true">→</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  {/* ============ 層C：専門家相談 ============ */}
+  {experts.length > 0 && (
+    <div class="lessons-layer lessons-layer--c">
+      <div class="lessons-layer__head">
+        <span class="lessons-layer__step">C</span>
+        <div class="lessons-layer__titles">
+          <span class="lessons-layer__sub">PROFESSIONAL HELP</span>
+          <h3 class="lessons-layer__title">専門家に相談する</h3>
+        </div>
+      </div>
+      <p class="lessons-layer__intro lessons-layer__intro--c">
+        ひとりで抱えると判断が鈍る。<br />
+        被害の状況や生活設計の悩みは、その道のプロに早めに話す方が結果的に軽くなる。
+      </p>
+      <ul class="lessons-layer__experts">
+        {experts.map((e) => (
+          <li>
+            <a href={e.href} rel="sponsored noopener" target="_blank" class={`lessons-layer__expert lessons-layer__expert--${e.type ?? "other"}`}>
+              <span class="lessons-layer__expert-icon" aria-hidden="true">
+                {e.type === "lawyer" ? "⚖" : e.type === "fp" ? "¥" : e.type === "counselor" ? "♥" : "✓"}
+              </span>
+              <span class="lessons-layer__expert-text">
+                <strong>{e.title}</strong>
+                {e.subtitle && <span>{e.subtitle}</span>}
+              </span>
+              <span class="lessons-layer__expert-arrow" aria-hidden="true">↗</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )}
+</section>
+
+<style>
+  .lessons-triple {
+    margin: 56px 0 48px;
+    padding: 38px 32px 40px;
+    background: #ffffff;
+    border: 1px solid var(--c-line);
+    border-top: 4px solid var(--c-navy);
+    border-radius: 4px;
+    box-shadow: 0 4px 18px rgba(28, 35, 48, 0.05);
+  }
+  .lessons-triple__head { margin-bottom: 28px; }
+  .lessons-triple__sub {
+    display: block;
+    font-size: 0.7rem;
+    letter-spacing: 0.48em;
+    color: var(--c-gold);
+    font-weight: 800;
+    margin-bottom: 10px;
+  }
+  .lessons-triple__title {
+    font-family: var(--font-serif);
+    font-size: 1.32rem;
+    font-weight: 700;
+    color: var(--c-ink);
+    letter-spacing: 0.1em;
+    margin: 0 0 16px;
+    line-height: 1.5;
+  }
+  .lessons-triple__editnote {
+    margin: 0;
+    padding: 12px 14px;
+    background: var(--c-warn-bg);
+    border-left: 3px solid var(--c-warn-border);
+    font-size: 0.84rem;
+    color: #5a4815;
+    line-height: 1.7;
+  }
+  .lessons-triple__editnote strong { color: #2d2308; margin-right: 4px; }
+
+  /* ===== 共通レイヤースタイル ===== */
+  .lessons-layer {
+    margin: 28px 0 0;
+    padding: 26px 24px 28px;
+    background: var(--c-bg);
+    border: 1px solid var(--c-line);
+    border-radius: 4px;
+    position: relative;
+  }
+  .lessons-layer--a { border-left: 5px solid #9eb2c8; }
+  .lessons-layer--b {
+    border-left: 5px solid var(--c-gold);
+    background: linear-gradient(180deg, #fbf6e8 0%, #f9f4e0 100%);
+    border-color: #e6d8a8;
+  }
+  .lessons-layer--c { border-left: 5px solid var(--c-loss); }
+
+  .lessons-layer__head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+  .lessons-layer__step {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--c-navy);
+    color: #fff;
+    font-family: "Helvetica Neue", sans-serif;
+    font-weight: 900;
+    font-size: 1rem;
+    letter-spacing: 0.02em;
+    flex-shrink: 0;
+  }
+  .lessons-layer--b .lessons-layer__step { background: var(--c-gold); color: var(--c-ink); }
+  .lessons-layer--c .lessons-layer__step { background: var(--c-loss); }
+
+  .lessons-layer__titles { display: flex; flex-direction: column; gap: 2px; }
+  .lessons-layer__sub {
+    font-size: 0.62rem;
+    letter-spacing: 0.42em;
+    color: var(--c-gold);
+    font-weight: 800;
+  }
+  .lessons-layer--b .lessons-layer__sub { color: #8a6420; }
+  .lessons-layer__title {
+    font-family: var(--font-serif);
+    font-size: 1.08rem;
+    font-weight: 700;
+    color: var(--c-ink);
+    margin: 0;
+    letter-spacing: 0.06em;
+  }
+  .lessons-layer__intro {
+    margin: 0 0 16px;
+    font-size: 0.92rem;
+    color: var(--c-ink-soft);
+    line-height: 1.85;
+  }
+  .lessons-layer__intro--c { color: #5a3030; }
+
+  /* ===== A層：反省＋書籍 ===== */
+  .lessons-layer__list {
+    list-style: none;
+    margin: 0 0 18px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .lessons-layer__list li {
+    padding: 10px 14px 10px 32px;
+    background: #ffffff;
+    border-left: 2px solid #9eb2c8;
+    font-size: 0.94rem;
+    line-height: 1.8;
+    color: var(--c-ink);
+    position: relative;
+  }
+  .lessons-layer__list li::before {
+    content: "✓";
+    position: absolute;
+    left: 12px;
+    top: 10px;
+    color: var(--c-navy);
+    font-weight: 700;
+  }
+  .lessons-layer__books { margin-top: 18px; }
+  .lessons-layer__books-label {
+    display: block;
+    font-size: 0.7rem;
+    letter-spacing: 0.36em;
+    color: var(--c-gold);
+    font-weight: 800;
+    margin-bottom: 10px;
+  }
+  .lessons-layer__books-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .lessons-layer__books-list li { margin: 0; }
+  .lessons-layer__books-list a {
+    display: grid;
+    grid-template-columns: 24px 1fr 18px;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    background: #ffffff;
+    border: 1px solid var(--c-line);
+    text-decoration: none;
+    color: var(--c-ink);
+    transition: all 0.15s ease;
+  }
+  .lessons-layer__books-list a:hover {
+    border-color: var(--c-navy);
+    background: #fbfaf6;
+    text-decoration: none;
+  }
+  .lessons-layer__book-icon { font-size: 1.05rem; }
+  .lessons-layer__book-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .lessons-layer__book-text strong {
+    font-size: 0.88rem;
+    font-weight: 700;
+    line-height: 1.4;
+  }
+  .lessons-layer__book-author {
+    font-size: 0.74rem;
+    color: var(--c-ink-dim);
+  }
+  .lessons-layer__book-note {
+    font-size: 0.74rem;
+    color: var(--c-ink-soft);
+    line-height: 1.5;
+  }
+  .lessons-layer__book-arrow { color: var(--c-gold); font-weight: 700; }
+  .lessons-layer__books-list a:hover .lessons-layer__book-arrow { color: var(--c-navy); }
+
+  /* ===== B層：ピラー記事リンク ===== */
+  .lessons-layer__pillars {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .lessons-layer__pillar {
+    display: grid;
+    grid-template-columns: 22px 1fr 18px;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    background: #ffffff;
+    border: 1px solid #d8c890;
+    border-radius: 3px;
+    text-decoration: none;
+    color: var(--c-ink);
+    transition: all 0.15s ease;
+  }
+  .lessons-layer__pillar:hover {
+    border-color: var(--c-navy);
+    background: #fffdf2;
+    transform: translateX(2px);
+    text-decoration: none;
+  }
+  .lessons-layer__pillar-mark { color: var(--c-gold); font-weight: 800; font-size: 1.05rem; }
+  .lessons-layer__pillar-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .lessons-layer__pillar-text strong {
+    font-size: 0.98rem;
+    font-weight: 700;
+    line-height: 1.5;
+    letter-spacing: 0.02em;
+  }
+  .lessons-layer__pillar-text span {
+    font-size: 0.78rem;
+    color: var(--c-ink-soft);
+    line-height: 1.55;
+  }
+  .lessons-layer__pillar-arrow { color: var(--c-gold); font-weight: 700; }
+  .lessons-layer__pillar:hover .lessons-layer__pillar-arrow { color: var(--c-navy); }
+
+  /* ===== C層：専門家相談 ===== */
+  .lessons-layer__experts {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .lessons-layer__expert {
+    display: grid;
+    grid-template-columns: 32px 1fr 18px;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    background: #ffffff;
+    border: 1px solid #e8c8c5;
+    text-decoration: none;
+    color: var(--c-ink);
+    transition: all 0.15s ease;
+  }
+  .lessons-layer__expert:hover {
+    border-color: var(--c-loss);
+    background: #fdf5f5;
+    text-decoration: none;
+  }
+  .lessons-layer__expert-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: var(--c-loss);
+    color: #fff;
+    border-radius: 50%;
+    font-size: 0.92rem;
+    font-weight: 700;
+  }
+  .lessons-layer__expert--lawyer .lessons-layer__expert-icon { background: var(--c-navy); }
+  .lessons-layer__expert--fp .lessons-layer__expert-icon { background: var(--c-gold); color: var(--c-ink); }
+  .lessons-layer__expert--counselor .lessons-layer__expert-icon { background: #8a5a3a; }
+  .lessons-layer__expert-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .lessons-layer__expert-text strong {
+    font-size: 0.94rem;
+    font-weight: 700;
+    line-height: 1.5;
+  }
+  .lessons-layer__expert-text span {
+    font-size: 0.78rem;
+    color: var(--c-ink-soft);
+    line-height: 1.55;
+  }
+  .lessons-layer__expert-arrow { color: var(--c-loss); font-weight: 700; }
+
+  @media (max-width: 540px) {
+    .lessons-triple { padding: 26px 18px 28px; }
+    .lessons-triple__title { font-size: 1.12rem; }
+    .lessons-layer { padding: 20px 16px 22px; }
+    .lessons-layer__step { width: 30px; height: 30px; font-size: 0.86rem; }
+    .lessons-layer__title { font-size: 0.98rem; }
+    .lessons-layer__list li { padding-left: 30px; font-size: 0.88rem; }
+    .lessons-layer__books-list { grid-template-columns: 1fr; }
+    .lessons-layer__pillar { grid-template-columns: 20px 1fr 16px; padding: 12px 14px; }
+    .lessons-layer__pillar-text strong { font-size: 0.92rem; }
+    .lessons-layer__expert { grid-template-columns: 28px 1fr 16px; padding: 11px 12px; }
+    .lessons-layer__expert-icon { width: 28px; height: 28px; font-size: 0.84rem; }
+  }
+</style>

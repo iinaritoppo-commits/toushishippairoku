@@ -1,0 +1,274 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import TopAffiliateBox from "../../components/TopAffiliateBox.astro";
+import EndAffiliateMix from "../../components/EndAffiliateMix.astro";
+import NewsletterCTA from "../../components/NewsletterCTA.astro";
+import AdSenseSlot from "../../components/AdSenseSlot.astro";
+
+const title = "FX自動売買ツール詐欺の被害パターン ─ EA・コピートレード・MAMの実例7類型";
+const description = "FX自動売買ツール（EA・コピートレード・MAM）で被害に遭った投稿者の話を編集者が取材して見えた7つの典型パターン。バックテスト改ざん・成功口座だけ見せる・無料モニター→有料・出金停止・運営者逃走・LINE勧誘・AI便乗広告。2024年以降急増する自動売買詐欺の構造を実例から整理。";
+const updatedAt = "2026-05-28";
+
+const topPillars = [
+  { href: "/explain/fx-shippai-patterns/", title: "FXで退場した人の7パターン", subtitle: "取材で見えた共通点と回避ポイント", icon: "▶" },
+  { href: "/explain/scam-detection-guide/", title: "投資詐欺の見抜き方", subtitle: "9シグナルで識別する3軸の整理", icon: "⚠" },
+];
+
+const breadcrumbs = [
+  { name: "投資失敗録", url: "/" },
+  { name: "解説", url: "/explain/" },
+  { name: "FX自動売買ツール詐欺の被害パターン", url: "/explain/fx-jido-baibai-sagi/" },
+];
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  showQuickNav={false}
+  pageType="article"
+  articleMeta={{ headline: title, category: "FX・投資詐欺 / 解説", datePublished: updatedAt, dateModified: updatedAt, author: "白川 諒" }}
+  breadcrumbs={breadcrumbs}
+>
+  <article class="explain-page">
+    <nav class="breadcrumb">
+      <a href="/">トップ</a><span>›</span><a href="/explain/">解説</a><span>›</span><span>FX自動売買ツール詐欺の被害パターン</span>
+    </nav>
+
+    <header class="explain-head">
+      <span class="explain-head__cat">FX・投資詐欺 / 解説</span>
+      <h1 class="explain-head__title">{title}</h1>
+      <p class="explain-head__lead">
+        FX自動売買（EA・コピートレード・MAM）の被害者を取材すると、勧誘から出金停止までの流れが似ている。<br />
+        ここでは、繰り返し出てきた7つのパターンを整理する。
+      </p>
+      <div class="explain-head__meta">
+        <span><strong>更新</strong>{updatedAt}</span>
+        <span><strong>編集</strong>白川 諒</span>
+      </div>
+    </header>
+
+    <TopAffiliateBox pillars={topPillars} heading="先に読んでおくと話が早い" subLabel="BACKGROUND READING" />
+
+    <AdSenseSlot slot="explain-header" format="rectangle" />
+
+    <section class="explain-section">
+      <h2 class="explain-h2">1. バックテストの改ざん</h2>
+      <p>
+        勧誘段階で見せられる「過去5年間で年利200%」のバックテスト結果。<br />
+        実は、特定の相場環境でしか動かないロジックを、その期間に合わせて最適化した結果が表示されている。
+      </p>
+      <p>
+        バックテスト改ざんの典型手法：
+      </p>
+      <ol>
+        <li><strong>カーブフィッティング</strong>（過去データに最適化して未来に通用しない）</li>
+        <li><strong>都合の悪い期間の除外</strong>（リーマンショック・スイスフランショック等を切り捨て）</li>
+        <li><strong>スプレッドや手数料の過小計算</strong>（実環境では出ない数値で再現）</li>
+        <li><strong>ティックデータじゃなく1分足ベース</strong>のテストで実体と乖離</li>
+      </ol>
+      <p>
+        取材した中で「バックテスト年利200%のEAを買って、3か月で口座残高が半分になった」という被害が複数あった。<br />
+        正規の業者でも、過去のバックテスト=未来の保証にはならない。
+      </p>
+    </section>
+
+    <section class="explain-section">
+      <h2 class="explain-h2">2. 成功した1口座だけ見せる</h2>
+      <p>
+        コピートレードのランキングサイトで、「年利180%」のトレーダーをフォロー。<br />
+        実は、同じトレーダーが10口座運用しており、9口座が破綻、1口座だけが勝っていた、というケース。
+      </p>
+      <p>
+        確率的に10口座あれば、運だけで1口座は大きく勝つ。負けた9口座は表示されない仕組みのプラットフォームが多い。<br />
+        フォロワーは「勝ち口座」だけを見て、その後の運用で同じ確率分布の中で負ける側に入る。
+      </p>
+      <p>
+        取材した中で「YouTube広告で『月利15%実績』を見て500万円コピートレード→3か月で200万円割れ」という被害があった。<br />
+        広告に映る勝ち口座と、自分が再現する勝率は、別物。
+      </p>
+    </section>
+
+    <section class="explain-section">
+      <h2 class="explain-h2">3. 無料モニター→有料移行で囲い込み</h2>
+      <p>
+        「最初の1か月は無料モニター」で集客、無料期間中に意図的に「勝てる相場」を選んで配信。<br />
+        参加者は「これは本物」と判断、有料プランへ移行する。
+      </p>
+      <p>
+        有料移行後の典型展開：
+      </p>
+      <ol>
+        <li><strong>シグナルの配信が遅れる</strong>（指値の到達後にしか配信されない）</li>
+        <li><strong>負け取引が多くなる</strong>（運営者が無料期間用と本番用でロジックを変えている）</li>
+        <li><strong>サポート対応が悪化</strong>（質問への返信が極端に遅くなる）</li>
+        <li><strong>解約時の引き止め勧誘</strong>（さらに上位プランへの誘導）</li>
+      </ol>
+      <p>
+        無料で利益を出してから有料、という流れ自体が、有料移行後に勝率を下げる構造になっている。
+      </p>
+    </section>
+
+    <section class="explain-section">
+      <h2 class="explain-h2">4. 出金できない海外口座</h2>
+      <p>
+        自動売買ツールと一緒に「指定の海外FX口座」での開設を勧められる。<br />
+        ツールが推奨する海外口座は、運営者と提携している（紹介報酬が入る）か、そもそも運営者と同一資本のケース。
+      </p>
+      <p>
+        口座での利益が出ても、出金時に以下のトラブルが起きる：
+      </p>
+      <ol>
+        <li><strong>本人確認書類の不備</strong>を理由に審査停止</li>
+        <li><strong>取引履歴の調査中</strong>を理由に凍結</li>
+        <li><strong>「ボーナス残高は出金不可」</strong>と後出しルール適用</li>
+        <li><strong>サポートのチャットが連絡途絶</strong></li>
+      </ol>
+      <p>
+        取材した中で「年利達成して800万円の利益、出金申請から半年連絡なし」という事例があった。<br />
+        海外口座で出金できないトラブルは、回収がほぼ不可能になる。
+      </p>
+    </section>
+
+    <AdSenseSlot slot="explain-middle" format="in-feed" />
+
+    <section class="explain-section">
+      <h2 class="explain-h2">5. 運営者の突然の連絡途絶</h2>
+      <p>
+        購入時点では「24時間365日サポート」を謳っていた運営者が、ある時点から連絡が途絶える。
+      </p>
+      <p>
+        連絡途絶の典型タイミング：
+      </p>
+      <ol>
+        <li><strong>大規模相場変動の直後</strong>（多数のユーザーが損失を出した日）</li>
+        <li><strong>消費者庁・金融庁の調査が始まった時点</strong>（業界内情報で察知して逃走）</li>
+        <li><strong>運営者の海外移住</strong>（責任追及から逃れるため）</li>
+        <li><strong>会社の解散登記</strong>（法人が消滅、債権者からの回収を回避）</li>
+      </ol>
+      <p>
+        取材した中で「ツール購入から1年半、ある日からLINEもメールも返事が来なくなった」という被害があった。<br />
+        運営者の身元・所在地・連絡手段の冗長性を、購入前に確認する必要がある。
+      </p>
+    </section>
+
+    <section class="explain-section">
+      <h2 class="explain-h2">6. LINEオープンチャット起点の勧誘</h2>
+      <p>
+        「FX情報共有」「投資仲間」を装ったLINEオープンチャットに招待される。<br />
+        参加者の8割が運営側のサクラ、2割が本物の被害者候補、という構造のケースが多い。
+      </p>
+      <p>
+        オプチャ内での典型展開：
+      </p>
+      <ol>
+        <li><strong>「先生」を称する人物</strong>が運用実績スクリーンショットを連投</li>
+        <li><strong>「先生に習って稼いだ」</strong>サクラの体験談</li>
+        <li><strong>「次の限定モニター募集」</strong>で個別LINEに誘導</li>
+        <li><strong>個別LINEで自動売買ツール販売</strong>または投資資金の送金依頼</li>
+      </ol>
+      <p>
+        オープンチャットは閉じた空間で、運営側が表示内容を管理できる構造。<br />
+        中立の情報共有空間ではない、と前提に置く必要がある。
+      </p>
+    </section>
+
+    <section class="explain-section">
+      <h2 class="explain-h2">7. AI便乗のYouTube広告</h2>
+      <p>
+        2024年以降急増した「AI搭載自動売買」「ChatGPT連携FXツール」型のYouTube広告。
+      </p>
+      <p>
+        AI便乗広告の典型：
+      </p>
+      <ol>
+        <li><strong>「AIが市場を分析」</strong>と謳うが、実態は既存EAにラベル貼り替え</li>
+        <li><strong>「ChatGPT連携で次の動きを予測」</strong>と表現するが、実装内容は不明</li>
+        <li><strong>有名な経済学者・投資家の名前と顔写真</strong>を無断使用</li>
+        <li><strong>「期間限定」「先着50名」</strong>で判断時間を奪う</li>
+      </ol>
+      <p>
+        AIブームに便乗した詐欺は、技術的根拠を確認できない人ほど信じやすい構造を持つ。<br />
+        「AI」「機械学習」「ChatGPT」が広告に使われている場合、技術的な仕組みの説明を求めるのが防御策。
+      </p>
+    </section>
+
+    <section class="explain-section">
+      <h2 class="explain-h2">購入前に確認する5項目</h2>
+      <p>
+        自動売買ツール購入前に、最低限確認しておく項目。
+      </p>
+      <ol class="explain-list">
+        <li><strong>運営会社の登記・代表者・本店所在地</strong>。法人登記情報で実在性を確認する。</li>
+        <li><strong>金融商品取引業の登録番号</strong>。投資助言・代理業の登録がない場合、提供できる情報が制限される。</li>
+        <li><strong>過去1年以上のフォワードテスト結果</strong>。バックテストじゃなく実運用記録を要求する。</li>
+        <li><strong>推奨口座の独立性</strong>。運営者と無関係の口座で動作するか確認する。</li>
+        <li><strong>解約条件・返金規定</strong>。クーリングオフ・返金不可条項を購入前に確認する。</li>
+      </ol>
+      <p>
+        この5項目のうち、3項目以上で曖昧な回答が返ってくる場合は、購入を見送る判断材料になる。<br />
+        正規のツール提供者は、これらの質問に明確に答えられる。
+      </p>
+    </section>
+
+    <section class="explain-failures">
+      <h3>このパターンが実際に効いた失敗体験</h3>
+      <ul>
+        <li><a href="/category/fx/">FX関連の失敗体験一覧</a></li>
+        <li><a href="/category/fraud/">投資詐欺の体験記録</a></li>
+      </ul>
+    </section>
+
+    <EndAffiliateMix
+      sameCategory={[]}
+      pillars={[
+        { href: "/explain/fx-shippai-patterns/", title: "FXで退場した人の7パターン", meta: "取材で見えた共通点と回避ポイント" },
+        { href: "/explain/scam-detection-guide/", title: "投資詐欺の見抜き方", meta: "9シグナルで識別する3軸" },
+        { href: "/explain/loss-cut-mechanism/", title: "ロスカットの仕組み", meta: "指定レート時点と次の約定可能レートの違い" },
+      ]}
+      sameCategoryLabel="REAL CASE"
+      pillarsLabel="RELATED"
+      sameCategoryHeading="自動売買で退場した実話"
+      pillarsHeading="関連する比較・解説"
+    />
+
+    <NewsletterCTA />
+    <AdSenseSlot slot="explain-footer" format="rectangle" />
+  </article>
+</BaseLayout>
+
+<style>
+  .explain-page { max-width: 820px; margin: 0 auto; padding: 0 24px 60px; }
+  .breadcrumb { max-width: 820px; margin: 20px auto 0; padding: 0 24px; font-size: 0.78rem; color: var(--c-ink-dim); }
+  .breadcrumb a { color: var(--c-navy); text-decoration: none; }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb span { margin: 0 6px; color: var(--c-gold); }
+
+  .explain-head { padding: 32px 0 24px; border-bottom: 2px solid var(--c-navy); margin-bottom: 28px; }
+  .explain-head__cat { display: inline-block; background: var(--c-navy); color: var(--c-gold); font-size: 0.7rem; font-weight: 800; letter-spacing: 0.16em; padding: 5px 14px; border-radius: 2px; margin-bottom: 16px; }
+  .explain-head__title { font-family: var(--font-serif); font-size: clamp(1.4rem, 3.2vw, 1.8rem); font-weight: 700; color: var(--c-ink); margin: 0 0 16px; line-height: 1.55; letter-spacing: 0.06em; }
+  .explain-head__lead { margin: 0 0 18px; font-size: 0.98rem; color: var(--c-ink-soft); line-height: 2; }
+  .explain-head__meta { display: flex; flex-wrap: wrap; gap: 18px; font-size: 0.82rem; color: var(--c-ink-soft); }
+  .explain-head__meta strong { color: var(--c-ink-dim); margin-right: 6px; }
+
+  .explain-section { margin: 36px 0; }
+  .explain-h2 { font-family: var(--font-serif); font-size: 1.28rem; font-weight: 700; color: var(--c-ink); letter-spacing: 0.06em; margin: 0 0 16px; padding-bottom: 10px; border-bottom: 2px solid var(--c-navy); }
+  .explain-section p { font-size: 0.96rem; line-height: 2.0; color: var(--c-ink); margin: 0 0 12px; }
+  .explain-section strong { color: var(--c-navy-deep); }
+  .explain-section ol { padding-left: 22px; margin: 8px 0 12px; }
+  .explain-section ol li { font-size: 0.93rem; line-height: 1.85; margin-bottom: 4px; }
+
+  .explain-list { list-style: none; margin: 0; padding: 0; counter-reset: ex-list; display: flex; flex-direction: column; gap: 12px; }
+  .explain-list li { counter-increment: ex-list; padding: 14px 16px 14px 52px; background: #ffffff; border: 1px solid var(--c-line); border-left: 3px solid var(--c-gold); border-radius: 3px; position: relative; font-size: 0.94rem; line-height: 1.85; }
+  .explain-list li::before { content: counter(ex-list, decimal-leading-zero); position: absolute; left: 14px; top: 14px; font-family: "Helvetica Neue", sans-serif; font-weight: 900; font-size: 1rem; color: var(--c-gold); }
+
+  .explain-failures { margin: 40px 0; padding: 20px 22px; background: var(--c-bg); border-left: 3px solid var(--c-loss); border-radius: 3px; }
+  .explain-failures h3 { margin: 0 0 10px; font-size: 0.94rem; color: var(--c-loss); letter-spacing: 0.04em; }
+  .explain-failures ul { margin: 0; padding-left: 18px; }
+  .explain-failures a { color: var(--c-navy); }
+
+  @media (max-width: 540px) {
+    .explain-page { padding: 0 18px 50px; }
+    .breadcrumb { padding: 0 18px; }
+    .explain-h2 { font-size: 1.1rem; }
+  }
+</style>

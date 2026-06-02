@@ -1,0 +1,93 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const personLD = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "白川 諒",
+  "alternateName": "shira",
+  "description": "実話・体験談ベースの投資失敗まとめ『投資失敗録』編集者。FXテクニカル分析を学習中。自身の含み損・退場経験を踏まえて、読者の失敗談を編集してアーカイブする方針で運営。",
+  "url": "https://toushishippairoku.com/about/",
+  "sameAs": [
+    "https://kaidanroku.com/",
+    "https://fukugyousagiroku.com/",
+  ],
+  "jobTitle": "投資失敗録 編集者",
+  "worksFor": {
+    "@type": "Organization",
+    "name": "投資失敗録",
+    "url": "https://toushishippairoku.com/",
+  },
+  "knowsAbout": ["FX", "テクニカル分析", "ダウ理論", "フィボナッチ", "エリオット波動", "株式投資", "暗号資産", "投資詐欺"],
+};
+---
+<BaseLayout
+  title="編集者について"
+  description="投資失敗録の編集者・白川のプロフィール。投資失敗の実例アーカイブの運営方針。"
+  showQuickNav={false}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(personLD)} />
+
+<main class="static-page">
+
+<header class="page-h">
+  <span class="page-h__sub">EDITOR</span>
+  <h1 class="page-h__title">編集者について</h1>
+  <p class="page-h__lead">投稿された話と、仕事の合間に聞いた話を、編集して残しています。<br/>誰が書いているか分からないサイトの言葉は、信じる必要がありません。</p>
+  <div class="page-h__meta"><strong>最終更新</strong>2026年5月9日</div>
+</header>
+
+<div class="editor-card">
+  <div class="editor-card__avatar">白</div>
+  <div>
+    <h2 class="editor-card__name">白川</h2>
+    <div class="editor-card__role">EDITOR / 編集・運営</div>
+    <p class="editor-card__bio">
+      普段は別の仕事をしながら、FXのテクニカル分析を学んでいます。<br/>
+      自分自身、含み損から退場まで何度か通った道がありました。<br/>
+      勝ち方を語るには早すぎるけれど、聞いた話を地図にして残すなら、できる気がした。<br/>
+      投稿で寄せられた話と、仕事中にぽろっと聞かせてもらった話を、ここに置いています。
+    </p>
+  </div>
+</div>
+
+<h2>来歴</h2>
+<table class="fact-table">
+  <tr><th>本業</th><td>会社員（営業職）／個人事業（Web運営）の二足</td></tr>
+  <tr><th>前職</th><td>自動車ディーラー営業職（約8年）</td></tr>
+  <tr><th>投資歴</th><td>FX 約5年（含み損による退場経験あり）／株式 約3年／仮想通貨 約2年</td></tr>
+  <tr><th>学習中の分野</th><td>FXテクニカル分析（ダウ理論／フィボナッチ／エリオット波動）<br/>金融リテラシー（FP3級・金融リテラシー検定 取得予定）</td></tr>
+  <tr><th>当サイトを始めた理由</th><td>仕事先や知人から「実は最近こんな失敗をしてしまって」と打ち明けられることが何度かあり、<br/>同じパターンを繰り返している人が多いと感じたのがきっかけ</td></tr>
+</table>
+
+<h2>当サイトのスタンス</h2>
+<p>サイトに掲載している話は、主に2つのソースから集まっています。</p>
+<ol>
+  <li><strong>投稿フォームから届いた失敗体験</strong> — 投稿時に連絡先を残してくださった方には、必要に応じてメールで簡単なやり取りをします。</li>
+  <li><strong>仕事中に聞かせてもらった話</strong> — 営業先や知人との雑談の流れで打ち明けられる話。本人の許可を得たうえで、仮名・伏字・損失額のレンジ表記で掲載します。</li>
+</ol>
+<p>「取材」と呼ぶには重いし、「ヒアリング」と呼ぶにはカジュアルすぎる。話を聞いて、編集して、置いておく。それだけです。</p>
+<p>本サイトは投資助言・推奨を一切行いません。記事は実話の記録であり、編集者として、読者に特定の金融商品を推奨することはありません。</p>
+
+<h2>連絡先</h2>
+<div class="contact-row"><span>投稿・連絡</span><span>記事末尾の<a href="/submit/">投稿フォーム</a>、または下記メールへ</span></div>
+<div class="contact-row"><span>編集問い合わせ</span><span>editor@toushishippairoku.com（準備中）</span></div>
+<div class="contact-row"><span>誤情報の指摘</span><span>correction@toushishippairoku.com（準備中）</span></div>
+<div class="contact-row"><span>X (Twitter)</span><span>@toushishippairoku（開設準備中）</span></div>
+<div class="contact-row"><span>運営会社</span><span>個人運営</span></div>
+
+<div class="notice">
+  <strong class="notice__title">⚠️ なりすまし防止</strong>
+  当サイト・編集者を名乗ってDMで投資勧誘・有料セミナー誘導を行う行為は、すべて偽物です。当サイトは <strong>投資勧誘・有料情報販売・LINEグループへの誘導</strong> を一切行いません。不審な連絡があった場合は editor@... までご一報ください。
+</div>
+
+<h2>姉妹サイト</h2>
+<p>3サイト同一運営です。</p>
+<ul>
+  <li><a href="https://kaidanroku.com" target="_blank" rel="noopener"><strong>怪談録</strong></a>（管理人：白川）── 実話・実体験ベースの怪談アーカイブ</li>
+  <li><a href="https://fukugyousagiroku.com" target="_blank" rel="noopener"><strong>副業詐欺録</strong></a>（管理人：白川）── 副業詐欺の手口・被害体験の記録</li>
+</ul>
+
+</main>
+
+</BaseLayout>

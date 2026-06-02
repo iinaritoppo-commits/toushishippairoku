@@ -1,0 +1,376 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ArticleEnhance from "../../components/ArticleEnhance.astro";
+import TopAffiliateBox from "../../components/TopAffiliateBox.astro";
+import InlineColumn from "../../components/InlineColumn.astro";
+import LessonsTripleLayer from "../../components/LessonsTripleLayer.astro";
+import EndAffiliateMix from "../../components/EndAffiliateMix.astro";
+import NewsletterCTA from "../../components/NewsletterCTA.astro";
+import AdSenseSlot from "../../components/AdSenseSlot.astro";
+import { articles, type Article } from "../../data/articles";
+import {
+  pillarsFor,
+  booksFor,
+  expertsFor,
+  reasonsFor,
+} from "../../data/affiliate-defaults";
+
+const CAT_LABELS: Record<string, string> = {
+  fx: "FX", stocks: "株式", crypto: "暗号資産",
+  realestate: "不動産", funds: "ファンド・投信", fraud: "投資詐欺",
+  sidejob: "副業/その他", realty: "不動産", other: "その他",
+};
+
+const CAT_SLUGS: Record<string, string> = {
+  fx: "fx", stocks: "stocks", crypto: "crypto",
+  realestate: "realestate", funds: "funds", fraud: "fraud",
+  sidejob: "fx", realty: "realestate", other: "other",
+};
+
+export async function getStaticPaths() {
+  const fs = await import("node:fs");
+  const path = await import("node:path");
+
+  const out: any[] = [];
+  const usedSlugs = new Set<string>();
+
+  // ① articles.ts の手書き10本（既存テンプレ）
+  const { articles } = await import("../../data/articles");
+  for (const a of articles) {
+    out.push({
+      params: { slug: a.slug },
+      props: { source: "articles", article: a, approved: null },
+    });
+    usedSlugs.add(a.slug);
+  }
+
+  // ② approved/*.json の70本（新ハイブリッドテンプレ）
+  const dir = path.default.join(process.cwd(), "approved");
+  if (fs.default.existsSync(dir)) {
+    const allApproved: any[] = [];
+    for (const f of fs.default.readdirSync(dir)) {
+      if (!f.endsWith(".json")) continue;
+      try {
+        const fullPath = path.default.join(dir, f);
+        const j = JSON.parse(fs.default.readFileSync(fullPath, "utf-8"));
+        const stat = fs.default.statSync(fullPath);
+        if (j.slug && j.title && j.content && !usedSlugs.has(j.slug)) {
+          j._mtime = stat.mtime.toISOString().slice(0, 10);
+          allApproved.push(j);
+        }
+      } catch {}
+    }
+
+    for (const a of allApproved) {
+      // 関連記事（同カテゴリ→他カテゴリで6本）
+      const sameCat = allApproved.filter((x: any) => x.slug !== a.slug && x.category === a.category);
+      const otherCat = allApproved.filter((x: any) => x.slug !== a.slug && x.category !== a.category);
+      const related = [...sameCat, ...otherCat].slice(0, 6).map((x: any) => ({
+        slug: x.slug,
+        title: x.title,
+        category: x.category,
+        loss: x.loss_amount_yen,
+        prefecture: x.persona?.prefecture ?? "",
+        age: x.persona?.age ?? "",
+        gender: x.persona?.gender ?? "",
+      }));
+      out.push({
+        params: { slug: a.slug },
+        props: { source: "approved", article: null, approved: a, related },
+      });
+      usedSlugs.add(a.slug);
+    }
+  }
+
+  return out;
+}
+
+const { source, article, approved, related } = Astro.props as any;
+
+// ============== ② approved 系の表示用ヘルパ ==============
+const fmtLoss = (yen?: number): string => {
+  if (!yen) return "";
+  if (yen >= 1e8) return `${(yen / 1e8).toFixed(1)}億円`;
+  if (yen >= 1e4) return `¥${yen.toLocaleString()}-`;
+  return `¥${yen.toLocaleString()}-`;
+};
+
+// 既存(articles.ts)系の related
+const manualRelated = source === "articles"
+  ? (article.related || []).map((slug: string) => articles.find((a) => a.slug === slug)).filter(Boolean) as Article[]
+  : [];
+
+const usedSlugs = source === "articles" ? new Set([article.slug, ...manualRelated.map((a: any) => a.slug)]) : new Set();
+const sameCatAuto = source === "articles"
+  ? articles.filter((a) => a.categorySlug === article.categorySlug && !usedSlugs.has(a.slug)).slice(0, 6)
+  : [];
+sameCatAuto.forEach((a) => usedSlugs.add(a.slug));
+const otherCatAuto = source === "articles"
+  ? articles.filter((a) => !usedSlugs.has(a.slug)).slice(0, 6)
+  : [];
+
+const relatedArticles = source === "articles"
+  ? [...manualRelated, ...sameCatAuto, ...otherCatAuto].slice(0, 3)
+  : [];
+
+const cur = source === "articles" ? article : approved;
+const pageTitle = cur.title;
+const pageDesc = source === "articles" ? cur.metaDescription : cur.description;
+
+// ============== approved 系統のアフィリ用データ ==============
+// JSON個別フィールドを優先 → 無ければカテゴリベースのデフォルトで補完
+const aff = source === "approved" ? (() => {
+  const cat = approved?.category ?? "other";
+  const cellMeta = (r: any) => {
+    const parts: string[] = [];
+    if (r.age) parts.push(`${r.age}代`);
+    if (r.gender) parts.push(r.gender);
+    if (r.prefecture) parts.push(r.prefecture);
+    return parts.join("・");
+  };
+  return {
+    topPillars: approved.top_pillars ?? pillarsFor(cat).slice(0, 2),
+    lessonsReasons: approved.lessons_reasons ?? reasonsFor(cat),
+    lessonsBooks: approved.lessons_books ?? booksFor(cat),
+    lessonsPillars: approved.lessons_pillars ?? pillarsFor(cat),
+    lessonsExperts: approved.lessons_experts ?? expertsFor(cat),
+    inlineColumn: approved.inline_column ?? null,
+    endSameCategory: (related ?? [])
+      .filter((r: any) => r.category === cat)
+      .slice(0, 3)
+      .map((r: any) => ({
+        href: `/articles/${r.slug}/`,
+        title: r.title,
+        meta: cellMeta(r),
+      })),
+    endPillars: pillarsFor(cat).slice(0, 3).map((p) => ({
+      href: p.href,
+      title: p.title,
+      meta: p.subtitle,
+    })),
+  };
+})() : null;
+---
+<BaseLayout
+  title={pageTitle}
+  description={pageDesc}
+  showQuickNav={false}
+  pageType="article"
+  articleMeta={source === "articles" ? {
+    headline: article.title,
+    category: article.category?.split(" / ")[0],
+    datePublished: article.publishDate ?? "2026-05-01",
+    author: "白川 諒",
+  } : {
+    headline: approved.title,
+    category: CAT_LABELS[approved.category] ?? approved.category,
+    datePublished: approved._mtime ?? "2026-05-01",
+    dateModified: approved._mtime ?? "2026-05-01",
+    author: "白川 諒",
+  }}
+  breadcrumbs={source === "articles" ? [
+    { name: "投資失敗録", url: "/" },
+    { name: article.category?.split(" / ")[0] ?? "カテゴリ", url: `/category/${article.categorySlug}/` },
+    { name: article.title, url: `/articles/${article.slug}/` },
+  ] : [
+    { name: "投資失敗録", url: "/" },
+    { name: "取材記録", url: "/articles/" },
+    { name: approved.title, url: `/articles/${approved.slug}/` },
+  ]}
+>
+
+{source === "articles" && (
+  <>
+    <nav class="breadcrumb">
+      <a href="/">トップ</a><span>›</span><a href={`/category/${article.categorySlug}/`}>{article.category.split(' / ')[0]}</a><span>›</span>{article.cardTitle}
+    </nav>
+
+    <article class="article-page">
+
+    <header class="art-head">
+      <span class="art-head__cat">{article.category}</span>
+      <h1 class="art-head__title">{article.title}</h1>
+      <p class="art-head__lead" set:html={article.lead} />
+      <div class="art-head__meta">
+        <span><strong>掲載日</strong>{article.publishDate}</span>
+        <span><strong>やり取り</strong>{article.interview}</span>
+        <span><strong>損失額</strong><span class="art-head__loss">{article.amountDisplay}</span>{article.amountNote ?? ''}</span>
+      </div>
+    </header>
+
+    <aside class="persona-box">
+      <div class="persona-box__title">体験者プロフィール</div>
+      <dl>
+        {article.persona.map((p: any) => (
+          <>
+            <dt>{p.dt}</dt>
+            <dd>{p.dd}</dd>
+          </>
+        ))}
+      </dl>
+    </aside>
+
+    <ArticleEnhance content={article.body} title={article.title} url={`https://toushishippairoku.com/articles/${article.slug}/`} />
+
+    <div class="art-body" set:html={article.body} />
+
+    <aside class="aside-box aside-box--record">
+      <div class="aside-box__title">やり取り記録</div>
+      <dl>
+        {article.record.map((r: any) => (
+          <>
+            <dt>{r.dt}</dt>
+            <dd>{r.dd}</dd>
+          </>
+        ))}
+      </dl>
+    </aside>
+
+    {article.addQ.length > 0 && (
+      <aside class="aside-box aside-box--addq">
+        <div class="aside-box__title">追加で聞いたこと</div>
+        {article.addQ.map((qa: any) => (
+          <>
+            <p><em>Q. {qa.q}</em></p>
+            <p set:html={qa.a} />
+          </>
+        ))}
+      </aside>
+    )}
+
+    <aside class="aside-box aside-box--admin">
+      <div class="aside-box__title">管理人の感想</div>
+      {article.admin.map((p: string) => (
+        <p set:html={p} />
+      ))}
+    </aside>
+
+    <section class="lessons">
+      <div class="lessons__sub">LESSONS &amp; CONSIDERATIONS</div>
+      <h2 class="lessons__title">{article.displayName}さんの体験から、整理できること</h2>
+      <p class="lessons__edit-note">
+        <strong>編集者注：</strong>以下は{article.displayName}さん個人の体験から得られた視点の整理であり、当サイトからの投資助言・売買推奨ではありません。投資判断は読者ご自身の責任において行ってください。
+      </p>
+      <ul class="lessons__list">
+        {article.lessons.map((l: string) => (
+          <li set:html={l} />
+        ))}
+      </ul>
+    </section>
+
+    <div class="ihai-block">
+      <div class="ihai-block__sub">― お焚き上げ済み ―</div>
+      <div class="ihai" style="display:block;text-decoration:none">
+        <div class="ihai__sect">{article.ihaiSect}</div>
+        <div class="ihai__kaimyo" set:html={article.kaimyo} />
+        <div class="ihai__name">{article.displayName} 様</div>
+        <div class="ihai__loss">{article.amountDisplay}</div>
+      </div>
+      <div class="ihai-block__cta">
+        <a href="/kuyou/">永代供養スペースへ</a>
+      </div>
+    </div>
+
+    {relatedArticles.length > 0 && (
+      <section class="related">
+        <h2 class="related__title"><small>RELATED</small>関連する失敗の記録</h2>
+        <div class="related-grid">
+          {relatedArticles.map((r: any) => (
+            <a href={`/articles/${r.slug}/`} class="related-card">
+              <div class="related-card__cat">{r.category}</div>
+              <h3 class="related-card__title">{r.cardTitle}</h3>
+              <div class="related-card__loss">{r.amountDisplay}</div>
+            </a>
+          ))}
+        </div>
+      </section>
+    )}
+
+    </article>
+  </>
+)}
+
+{source === "approved" && (
+  <article class="article-page">
+    <nav class="breadcrumb">
+      <a href="/">トップ</a><span>›</span><span>取材記録</span><span>›</span>{approved.title}
+    </nav>
+
+    <header class="art-head">
+      <span class="art-head__cat">{CAT_LABELS[approved.category] ?? approved.category}</span>
+      <h1 class="art-head__title">{approved.title}</h1>
+      {approved.description && <p class="art-head__lead">{approved.description}</p>}
+      <div class="art-head__meta">
+        <span><strong>属性</strong>{approved.persona?.age}歳{approved.persona?.gender}・{approved.persona?.prefecture}</span>
+        <span><strong>損失額</strong><span class="art-head__loss">{fmtLoss(approved.loss_amount_yen)}</span></span>
+      </div>
+    </header>
+
+    <aside class="persona-box">
+      <div class="persona-box__title">体験者プロフィール</div>
+      <dl>
+        {approved.persona?.name_initial && <><dt>仮名／属性</dt><dd>{approved.persona.name_initial}さん・{approved.persona.age}歳{approved.persona.gender}</dd></>}
+        {approved.persona?.occupation && <><dt>居住・職業</dt><dd>{approved.persona.prefecture}・{approved.persona.occupation}</dd></>}
+        {approved.persona?.family && <><dt>家族</dt><dd>{approved.persona.family}</dd></>}
+        {approved.trigger && <><dt>失敗の入口</dt><dd>{approved.trigger}</dd></>}
+        {approved.event && <><dt>発生</dt><dd>{approved.event}</dd></>}
+      </dl>
+    </aside>
+
+    {aff && <TopAffiliateBox pillars={aff.topPillars} />}
+
+    <ArticleEnhance content={approved.content} title={approved.title} url={`https://toushishippairoku.com/articles/${approved.slug}/`} />
+
+    <AdSenseSlot slot="article-header" format="rectangle" />
+
+    <div class="art-body" set:html={approved.content} />
+
+    {aff?.inlineColumn && (
+      <InlineColumn
+        title={aff.inlineColumn.title}
+        body={aff.inlineColumn.body}
+        book={aff.inlineColumn.book}
+      />
+    )}
+
+    <AdSenseSlot slot="lessons-before" format="rectangle" />
+
+    {aff && (
+      <LessonsTripleLayer
+        displayName={approved.persona?.name_initial ?? "—"}
+        reasons={aff.lessonsReasons}
+        books={aff.lessonsBooks}
+        pillars={aff.lessonsPillars}
+        experts={aff.lessonsExperts}
+      />
+    )}
+
+    {aff && (
+      <EndAffiliateMix sameCategory={aff.endSameCategory} pillars={aff.endPillars} />
+    )}
+
+    <NewsletterCTA />
+
+    <AdSenseSlot slot="article-footer" format="rectangle" />
+
+    {approved.kaimyo && (
+      <div class="ihai-block">
+        <div class="ihai-block__sub">― お焚き上げ済み ―</div>
+        <div class="ihai" style="display:block;text-decoration:none">
+          <div class="ihai__sect">{CAT_LABELS[approved.category] ?? approved.category} 諸霊位</div>
+          <div class="ihai__kaimyo" set:html={approved.kaimyo} />
+          <div class="ihai__name">{approved.persona?.name_initial ?? "—"} 様</div>
+          <div class="ihai__loss">{fmtLoss(approved.loss_amount_yen)}</div>
+        </div>
+        {approved.kaimyo_explain && (
+          <p style="font-size:0.82rem;color:#7a8595;text-align:center;margin-top:14px;line-height:1.85;">{approved.kaimyo_explain}</p>
+        )}
+        <div class="ihai-block__cta">
+          <a href="/kuyou/">永代供養スペースへ</a>
+        </div>
+      </div>
+    )}
+  </article>
+)}
+
+</BaseLayout>

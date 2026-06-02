@@ -1,0 +1,780 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import TopAffiliateBox from "../../components/TopAffiliateBox.astro";
+import PillarCompareTable from "../../components/PillarCompareTable.astro";
+import EndAffiliateMix from "../../components/EndAffiliateMix.astro";
+import NewsletterCTA from "../../components/NewsletterCTA.astro";
+import AdSenseSlot from "../../components/AdSenseSlot.astro";
+
+const title =
+  "【2026最新】資産運用EXPOに初心者が行ったらヤバい本当の理由 ─ Xトレンド分析＋構造解説";
+const description =
+  "2026年5月の資産運用EXPOがXでトレンド入り。X上に集まった来場者の証言と、編集者が運営構造から逆算で組み立てた「なぜ毎回ぼったくり化するのか」の答えを1記事で整理。初心者が代わりに進むべき3ステップも編集者整理として残した。";
+const updatedAt = "2026-05-25";
+
+const topPillars = [
+  {
+    href: "/explain/scam-detection-guide/",
+    title: "投資詐欺の見抜き方",
+    subtitle: "勧誘文言・出金条件・運営実態の見るべき箇所",
+    icon: "⚠",
+  },
+  {
+    href: "/compare/fx-no-margin-call/",
+    title: "追証なしFX口座 比較2026",
+    subtitle: "EXPOよりも自分で口座を選んで小さく始める道筋",
+    icon: "▶",
+  },
+];
+
+// ネット証券3社（EXPO に行くより家でこっち、という代替案）
+const netSecItems = [
+  {
+    name: "SBI証券",
+    tagline: "国内ネット証券最大手。新NISA口座数・投信本数で頭ひとつ抜けている。",
+    badge: "編集者観察",
+    specs: [
+      { label: "新NISAつみたて投信本数", value: "200本以上", highlight: true },
+      { label: "国内株手数料", value: "ゼロ革命（条件付き0円）" },
+      { label: "米国株手数料", value: "約定代金の0.45%" },
+      { label: "ポイント還元", value: "Vポイント・Pontaほか" },
+    ],
+    pros: [
+      "新NISAの取扱投信本数が国内トップクラス",
+      "Vポイント・Ponta・dポイントなど主要ポイント連携が一通り揃う",
+      "IPO取扱数も多く、長期保有派にも合いやすい",
+    ],
+    cons: [
+      "ツールUIが情報量多めで、初学者は最初慣れが必要",
+      "サイトの導線が複雑との声がある",
+    ],
+    pickFor: "とにかく王道を1社で完結させたい人・新NISAから始める人",
+    ctaText: "SBI証券 公式サイト",
+    ctaHref: "#asp-sbi-securities",
+    ctaNote: "※ASP承認後にアフィリリンクへ差し替え予定",
+  },
+  {
+    name: "楽天証券",
+    tagline: "楽天経済圏に住んでいるならコスパが頭抜ける。アプリiSPEEDが評判。",
+    badge: "編集者観察",
+    specs: [
+      { label: "新NISAつみたて投信本数", value: "200本以上", highlight: true },
+      { label: "国内株手数料", value: "ゼロコース（条件付き0円）" },
+      { label: "米国株手数料", value: "約定代金の0.45%" },
+      { label: "ポイント還元", value: "楽天ポイント" },
+    ],
+    pros: [
+      "楽天カードクレカ積立で楽天ポイントが付与される",
+      "アプリiSPEEDがシンプルで初学者向き",
+      "楽天市場・楽天モバイルと連動した経済圏で日常の支払いとリンクできる",
+    ],
+    cons: [
+      "楽天ポイント以外のポイント連携は弱い",
+      "楽天経済圏の改悪リスクが付きまとう",
+    ],
+    pickFor: "楽天カード持ち・楽天市場ユーザー",
+    ctaText: "楽天証券 公式サイト",
+    ctaHref: "#asp-rakuten-securities",
+    ctaNote: "※ASP承認後にアフィリリンクへ差し替え予定",
+  },
+  {
+    name: "松井証券",
+    tagline: "1日100万円以下なら国内株手数料無料。少額スタート派の老舗ネット証券。",
+    badge: "編集者観察",
+    specs: [
+      { label: "新NISAつみたて投信本数", value: "200本以上", highlight: true },
+      { label: "国内株手数料", value: "1日100万円以下 0円" },
+      { label: "米国株手数料", value: "業界標準（0.495%）" },
+      { label: "サポート", value: "電話サポート評価高め" },
+    ],
+    pros: [
+      "電話サポートが手厚く、初学者の質問に答えてくれる",
+      "1日100万円以下の取引なら手数料無料の老舗仕様",
+      "投信工房という自動診断ツールが便利",
+    ],
+    cons: [
+      "ポイント還元はSBI・楽天と比べて控えめ",
+      "ツール画面はやや古めとの声",
+    ],
+    pickFor: "電話で質問しながら少額で始めたい初学者・40-60代",
+    ctaText: "松井証券 公式サイト",
+    ctaHref: "#asp-matsui-securities",
+    ctaNote: "※ASP承認後にアフィリリンクへ差し替え予定",
+  },
+];
+
+// 末尾の関連失敗体験 + 他ピラー
+const endSameCategory = [
+  {
+    href: "/articles/toushi-realestate-001/",
+    title: "EXPO併設の不動産ブースで掴まされたワンルーム",
+    meta: "40代男性・不動産・1820万円",
+  },
+  {
+    href: "/articles/toushi-crypto-expo-001/",
+    title: "EXPOで紹介された「上場前トークン」",
+    meta: "30代男性・仮想通貨・620万円",
+  },
+];
+const endPillars = [
+  {
+    href: "/compare/fx-no-margin-call/",
+    title: "追証なしFX口座 比較2026",
+    meta: "FX口座を本気で選ぶときの観点",
+  },
+  {
+    href: "/explain/scam-detection-guide/",
+    title: "投資詐欺の見抜き方 完全版",
+    meta: "勧誘文言・出金条件・運営実態の3軸",
+  },
+];
+
+const breadcrumbs = [
+  { name: "投資失敗録", url: "/" },
+  { name: "比較", url: "/compare/" },
+  { name: "資産運用EXPOに行ったらヤバい本当の理由", url: "/compare/asset-expo-warning/" },
+];
+
+const faqs = [
+  {
+    q: "資産運用EXPOって全部詐欺なの？",
+    a: "全部詐欺ということではなくて、銀行・証券会社・金融庁登録の正規業者がほぼ出展していないので、出展者の多くが利回り重視のアグレッシブな商品を扱う事業者になっている、という構造の問題です。芸能人が登壇するセミナーや講演自体の評判は悪くないという声もありますが、ブースを回ると勧誘地獄になる、という体験談が多数集まっています。",
+  },
+  {
+    q: "セミナーだけ目当てなら行ってもいい？",
+    a: "セミナーは無料で著名な講演者の話を聞ける機会としては悪くないですが、入場時に名簿登録（個人情報提供）が前提になっていて、後日の不動産・投資商品の営業電話が来やすくなる点だけは事前に理解した上で行くか決めると安全です。",
+  },
+  {
+    q: "Xでバズった「行く価値なし」って本当？",
+    a: "X上で複数の来場者が「怪しい投資話のオンパレード」「風俗街のような呼び込み」「投機・詐欺紛いのブースばっか」など、散々な評判を共有しています。事実として、銀行・証券などの金融庁登録正規業者がほぼ出展していない構造があり、結果としてアグレッシブな商品を扱う事業者の比率が高い、というのが編集者が拾い集めた構造的な答え。",
+  },
+  {
+    q: "じゃあ初心者は何から始めればいい？",
+    a: "本サイトの編集者観察としては、まずネット証券（SBI・楽天・松井）のいずれかで新NISA口座を作って、全世界株 or S&P500のインデックス積立を月数千円から始めるのが最も再現性が高い、と整理しています。EXPOに行く2-3時間で、家でこれが完結します。",
+  },
+  {
+    q: "「冷やかし」で営業マンをやり込めに行くのは？",
+    a: "投資詐欺の取材記録を整理すると、これも避けた方が安全。理由は3つ。①ミイラ取りがミイラになるリスク（営業マンは何百回もこの相手と話している）、②半日かけて学ぶ営業テクは本やYouTubeで30分で身につく時間の無駄、③最初から買う気がない人を相手にさせるのは人として相手にも失礼。営業テクニックを学びたいなら、本やYouTubeで十分です。",
+  },
+];
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  showQuickNav={false}
+  pageType="article"
+  articleMeta={{
+    headline: title,
+    category: "投資詐欺 / 警鐘",
+    datePublished: updatedAt,
+    dateModified: updatedAt,
+    author: "白川 諒",
+  }}
+  breadcrumbs={breadcrumbs}
+>
+  <article class="pillar-page">
+    <nav class="breadcrumb">
+      <a href="/">トップ</a><span>›</span>
+      <a href="/compare/">比較</a><span>›</span>
+      <span>資産運用EXPOに行ったらヤバい本当の理由</span>
+    </nav>
+
+    <header class="pillar-head pillar-head--warning">
+      <div class="pillar-head__badge-row">
+        <span class="pillar-head__cat">投資詐欺 / 警鐘</span>
+        <span class="pillar-head__hot">炎上中</span>
+      </div>
+      <h1 class="pillar-head__title">{title}</h1>
+      <p class="pillar-head__lead">
+        2026年5月の資産運用EXPOがXでトレンド入り。X上に集まった来場者の証言と、編集者が運営構造から逆算で組み立てた「なぜ毎回ぼったくり化するのか」の答えを1記事で整理。<br />
+        初心者が代わりに進むべき3ステップも編集者整理として残した。
+      </p>
+      <div class="pillar-head__meta">
+        <span><strong>更新</strong>{updatedAt}</span>
+        <span><strong>結論</strong><span class="pillar-head__verdict">行く価値なし</span></span>
+        <span><strong>編集</strong>白川 諒</span>
+      </div>
+    </header>
+
+    <TopAffiliateBox
+      pillars={topPillars}
+      heading="先に押さえておくと話が早い"
+      subLabel="BACKGROUND READING"
+    />
+
+    <AdSenseSlot slot="pillar-header" format="rectangle" />
+
+    <section class="pillar-section">
+      <h2 class="pillar-h2">結論：初心者は行かなくていい</h2>
+      <p>
+        2026年5月、Xでこのイベントの実態が一気に拡散され、トレンド入りした。来場者から共有された証言を一通り読んだ編集者の結論は、シンプル。
+      </p>
+      <p class="pillar-callout">
+        <strong>初心者は、行かなくていい。</strong>
+      </p>
+      <p>
+        資産運用に興味を持った初心者が最初に出会う場所がEXPOだと、その後の認識が「投資 ＝ ぼったくり商品」で固定されてしまう。これが多くの来場者がXで共有した「地獄」の正体。資産運用に興味を持って一歩踏み出した結果、貧乏谷に転落する道に入ってしまう、という構造的なリスクが、ここにはある。
+      </p>
+      <p>
+        本記事ではこの結論の裏付けを、X上の来場者証言と、編集者が運営構造から逆算で組み立てた答えから整理する。
+      </p>
+    </section>
+
+    <section class="pillar-section">
+      <h2 class="pillar-h2">何が起きているか ─ 2026年5月のEXPOの実態</h2>
+      <p>
+        2026年5月15日〜17日に東京ビッグサイトで開催された資産運用EXPO。<br />
+        主催者の謳い文句は「日本最大級の資産運用のイベント／東京で年2回・大阪で年1回／株式・不動産・保険から現物資産まで、あらゆる投資商品が一度に集結／著名講師によるセミナーで幅広く学べる」。
+      </p>
+      <p>
+        ところがX上で「銀行・証券会社といった金融庁から免許を受けたり登録しているいわゆる正規業者が、ほぼ出展していない」という告発投稿が起点になり、当日の来場者が次々に体験談を上書きする形でトレンド入りした。
+      </p>
+      <p>
+        参加者からの声で並んでいた表現を編集者が拾うと、こうなる。
+      </p>
+      <ul class="pillar-bullet">
+        <li>「怪しげな投資話と広告のオンパレード」</li>
+        <li>「投資ではなく投機・詐欺紛いのブースばっかり」</li>
+        <li>「風俗街のような呼び込み地獄」</li>
+        <li>「素人を騙してなんぼのような業者ばっか」</li>
+        <li>「アンケート答えて粗品もらってる間に、そのまま投資申し込まされてた人を見た」</li>
+      </ul>
+    </section>
+
+    <section class="pillar-section">
+      <h2 class="pillar-h2">なぜ銀行・証券は出展しないのか</h2>
+      <p>
+        Xの来場者投稿の中で核心を突いていたのが「<strong>大手銀行や大手証券は、一緒にされたらたまらないから出展しないのでしょう</strong>」という観察。
+      </p>
+      <p>
+        これは構造的にその通りで、ブランドリスクの観点で正規業者ほどEXPOから距離を置く動機が強い。結果として残るのは、出展料を払ってでも個人投資家の名簿を取りに来る業者と、利回り重視のアグレッシブな商品を扱う事業者。
+      </p>
+      <p class="pillar-callout">
+        つまり「正規業者がいない」という事実そのものが、EXPOの本質を物語っている。<br />
+        正規業者にとってEXPOは「出る理由がない」場所だから、出ない。
+      </p>
+    </section>
+
+    <section class="pillar-section">
+      <h2 class="pillar-h2">EXPOで売られている「毒キノコ商品」の典型</h2>
+      <p>
+        X上の来場者証言と、本サイトに集まった被害体験を重ねると、EXPOブースで扱われている商品はかなり偏っている。コイン・ダイヤモンド・ワンルーム不動産・新興国投資──いずれも、まともな投資家がインデックス積立と並べて選ぶ対象にはならない商品ばかり。「毒キノコ畑」と例えるしかない品揃え、というのが編集者の率直な観察。
+      </p>
+      <p>
+        実際にEXPOブースで扱われる典型的な商品ジャンルを整理するとこうなる。
+      </p>
+      <div class="pillar-cards">
+        <div class="pillar-card">
+          <strong>① ワンルーム不動産</strong>
+          <p>表面利回り重視の説明・サブリース2年見直し・空室率を見せない営業トーク。当サイトには1820万円失った40代男性の体験談が記録されている。</p>
+        </div>
+        <div class="pillar-card">
+          <strong>② 現物コイン・ダイヤモンド</strong>
+          <p>「資産価値が落ちない」と謳う現物商品。実際の流通市場と業者買取価格の乖離が大きく、買い戻し時にロスが出る構造。</p>
+        </div>
+        <div class="pillar-card">
+          <strong>③ 海外不動産・新興国投資</strong>
+          <p>高利回りを謳う海外不動産。法整備の差・為替リスク・出金困難など、リスクが見えにくい商品が多い。</p>
+        </div>
+        <div class="pillar-card">
+          <strong>④ 障がい者グループホーム投資</strong>
+          <p>「利回り35-40%」と煽る案件が過去のEXPOで見られた。実態は補助金頼りで、運営破綻時の損失が大きい。</p>
+        </div>
+        <div class="pillar-card">
+          <strong>⑤ 未上場トークン・新興仮想通貨</strong>
+          <p>「上場前」「内部情報」「LINEグループで限定公開」が3点セット。投資詐欺の典型句として古くから繰り返し警告されてきた構造そのもの。</p>
+        </div>
+        <div class="pillar-card">
+          <strong>⑥ FX自動売買ツール・情報商材</strong>
+          <p>「月◯万円自動で稼げる」と謳うツール販売。多くは過去バックテスト最適化の見せかけで、ライブ運用では機能しない。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="pillar-section">
+      <h2 class="pillar-h2">構造論：なぜ「行ったらアカン」化が止まらないか</h2>
+      <p>
+        EXPOがなぜ毎回ぼったくり化するのか。これは「悪意ある運営」というよりも、運営コスト構造の必然から来ている。<br />
+        編集者が運営収支から逆算して整理すると、要点はこの5項目に集約できる。
+      </p>
+      <ol class="pillar-list">
+        <li>
+          <strong>ブース出展料を抑えると運営が回らない</strong>。EXPOは東京で年2回＋大阪で1回。会場費だけで億単位がかかるので、出展料収入を確保しないと維持できない。
+        </li>
+        <li>
+          <strong>審査を厳しくすると出展企業が激減する</strong>。「まともな投資商品」の出展者って実はそんなに多くない。
+        </li>
+        <li>
+          <strong>まともな投資商品は基本インデックス積立</strong>。インデックス投信はブース展示が映えないし、利益率が低くて出展料を払う動機が薄い。
+        </li>
+        <li>
+          <strong>マネーフォワード・正規ネット証券くらいしか健全な出展候補が残らない</strong>。それだけだとブース数が集まらず、来場者数も維持できない。
+        </li>
+        <li>
+          <strong>チケット代を上げると人が来なくなる</strong>。入場料無料・名簿登録だけが、来場者数のスケール条件。
+        </li>
+      </ol>
+      <p class="pillar-callout">
+        この5つを全部満たすには、結局「ぼったくり業者・詐欺紛いの業者から出展料を取って成立させる」しか道がない。<br />
+        だからどんなに告発が起きても、構造的に「行ったらアカン」EXPOは生まれ続ける。
+      </p>
+    </section>
+
+    <section class="pillar-section">
+      <h2 class="pillar-h2">「冷やかし」で行くのもアカン3つの理由</h2>
+      <p>
+        自称マネリテ高めの人が「営業マンをやり込めに行く」「お手並み拝見」モードで行きたがる現象がある。<br />
+        投資詐欺の取材記録を整理した編集者観察として、これは避けた方が安全。理由は3つ。
+      </p>
+      <ul class="pillar-bullet">
+        <li><strong>ミイラ取りがミイラになるリスク</strong>。営業マンは何百回もこの相手と話している。素人の冷やかしは大体カモられる側に回る。</li>
+        <li><strong>時間の無駄</strong>。半日かけて学ぶ営業テクは、本やYouTubeで30分で身につく。</li>
+        <li><strong>相手にも失礼</strong>。最初から買う気がない人を相手にさせるのは、人として見たときに失礼。</li>
+      </ul>
+      <p>
+        この延長で、保険の無料相談も同じ構造。「営業テクの研究」目的で行く必要は1ミリもない。
+      </p>
+    </section>
+
+    <PillarCompareTable
+      items={netSecItems}
+      caption="EXPOに行く代わりに ─ ネット証券3社の整理"
+      axesLabel="REPLACEMENT AXES"
+      axesNote="EXPOの2-3時間を、ネット証券で口座を作ってインデックス積立を始める時間に置き換える。比較軸：新NISA投信本数・国内株/米国株手数料・ポイント還元・サポート"
+    />
+
+    <AdSenseSlot slot="pillar-middle" format="in-feed" />
+
+    <section class="pillar-section">
+      <h2 class="pillar-h2">家で30分でできる「正しい一歩」3ステップ</h2>
+      <ol class="pillar-list">
+        <li>
+          <strong>ネット証券で新NISA口座を開設する</strong>（SBI・楽天・松井のいずれか）。スマホで本人確認まで30分。
+        </li>
+        <li>
+          <strong>つみたて投資枠でインデックス投信を月5,000円から積立設定</strong>。eMAXIS Slim 全世界株 or S&P500 のどちらかでOK。
+        </li>
+        <li>
+          <strong>家計簿アプリ（マネーフォワード等）で支出を可視化</strong>。投資より先にここを整える方がリターンが大きいケースが多い。
+        </li>
+      </ol>
+      <p class="pillar-callout">
+        これだけ。<br />
+        EXPOの会場2時間 vs 家で30分。後者の方が、確実に資産は伸びる。
+      </p>
+    </section>
+
+    <section class="pillar-failures">
+      <div class="pillar-failures__head">
+        <span class="pillar-failures__sub">REAL FAILURES</span>
+        <h2 class="pillar-failures__title">EXPO関連で実際に集まった失敗体験</h2>
+      </div>
+      <p class="pillar-failures__intro">
+        本サイトに集まった、資産運用EXPO起点で被害に遭った人たちの記録。具体的にどう勧誘され、どう判断を誤ったかの一次資料として読める。
+      </p>
+      <ul class="pillar-failures__list">
+        {endSameCategory.map((r) => (
+          <li>
+            <a href={r.href}>
+              <span class="pillar-failures__icon" aria-hidden="true">⚱</span>
+              <span class="pillar-failures__text">
+                <strong>{r.title}</strong>
+                <span>{r.meta}</span>
+              </span>
+              <span class="pillar-failures__arrow" aria-hidden="true">→</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <AdSenseSlot slot="pillar-faq-before" format="rectangle" />
+
+    <section class="pillar-faq">
+      <div class="pillar-faq__head">
+        <span class="pillar-faq__sub">FAQ</span>
+        <h2 class="pillar-faq__title">よく届く質問</h2>
+      </div>
+      <div class="pillar-faq__list">
+        {faqs.map((f, i) => (
+          <details class="pillar-faq__item" open={i === 0}>
+            <summary>
+              <span class="pillar-faq__q-mark" aria-hidden="true">Q</span>
+              <span class="pillar-faq__q-text">{f.q}</span>
+            </summary>
+            <div class="pillar-faq__a">
+              <span class="pillar-faq__a-mark" aria-hidden="true">A</span>
+              <p>{f.a}</p>
+            </div>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <EndAffiliateMix
+      sameCategory={endSameCategory}
+      pillars={endPillars}
+      sameCategoryLabel="REAL CASES"
+      pillarsLabel="RELATED COMPARES"
+      sameCategoryHeading="EXPO関連の失敗体験"
+      pillarsHeading="関連する比較・解説"
+    />
+
+    <NewsletterCTA
+      title="EXPOに行かない代わりに、毎週届く失敗の話"
+      description="今からやろうとしている投資、9つの危険信号を3分で確認できる無料PDF。<br/>登録した人にだけ届く週1便で、新しい体験談と、お金まわりの心理の動きの解説を同時に。"
+    />
+
+    <AdSenseSlot slot="pillar-footer" format="rectangle" />
+  </article>
+</BaseLayout>
+
+<style>
+  .pillar-page {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 0 24px 60px;
+  }
+  .breadcrumb {
+    max-width: 880px;
+    margin: 20px auto 0;
+    padding: 0 24px;
+    font-size: 0.78rem;
+    color: var(--c-ink-dim);
+  }
+  .breadcrumb a { color: var(--c-navy); text-decoration: none; }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb span { margin: 0 6px; color: var(--c-gold); }
+
+  .pillar-head {
+    padding: 36px 0 28px;
+    border-bottom: 2px solid var(--c-navy);
+    margin-bottom: 32px;
+  }
+  .pillar-head--warning {
+    border-bottom-color: var(--c-loss);
+  }
+  .pillar-head__badge-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+  .pillar-head__cat {
+    display: inline-block;
+    background: var(--c-loss);
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    padding: 5px 14px;
+    border-radius: 2px;
+  }
+  .pillar-head__hot {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: linear-gradient(135deg, #ff6b3a 0%, #d94228 100%);
+    color: #fff;
+    font-size: 0.66rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    padding: 5px 12px;
+    border-radius: 12px;
+    animation: hot-pulse 2.2s ease-in-out infinite;
+  }
+  @keyframes hot-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(217, 66, 40, 0.6); }
+    50% { box-shadow: 0 0 0 6px rgba(217, 66, 40, 0); }
+  }
+  .pillar-head__title {
+    font-family: var(--font-serif);
+    font-size: clamp(1.45rem, 3.6vw, 2rem);
+    font-weight: 700;
+    color: var(--c-ink);
+    margin: 0 0 18px;
+    line-height: 1.55;
+    letter-spacing: 0.06em;
+  }
+  .pillar-head__lead {
+    margin: 0 0 22px;
+    font-size: 1rem;
+    color: var(--c-ink-soft);
+    line-height: 2;
+  }
+  .pillar-head__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    font-size: 0.84rem;
+    color: var(--c-ink-soft);
+  }
+  .pillar-head__meta strong {
+    color: var(--c-ink-dim);
+    margin-right: 8px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+  }
+  .pillar-head__verdict {
+    color: var(--c-loss);
+    font-weight: 900;
+    font-size: 0.96rem;
+    letter-spacing: 0.04em;
+  }
+
+  .pillar-section { margin: 42px 0; }
+  .pillar-h2 {
+    font-family: var(--font-serif);
+    font-size: 1.36rem;
+    font-weight: 700;
+    color: var(--c-ink);
+    letter-spacing: 0.08em;
+    margin: 0 0 18px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--c-navy);
+  }
+  .pillar-section p {
+    font-size: 0.98rem;
+    line-height: 2.05;
+    color: var(--c-ink);
+    margin: 0 0 14px;
+  }
+  .pillar-section strong { color: var(--c-navy-deep); }
+
+  .pillar-quote {
+    margin: 22px 0;
+    padding: 22px 24px 20px;
+    background: linear-gradient(180deg, #102348 0%, #1a3a6e 100%);
+    color: rgba(255, 255, 255, 0.94);
+    border-radius: 4px;
+    font-family: var(--font-serif);
+    font-size: 1.04rem;
+    line-height: 2;
+    position: relative;
+    box-shadow: 0 4px 18px rgba(16, 35, 72, 0.18);
+  }
+  .pillar-quote::before {
+    content: '"';
+    position: absolute;
+    top: -10px;
+    left: 14px;
+    font-size: 4rem;
+    color: var(--c-gold);
+    line-height: 1;
+    font-family: var(--font-serif);
+  }
+  .pillar-quote cite {
+    display: block;
+    margin-top: 14px;
+    font-size: 0.82rem;
+    font-style: normal;
+    color: var(--c-gold);
+    letter-spacing: 0.04em;
+    font-family: var(--font-sans);
+  }
+
+  .pillar-bullet {
+    list-style: none;
+    margin: 16px 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .pillar-bullet li {
+    padding: 10px 14px 10px 36px;
+    background: #ffffff;
+    border-left: 3px solid var(--c-loss);
+    border-radius: 2px;
+    position: relative;
+    font-size: 0.94rem;
+    line-height: 1.8;
+  }
+  .pillar-bullet li::before {
+    content: "▸";
+    position: absolute;
+    left: 14px;
+    top: 10px;
+    color: var(--c-loss);
+    font-weight: 800;
+  }
+  .pillar-bullet li strong { color: var(--c-navy-deep); }
+
+  .pillar-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    counter-reset: pillar-list;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .pillar-list li {
+    counter-increment: pillar-list;
+    padding: 16px 18px 16px 56px;
+    background: #ffffff;
+    border: 1px solid var(--c-line);
+    border-left: 3px solid var(--c-gold);
+    border-radius: 3px;
+    position: relative;
+    font-size: 0.96rem;
+    line-height: 1.9;
+  }
+  .pillar-list li::before {
+    content: counter(pillar-list, decimal-leading-zero);
+    position: absolute;
+    left: 16px;
+    top: 16px;
+    font-family: "Helvetica Neue", sans-serif;
+    font-weight: 900;
+    font-size: 1.1rem;
+    color: var(--c-gold);
+  }
+  .pillar-list li strong { color: var(--c-navy-deep); }
+
+  .pillar-callout {
+    margin: 22px 0 0 !important;
+    padding: 18px 20px;
+    background: linear-gradient(180deg, #fbf6e6 0%, #f5edcc 100%);
+    border-left: 4px solid var(--c-gold);
+    font-size: 0.94rem !important;
+    line-height: 1.95 !important;
+  }
+
+  .pillar-cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin: 18px 0;
+  }
+  .pillar-card {
+    background: #ffffff;
+    border: 1px solid var(--c-line);
+    border-top: 3px solid var(--c-loss);
+    border-radius: 3px;
+    padding: 16px 18px 14px;
+  }
+  .pillar-card strong {
+    display: block;
+    font-family: var(--font-serif);
+    font-size: 0.98rem;
+    font-weight: 700;
+    color: var(--c-ink);
+    margin-bottom: 8px;
+    letter-spacing: 0.04em;
+  }
+  .pillar-card p {
+    margin: 0;
+    font-size: 0.86rem;
+    line-height: 1.8;
+    color: var(--c-ink-soft);
+  }
+
+  .pillar-failures {
+    margin: 56px 0 48px;
+    padding: 32px 30px 34px;
+    background: var(--c-bg);
+    border: 1px solid var(--c-line);
+    border-left: 4px solid var(--c-loss);
+    border-radius: 4px;
+  }
+  .pillar-failures__head { margin-bottom: 18px; }
+  .pillar-failures__sub {
+    display: block;
+    font-size: 0.68rem;
+    letter-spacing: 0.44em;
+    color: var(--c-loss);
+    font-weight: 800;
+    margin-bottom: 8px;
+  }
+  .pillar-failures__title {
+    font-family: var(--font-serif);
+    font-size: 1.16rem;
+    font-weight: 700;
+    color: var(--c-ink);
+    margin: 0;
+    letter-spacing: 0.06em;
+    line-height: 1.55;
+  }
+  .pillar-failures__intro {
+    margin: 0 0 18px;
+    font-size: 0.92rem;
+    color: var(--c-ink-soft);
+    line-height: 1.9;
+  }
+  .pillar-failures__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .pillar-failures__list li { margin: 0; }
+  .pillar-failures__list a {
+    display: grid;
+    grid-template-columns: 28px 1fr 18px;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    background: #ffffff;
+    border: 1px solid var(--c-line);
+    border-radius: 3px;
+    text-decoration: none;
+    color: var(--c-ink);
+    transition: all 0.15s ease;
+  }
+  .pillar-failures__list a:hover {
+    border-color: var(--c-loss);
+    background: #fdf5f5;
+    transform: translateX(2px);
+    text-decoration: none;
+  }
+  .pillar-failures__icon { color: var(--c-loss); font-size: 1.15rem; line-height: 1; }
+  .pillar-failures__text { display: flex; flex-direction: column; gap: 3px; }
+  .pillar-failures__text strong { font-size: 0.96rem; font-weight: 700; line-height: 1.55; color: var(--c-ink); }
+  .pillar-failures__text span { font-size: 0.76rem; color: var(--c-ink-soft); letter-spacing: 0.04em; }
+  .pillar-failures__arrow { color: var(--c-loss); font-weight: 700; }
+
+  .pillar-faq { margin: 56px 0 48px; }
+  .pillar-faq__head { margin-bottom: 18px; }
+  .pillar-faq__sub { display: block; font-size: 0.68rem; letter-spacing: 0.44em; color: var(--c-gold); font-weight: 800; margin-bottom: 8px; }
+  .pillar-faq__title { font-family: var(--font-serif); font-size: 1.36rem; font-weight: 700; color: var(--c-ink); margin: 0 0 12px; padding-bottom: 12px; border-bottom: 2px solid var(--c-navy); letter-spacing: 0.08em; }
+  .pillar-faq__list { display: flex; flex-direction: column; gap: 10px; }
+  .pillar-faq__item { background: #ffffff; border: 1px solid var(--c-line); border-radius: 3px; overflow: hidden; }
+  .pillar-faq__item summary { list-style: none; cursor: pointer; padding: 16px 18px; display: grid; grid-template-columns: 28px 1fr 20px; align-items: center; gap: 14px; background: var(--c-bg); border-bottom: 1px solid transparent; transition: background 0.15s ease; }
+  .pillar-faq__item summary::-webkit-details-marker { display: none; }
+  .pillar-faq__item summary::after { content: "+"; color: var(--c-gold); font-size: 1.4rem; font-weight: 700; line-height: 1; grid-column: 3; }
+  .pillar-faq__item[open] summary { border-bottom-color: var(--c-line); }
+  .pillar-faq__item[open] summary::after { content: "−"; }
+  .pillar-faq__item summary:hover { background: var(--c-bg-soft); }
+  .pillar-faq__q-mark { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; background: var(--c-navy); color: var(--c-gold); border-radius: 50%; font-family: "Helvetica Neue", sans-serif; font-weight: 900; font-size: 0.86rem; }
+  .pillar-faq__q-text { font-size: 0.96rem; font-weight: 700; color: var(--c-ink); line-height: 1.5; letter-spacing: 0.02em; }
+  .pillar-faq__a { padding: 16px 18px; display: grid; grid-template-columns: 28px 1fr; gap: 14px; background: #ffffff; }
+  .pillar-faq__a-mark { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; background: var(--c-gold); color: var(--c-navy-deep); border-radius: 50%; font-family: "Helvetica Neue", sans-serif; font-weight: 900; font-size: 0.86rem; align-self: start; }
+  .pillar-faq__a p { margin: 0; font-size: 0.92rem; line-height: 1.95; color: var(--c-ink); }
+
+  @media (max-width: 720px) {
+    .pillar-cards { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 540px) {
+    .pillar-page { padding: 0 18px 50px; }
+    .breadcrumb { padding: 0 18px; }
+    .pillar-head { padding: 24px 0 20px; margin-bottom: 24px; }
+    .pillar-h2 { font-size: 1.18rem; }
+    .pillar-section p { font-size: 0.92rem; }
+    .pillar-list li { padding: 14px 14px 14px 48px; font-size: 0.9rem; }
+    .pillar-list li::before { left: 12px; top: 14px; font-size: 1rem; }
+    .pillar-quote { padding: 18px 20px 16px; font-size: 0.94rem; }
+    .pillar-failures { padding: 22px 18px 24px; }
+    .pillar-failures__title { font-size: 1.04rem; }
+    .pillar-failures__list a { grid-template-columns: 24px 1fr 16px; padding: 12px 14px; }
+    .pillar-failures__text strong { font-size: 0.9rem; }
+    .pillar-faq__title { font-size: 1.18rem; }
+    .pillar-faq__item summary { padding: 14px 14px; grid-template-columns: 26px 1fr 18px; gap: 10px; }
+    .pillar-faq__q-text { font-size: 0.9rem; }
+    .pillar-faq__a { padding: 14px; gap: 10px; }
+    .pillar-faq__a p { font-size: 0.88rem; }
+  }
+</style>

@@ -1,0 +1,705 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import TopAffiliateBox from "../../components/TopAffiliateBox.astro";
+import PillarCompareTable from "../../components/PillarCompareTable.astro";
+import EndAffiliateMix from "../../components/EndAffiliateMix.astro";
+import NewsletterCTA from "../../components/NewsletterCTA.astro";
+import AdSenseSlot from "../../components/AdSenseSlot.astro";
+
+const title =
+  "追証なしFX口座 比較2026 ─ 強制ロスカット仕様で選ぶ国内FX 5社の整理";
+const description =
+  "FXで「追証」が発生する仕組みを整理しつつ、ロスカット余裕度・最低取引単位・スプレッドで国内FX口座5社を観察。実際にロスカットが間に合わず追証発生した失敗体験から学ぶ口座選びの観点。";
+const updatedAt = "2026-05-25";
+
+// 関連解説（記事冒頭の TopAffiliateBox 用）
+const topPillars = [
+  {
+    href: "/explain/loss-cut-mechanism/",
+    title: "ロスカットの仕組み",
+    subtitle: "「指定レートで切る」と「次の約定可能レートで切る」の違い",
+    icon: "⚙",
+  },
+  {
+    href: "/explain/margin-call-mechanism/",
+    title: "追証はなぜ発生するか",
+    subtitle: "スリッページ・流動性消失・口座規約の3要素",
+    icon: "⚠",
+  },
+];
+
+// 5社比較データ（公式情報は各社サイトの最新値で要再確認・編集者観察として整理）
+const fxItems = [
+  {
+    name: "DMM FX",
+    tagline: "取引ツールとサポート体制が安定。10,000通貨単位で中規模以上向き。",
+    badge: "編集者観察",
+    specs: [
+      { label: "ロスカット水準", value: "証拠金維持率 50%以下", highlight: true },
+      { label: "最低取引単位", value: "10,000通貨" },
+      { label: "USD/JPYスプレッド", value: "0.2銭（原則固定・例外あり）" },
+      { label: "口座開設費", value: "無料" },
+    ],
+    pros: [
+      "ロスカット水準が50%で執行までの余裕が大きい",
+      "取引ツールが分かりやすく初学者でも操作しやすい",
+      "LINEサポートで24時間問い合わせ可能",
+    ],
+    cons: [
+      "10,000通貨単位なので、月1万円以内のお試しには向かない",
+      "ロスカット50%＝余裕がある分、損失自体は膨らみやすい",
+    ],
+    pickFor: "週1-2回・10万円以上の証拠金で動かしたい人",
+    ctaText: "DMM FX 公式サイト",
+    ctaHref: "#asp-dmm-fx",
+    ctaNote: "※ASP承認後にアフィリリンクへ差し替え予定",
+  },
+  {
+    name: "GMOクリック証券 FXネオ",
+    tagline: "国内取引高No.1クラスの約定力。短期売買とスキャル中心の人に。",
+    badge: "編集者観察",
+    specs: [
+      { label: "ロスカット水準", value: "証拠金維持率 50%以下", highlight: true },
+      { label: "最低取引単位", value: "10,000通貨" },
+      { label: "USD/JPYスプレッド", value: "0.2銭（原則固定）" },
+      { label: "口座開設費", value: "無料" },
+    ],
+    pros: [
+      "約定力が安定していて、指標発表時のスリッページも比較的小さい傾向",
+      "板情報・ニュース配信が標準装備",
+      "ロスカット水準50%で余裕大",
+    ],
+    cons: [
+      "ツール画面が情報量多めで初学者は最初戸惑う",
+      "10,000通貨単位",
+    ],
+    pickFor: "短期売買中心・約定力を最優先する人",
+    ctaText: "GMOクリック証券 公式サイト",
+    ctaHref: "#asp-gmo-click",
+    ctaNote: "※ASP承認後にアフィリリンクへ差し替え予定",
+  },
+  {
+    name: "外為どっとコム",
+    tagline: "1,000通貨単位＋情報量が多い老舗。初学者の最初の口座に向く。",
+    badge: "編集者観察",
+    specs: [
+      { label: "ロスカット水準", value: "証拠金維持率 100%以下", highlight: true },
+      { label: "最低取引単位", value: "1,000通貨" },
+      { label: "USD/JPYスプレッド", value: "0.2銭（原則固定）" },
+      { label: "口座開設費", value: "無料" },
+    ],
+    pros: [
+      "1,000通貨単位なので月数千円の証拠金から練習できる",
+      "セミナー・レポート・コラムなど学習コンテンツが豊富",
+      "ロスカット100%で早期執行＝追証が起きにくい",
+    ],
+    cons: [
+      "ロスカット100%は「保有期間の余裕が短い」とも言える",
+      "ツールUIがやや古めという声がある",
+    ],
+    pickFor: "1,000通貨で少額から始めたい初学者",
+    ctaText: "外為どっとコム 公式サイト",
+    ctaHref: "#asp-gaitamedotcom",
+    ctaNote: "※ASP承認後にアフィリリンクへ差し替え予定",
+  },
+  {
+    name: "LINE FX",
+    tagline: "LINE通知ベースでスマホ完結。1,000通貨単位で気軽さ重視。",
+    badge: "編集者観察",
+    specs: [
+      { label: "ロスカット水準", value: "証拠金維持率 100%以下", highlight: true },
+      { label: "最低取引単位", value: "1,000通貨" },
+      { label: "USD/JPYスプレッド", value: "0.2銭（原則固定）" },
+      { label: "口座開設費", value: "無料" },
+    ],
+    pros: [
+      "経済指標・為替変動をLINEで通知してくれる（見逃しにくい）",
+      "口座開設からトレードまでスマホ完結",
+      "1,000通貨単位＆ロスカット100%",
+    ],
+    cons: [
+      "PCツールはGMO系で同じものが多く、独自性は薄め",
+      "LINE通知に依存しすぎると判断が鈍るリスク",
+    ],
+    pickFor: "スマホ完結派・通知ドリブンで動きたい人",
+    ctaText: "LINE FX 公式サイト",
+    ctaHref: "#asp-line-fx",
+    ctaNote: "※ASP承認後にアフィリリンクへ差し替え予定",
+  },
+  {
+    name: "マネーパートナーズ（PartnersFX nano)",
+    tagline: "100通貨単位でガチ少額。練習口座としてだけ持つ選択肢もあり。",
+    badge: "編集者観察",
+    specs: [
+      { label: "ロスカット水準", value: "証拠金維持率 100%以下", highlight: true },
+      { label: "最低取引単位", value: "100通貨" },
+      { label: "USD/JPYスプレッド", value: "0.3銭（原則固定）" },
+      { label: "口座開設費", value: "無料" },
+    ],
+    pros: [
+      "100通貨単位は国内最少クラス。月数百円からの練習が可能",
+      "ロスカット100%＋少額単位で「練習中は追証発生し得ない」レベル",
+    ],
+    cons: [
+      "スプレッドが他社よりやや広い",
+      "本格運用にはツールがシンプルすぎるとの声もある",
+    ],
+    pickFor: "本番に進む前の練習口座として、ゼロ円リスクで仕様を理解したい人",
+    ctaText: "マネーパートナーズ 公式サイト",
+    ctaHref: "#asp-moneypartners",
+    ctaNote: "※ASP承認後にアフィリリンクへ差し替え予定",
+  },
+];
+
+// 失敗体験への内部リンク
+const relatedFailures = [
+  {
+    href: "/articles/fx-380man/",
+    title: "380万円が3分で消えた話 ─ FX指標発表での全損",
+    meta: "30代男性・FX・指標発表",
+  },
+  {
+    href: "/articles/toushi-fx-001/",
+    title: "ロスカットを下げた、その夜のことだった",
+    meta: "30代男性・FX・200万円台",
+  },
+];
+
+// 末尾の同種ピラー & 失敗体験ミックス
+const endSameCategory = relatedFailures.map((r) => ({
+  href: r.href,
+  title: r.title,
+  meta: r.meta,
+}));
+const endPillars = [
+  {
+    href: "/compare/asset-expo-warning/",
+    title: "資産運用EXPOに行ったらアカン理由",
+    meta: "Xトレンド分析＋構造解説（2026最新）",
+  },
+  {
+    href: "/explain/loss-cut-mechanism/",
+    title: "ロスカットの仕組み 完全解説",
+    meta: "「指定レート」と「次の約定可能レート」の差",
+  },
+];
+
+const breadcrumbs = [
+  { name: "投資失敗録", url: "/" },
+  { name: "比較", url: "/compare/" },
+  { name: "追証なしFX口座 比較2026", url: "/compare/fx-no-margin-call/" },
+];
+
+// FAQ
+const faqs = [
+  {
+    q: "「追証なし」って国内FXでも本当に可能？",
+    a: "原則として国内FXは追証ありの設計です。ただしロスカット水準が高い（100%）口座を選ぶと、含み損が拡大する前に強制決済が走るため、追証が発生する確率を下げられます。スリッページで間に合わないリスクはゼロにはなりません。",
+  },
+  {
+    q: "ロスカット50%と100%、どっちが安全？",
+    a: "「安全」の定義によります。50%は損失を確定するまでの余裕が大きいですが、含み損は膨らみやすい。100%は早期に切られるので追証は起きにくいですが、本来なら戻ったかもしれない値動きでも損切りされます。短期売買と長期保有のどちらに比重を置くかで選び方が変わります。",
+  },
+  {
+    q: "海外FX（XM・Exness等）の「ゼロカット」を使えば追証は本当にゼロ？",
+    a: "海外FXのゼロカットは口座残高がマイナスになった分を業者が補填する仕組みで、原理的に追証は発生しません。ただし国内の金融商品取引法に基づく登録業者ではないため、トラブル時の救済制度（金融商品取引業者の信託保全等）の対象外。リスクの種類が違うだけで「安全」とは言えません。",
+  },
+  {
+    q: "FXは結局やめた方がいい？",
+    a: "本サイトは投資助言サイトではないので「やめろ」「やれ」とは書きません。ただし失敗体験を集めて整理した結論として、「生活費を投入してまでFXに賭ける合理性は薄い」と編集者個人としては考えています。インデックス積立など別ジャンルの選択肢と並べて比較した上で判断するのが現実的です。",
+  },
+  {
+    q: "口座開設は1社だけで足りる？",
+    a: "失敗体験のヒアリングを通じて見えてきたのは、メイン口座1社＋練習用に少額口座1社の合計2社くらいに留めるのが現実的、という観察結果です。複数口座で資金を分散すると管理が雑になり、ロスカット仕様の違いで予想外の挙動を起こすケースが多く報告されています。",
+  },
+];
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  showQuickNav={false}
+  pageType="article"
+  articleMeta={{
+    headline: title,
+    category: "FX / 比較",
+    datePublished: updatedAt,
+    dateModified: updatedAt,
+    author: "白川 諒",
+  }}
+  breadcrumbs={breadcrumbs}
+>
+  <article class="pillar-page">
+    <nav class="breadcrumb">
+      <a href="/">トップ</a><span>›</span>
+      <a href="/compare/">比較</a><span>›</span>
+      <span>追証なしFX口座 比較2026</span>
+    </nav>
+
+    <header class="pillar-head">
+      <span class="pillar-head__cat">FX 口座比較</span>
+      <h1 class="pillar-head__title">{title}</h1>
+      <p class="pillar-head__lead">
+        FXで「追証」が発生する仕組みを整理しつつ、ロスカット余裕度・最低取引単位・スプレッドで国内FX口座を観察した。<br />
+        実際にロスカットが間に合わずに追証発生した失敗体験から学ぶ口座選びの観点を、編集者整理として残しておく。
+      </p>
+      <div class="pillar-head__meta">
+        <span><strong>更新</strong>{updatedAt}</span>
+        <span><strong>取り上げ数</strong>5社</span>
+        <span><strong>編集</strong>白川 諒</span>
+      </div>
+    </header>
+
+    <TopAffiliateBox
+      pillars={topPillars}
+      heading="先に読んでおくと整理しやすい"
+      subLabel="BACKGROUND READING"
+    />
+
+    <AdSenseSlot slot="pillar-header" format="rectangle" />
+
+    <section class="pillar-section">
+      <h2 class="pillar-h2">この記事のスタンス</h2>
+      <p>
+        「追証なしFX」と検索したときに出てくる情報の多くは、海外FXのゼロカット仕様を勧める内容に偏っている。
+        だけど海外FXは国内の金融商品取引法の登録外で、別のリスク（出金トラブル・規制変更）を抱え込むことになる。
+      </p>
+      <p>
+        本記事は<strong>国内FXのまま「追証発生確率を下げる選び方」</strong>を整理するための比較記事。<br />
+        ロスカット仕様・最低取引単位・スプレッドの3軸で、よく検討対象になる5社を編集者観察として並べた。
+      </p>
+      <p class="pillar-note">
+        ※本記事は投資助言ではない。各社の最新スペックは公式サイトで必ず確認してから判断してください。
+      </p>
+    </section>
+
+    <PillarCompareTable
+      items={fxItems}
+      caption="国内FX口座 5社の整理（編集者観察）"
+      axesLabel="SELECTION AXES"
+      axesNote="選定の軸：ロスカット水準（50%か100%か）・最低取引単位・USD/JPYスプレッド・サポート体制・学習コンテンツの有無"
+    />
+
+    <AdSenseSlot slot="pillar-middle" format="in-feed" />
+
+    <section class="pillar-section">
+      <h2 class="pillar-h2">「追証なし」を本当に避けるための3つの観点</h2>
+      <ol class="pillar-list">
+        <li>
+          <strong>ロスカット水準が高い口座を選ぶ</strong>：100%系（外為どっとコム・LINE FX・マネーパートナーズ）の方が、含み損が膨らむ前に強制決済が走るので、追証発生確率を下げられる。
+        </li>
+        <li>
+          <strong>最低取引単位が小さい口座で練習する</strong>：マネーパートナーズ100通貨・外為どっとコム/LINE FX 1,000通貨。1ポジションあたりのリスクが小さいので、追証ライン到達まで遥かに距離がある。
+        </li>
+        <li>
+          <strong>レバレッジを最大に張らない</strong>：国内FXは25倍だけど、実効レバレッジを3〜5倍程度に抑えると、急変動の数百pipsを耐えられる範囲が広がる。
+        </li>
+      </ol>
+      <p class="pillar-callout">
+        この3つを組み合わせると、国内FXでも実質的に「追証なし」運用に近づく。<br />
+        ただし、流動性が完全に消える瞬間（重要指標発表・週末ギャップ）はゼロにはできない、という前提で。
+      </p>
+    </section>
+
+    <section class="pillar-failures">
+      <div class="pillar-failures__head">
+        <span class="pillar-failures__sub">REAL FAILURES</span>
+        <h2 class="pillar-failures__title">この観点で「ロスカットが間に合わなかった」体験</h2>
+      </div>
+      <p class="pillar-failures__intro">
+        スペックだけ見ると安全に見える口座でも、実際の急変動では追証が発生する。当サイトに集まった体験談から、ロスカット仕様と現実のズレを記録した記事を並べた。
+      </p>
+      <ul class="pillar-failures__list">
+        {relatedFailures.map((r) => (
+          <li>
+            <a href={r.href}>
+              <span class="pillar-failures__icon" aria-hidden="true">⚱</span>
+              <span class="pillar-failures__text">
+                <strong>{r.title}</strong>
+                <span>{r.meta}</span>
+              </span>
+              <span class="pillar-failures__arrow" aria-hidden="true">→</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <AdSenseSlot slot="pillar-faq-before" format="rectangle" />
+
+    <section class="pillar-faq">
+      <div class="pillar-faq__head">
+        <span class="pillar-faq__sub">FAQ</span>
+        <h2 class="pillar-faq__title">よく届く質問</h2>
+      </div>
+      <div class="pillar-faq__list">
+        {faqs.map((f, i) => (
+          <details class="pillar-faq__item" open={i === 0}>
+            <summary>
+              <span class="pillar-faq__q-mark" aria-hidden="true">Q</span>
+              <span class="pillar-faq__q-text">{f.q}</span>
+            </summary>
+            <div class="pillar-faq__a">
+              <span class="pillar-faq__a-mark" aria-hidden="true">A</span>
+              <p>{f.a}</p>
+            </div>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <EndAffiliateMix
+      sameCategory={endSameCategory}
+      pillars={endPillars}
+      sameCategoryLabel="REAL CASES"
+      pillarsLabel="OTHER COMPARES"
+      sameCategoryHeading="同じテーマの失敗体験を読む"
+      pillarsHeading="関連する比較・解説"
+    />
+
+    <NewsletterCTA />
+
+    <AdSenseSlot slot="pillar-footer" format="rectangle" />
+  </article>
+</BaseLayout>
+
+<style>
+  .pillar-page {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 0 24px 60px;
+  }
+  .breadcrumb {
+    max-width: 880px;
+    margin: 20px auto 0;
+    padding: 0 24px;
+    font-size: 0.78rem;
+    color: var(--c-ink-dim);
+  }
+  .breadcrumb a { color: var(--c-navy); text-decoration: none; }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb span { margin: 0 6px; color: var(--c-gold); }
+
+  .pillar-head {
+    padding: 36px 0 28px;
+    border-bottom: 2px solid var(--c-navy);
+    margin-bottom: 32px;
+  }
+  .pillar-head__cat {
+    display: inline-block;
+    background: var(--c-gold);
+    color: var(--c-navy-deep);
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    padding: 5px 14px;
+    border-radius: 2px;
+    margin-bottom: 18px;
+  }
+  .pillar-head__title {
+    font-family: var(--font-serif);
+    font-size: clamp(1.5rem, 3.6vw, 2rem);
+    font-weight: 700;
+    color: var(--c-ink);
+    margin: 0 0 18px;
+    line-height: 1.55;
+    letter-spacing: 0.06em;
+  }
+  .pillar-head__lead {
+    margin: 0 0 22px;
+    font-size: 1rem;
+    color: var(--c-ink-soft);
+    line-height: 2;
+  }
+  .pillar-head__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    font-size: 0.84rem;
+    color: var(--c-ink-soft);
+  }
+  .pillar-head__meta strong {
+    color: var(--c-ink-dim);
+    margin-right: 8px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+  }
+
+  .pillar-section {
+    margin: 42px 0;
+  }
+  .pillar-h2 {
+    font-family: var(--font-serif);
+    font-size: 1.36rem;
+    font-weight: 700;
+    color: var(--c-ink);
+    letter-spacing: 0.08em;
+    margin: 0 0 18px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--c-navy);
+  }
+  .pillar-section p {
+    font-size: 0.98rem;
+    line-height: 2.05;
+    color: var(--c-ink);
+    margin: 0 0 14px;
+  }
+  .pillar-section strong { color: var(--c-navy-deep); }
+  .pillar-note {
+    margin: 18px 0 0 !important;
+    padding: 12px 14px;
+    background: var(--c-warn-bg);
+    border-left: 3px solid var(--c-warn-border);
+    font-size: 0.86rem !important;
+    color: #5a4815 !important;
+  }
+  .pillar-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    counter-reset: pillar-list;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .pillar-list li {
+    counter-increment: pillar-list;
+    padding: 16px 18px 16px 56px;
+    background: #ffffff;
+    border: 1px solid var(--c-line);
+    border-left: 3px solid var(--c-gold);
+    border-radius: 3px;
+    position: relative;
+    font-size: 0.96rem;
+    line-height: 1.9;
+  }
+  .pillar-list li::before {
+    content: counter(pillar-list, decimal-leading-zero);
+    position: absolute;
+    left: 16px;
+    top: 16px;
+    font-family: "Helvetica Neue", sans-serif;
+    font-weight: 900;
+    font-size: 1.1rem;
+    color: var(--c-gold);
+  }
+  .pillar-list li strong { color: var(--c-navy-deep); }
+  .pillar-callout {
+    margin: 22px 0 0 !important;
+    padding: 18px 20px;
+    background: linear-gradient(180deg, #fbf6e6 0%, #f5edcc 100%);
+    border-left: 4px solid var(--c-gold);
+    font-size: 0.94rem !important;
+    line-height: 1.95 !important;
+  }
+
+  .pillar-failures {
+    margin: 56px 0 48px;
+    padding: 32px 30px 34px;
+    background: var(--c-bg);
+    border: 1px solid var(--c-line);
+    border-left: 4px solid var(--c-loss);
+    border-radius: 4px;
+  }
+  .pillar-failures__head { margin-bottom: 18px; }
+  .pillar-failures__sub {
+    display: block;
+    font-size: 0.68rem;
+    letter-spacing: 0.44em;
+    color: var(--c-loss);
+    font-weight: 800;
+    margin-bottom: 8px;
+  }
+  .pillar-failures__title {
+    font-family: var(--font-serif);
+    font-size: 1.16rem;
+    font-weight: 700;
+    color: var(--c-ink);
+    margin: 0;
+    letter-spacing: 0.06em;
+    line-height: 1.55;
+  }
+  .pillar-failures__intro {
+    margin: 0 0 18px;
+    font-size: 0.92rem;
+    color: var(--c-ink-soft);
+    line-height: 1.9;
+  }
+  .pillar-failures__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .pillar-failures__list li { margin: 0; }
+  .pillar-failures__list a {
+    display: grid;
+    grid-template-columns: 28px 1fr 18px;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    background: #ffffff;
+    border: 1px solid var(--c-line);
+    border-radius: 3px;
+    text-decoration: none;
+    color: var(--c-ink);
+    transition: all 0.15s ease;
+  }
+  .pillar-failures__list a:hover {
+    border-color: var(--c-loss);
+    background: #fdf5f5;
+    transform: translateX(2px);
+    text-decoration: none;
+  }
+  .pillar-failures__icon {
+    color: var(--c-loss);
+    font-size: 1.15rem;
+    line-height: 1;
+  }
+  .pillar-failures__text {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .pillar-failures__text strong {
+    font-size: 0.96rem;
+    font-weight: 700;
+    line-height: 1.55;
+    color: var(--c-ink);
+  }
+  .pillar-failures__text span {
+    font-size: 0.76rem;
+    color: var(--c-ink-soft);
+    letter-spacing: 0.04em;
+  }
+  .pillar-failures__arrow {
+    color: var(--c-loss);
+    font-weight: 700;
+  }
+
+  .pillar-faq {
+    margin: 56px 0 48px;
+  }
+  .pillar-faq__head { margin-bottom: 18px; }
+  .pillar-faq__sub {
+    display: block;
+    font-size: 0.68rem;
+    letter-spacing: 0.44em;
+    color: var(--c-gold);
+    font-weight: 800;
+    margin-bottom: 8px;
+  }
+  .pillar-faq__title {
+    font-family: var(--font-serif);
+    font-size: 1.36rem;
+    font-weight: 700;
+    color: var(--c-ink);
+    margin: 0 0 12px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--c-navy);
+    letter-spacing: 0.08em;
+  }
+  .pillar-faq__list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .pillar-faq__item {
+    background: #ffffff;
+    border: 1px solid var(--c-line);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .pillar-faq__item summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 16px 18px;
+    display: grid;
+    grid-template-columns: 28px 1fr 20px;
+    align-items: center;
+    gap: 14px;
+    background: var(--c-bg);
+    border-bottom: 1px solid transparent;
+    transition: background 0.15s ease;
+  }
+  .pillar-faq__item summary::-webkit-details-marker { display: none; }
+  .pillar-faq__item summary::after {
+    content: "+";
+    color: var(--c-gold);
+    font-size: 1.4rem;
+    font-weight: 700;
+    line-height: 1;
+    grid-column: 3;
+  }
+  .pillar-faq__item[open] summary { border-bottom-color: var(--c-line); }
+  .pillar-faq__item[open] summary::after { content: "−"; }
+  .pillar-faq__item summary:hover { background: var(--c-bg-soft); }
+  .pillar-faq__q-mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    background: var(--c-navy);
+    color: var(--c-gold);
+    border-radius: 50%;
+    font-family: "Helvetica Neue", sans-serif;
+    font-weight: 900;
+    font-size: 0.86rem;
+  }
+  .pillar-faq__q-text {
+    font-size: 0.96rem;
+    font-weight: 700;
+    color: var(--c-ink);
+    line-height: 1.5;
+    letter-spacing: 0.02em;
+  }
+  .pillar-faq__a {
+    padding: 16px 18px;
+    display: grid;
+    grid-template-columns: 28px 1fr;
+    gap: 14px;
+    background: #ffffff;
+  }
+  .pillar-faq__a-mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    background: var(--c-gold);
+    color: var(--c-navy-deep);
+    border-radius: 50%;
+    font-family: "Helvetica Neue", sans-serif;
+    font-weight: 900;
+    font-size: 0.86rem;
+    align-self: start;
+  }
+  .pillar-faq__a p {
+    margin: 0;
+    font-size: 0.92rem;
+    line-height: 1.95;
+    color: var(--c-ink);
+  }
+
+  @media (max-width: 540px) {
+    .pillar-page { padding: 0 18px 50px; }
+    .breadcrumb { padding: 0 18px; }
+    .pillar-head { padding: 24px 0 20px; margin-bottom: 24px; }
+    .pillar-h2 { font-size: 1.18rem; }
+    .pillar-section p { font-size: 0.92rem; }
+    .pillar-list li { padding: 14px 14px 14px 48px; font-size: 0.9rem; }
+    .pillar-list li::before { left: 12px; top: 14px; font-size: 1rem; }
+    .pillar-failures { padding: 22px 18px 24px; }
+    .pillar-failures__title { font-size: 1.04rem; }
+    .pillar-failures__list a { grid-template-columns: 24px 1fr 16px; padding: 12px 14px; }
+    .pillar-failures__text strong { font-size: 0.9rem; }
+    .pillar-faq__title { font-size: 1.18rem; }
+    .pillar-faq__item summary { padding: 14px 14px; grid-template-columns: 26px 1fr 18px; gap: 10px; }
+    .pillar-faq__q-text { font-size: 0.9rem; }
+    .pillar-faq__a { padding: 14px; gap: 10px; }
+    .pillar-faq__a p { font-size: 0.88rem; }
+  }
+</style>

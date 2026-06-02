@@ -1,0 +1,383 @@
+---
+// ピラー記事（比較記事）専用の比較表コンポーネント
+// 5〜10社の特徴を整理＋各社のアフィリCTAを配置
+// 「最強」「ベスト」等の煽り表現は使わない（YMYL対応）
+interface Spec {
+  label: string;
+  value: string;
+  highlight?: boolean;
+}
+interface CompareItem {
+  name: string;
+  badge?: string; // "編集者観察" "実体験" 等の中立ラベル
+  tagline?: string; // 短い特徴説明
+  specs: Spec[]; // 4〜6項目（スプレッド／レバ／追証／最低取引等）
+  pros?: string[];
+  cons?: string[];
+  ctaText?: string;
+  ctaHref?: string;
+  ctaNote?: string;
+  pickFor?: string; // "短期スキャル中心の人" など読者属性別の整理
+}
+interface Props {
+  items: CompareItem[];
+  caption?: string;
+  axesLabel?: string;
+  axesNote?: string;
+}
+const {
+  items,
+  caption,
+  axesLabel = "SELECTION AXES",
+  axesNote = "選定の軸：スプレッド・追証の有無・サポート品質・初心者向け教材・最低取引単位",
+} = Astro.props;
+---
+<section class="compare">
+  {caption && <h2 class="compare__caption">{caption}</h2>}
+  <div class="compare__axes">
+    <span class="compare__axes-label">{axesLabel}</span>
+    <p class="compare__axes-note">{axesNote}</p>
+  </div>
+
+  <div class="compare__grid">
+    {items.map((it, i) => (
+      <article class="compare-card">
+        <header class="compare-card__head">
+          <div class="compare-card__rank" aria-hidden="true">{String(i + 1).padStart(2, "0")}</div>
+          <div class="compare-card__head-text">
+            <h3 class="compare-card__name">{it.name}</h3>
+            {it.tagline && <p class="compare-card__tagline">{it.tagline}</p>}
+          </div>
+          {it.badge && <span class="compare-card__badge">{it.badge}</span>}
+        </header>
+
+        <dl class="compare-card__specs">
+          {it.specs.map((s) => (
+            <div class={`compare-card__spec${s.highlight ? " compare-card__spec--hl" : ""}`}>
+              <dt>{s.label}</dt>
+              <dd>{s.value}</dd>
+            </div>
+          ))}
+        </dl>
+
+        {(it.pros || it.cons) && (
+          <div class="compare-card__balance">
+            {it.pros && it.pros.length > 0 && (
+              <div class="compare-card__pros">
+                <span class="compare-card__pros-label">観察された強み</span>
+                <ul>{it.pros.map((p) => <li>{p}</li>)}</ul>
+              </div>
+            )}
+            {it.cons && it.cons.length > 0 && (
+              <div class="compare-card__cons">
+                <span class="compare-card__cons-label">注意点</span>
+                <ul>{it.cons.map((c) => <li>{c}</li>)}</ul>
+              </div>
+            )}
+          </div>
+        )}
+
+        {it.pickFor && (
+          <div class="compare-card__pickfor">
+            <span class="compare-card__pickfor-label">こんな読者向き</span>
+            <span class="compare-card__pickfor-text">{it.pickFor}</span>
+          </div>
+        )}
+
+        {it.ctaHref && (
+          <div class="compare-card__cta-wrap">
+            <a
+              href={it.ctaHref}
+              class="compare-card__cta"
+              rel="sponsored noopener"
+              target="_blank"
+            >
+              <span>{it.ctaText ?? "公式サイトを見る"}</span>
+              <span class="compare-card__cta-arrow" aria-hidden="true">↗</span>
+            </a>
+            {it.ctaNote && <p class="compare-card__cta-note">{it.ctaNote}</p>}
+          </div>
+        )}
+      </article>
+    ))}
+  </div>
+
+  <p class="compare__footer-note">
+    <strong>編集者注：</strong>
+    本表は当サイトが観察した範囲の整理で、推奨ランキングではない。
+    口座開設・商品購入の判断は、各社公式の最新情報と読者本人の状況に基づいて行ってください。
+  </p>
+</section>
+
+<style>
+  .compare {
+    margin: 48px 0 56px;
+  }
+  .compare__caption {
+    font-family: var(--font-serif);
+    font-size: 1.36rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--c-ink);
+    margin: 0 0 20px;
+    padding-bottom: 14px;
+    border-bottom: 2px solid var(--c-navy);
+  }
+  .compare__axes {
+    margin: 0 0 28px;
+    padding: 16px 20px;
+    background: var(--c-warn-bg);
+    border-left: 3px solid var(--c-warn-border);
+    border-radius: 2px;
+  }
+  .compare__axes-label {
+    display: block;
+    font-size: 0.66rem;
+    letter-spacing: 0.42em;
+    color: #8a6420;
+    font-weight: 800;
+    margin-bottom: 6px;
+  }
+  .compare__axes-note {
+    margin: 0;
+    font-size: 0.88rem;
+    color: #5a4815;
+    line-height: 1.75;
+  }
+
+  .compare__grid {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+
+  .compare-card {
+    background: #ffffff;
+    border: 1px solid var(--c-line);
+    border-radius: 4px;
+    padding: 26px 28px 24px;
+    box-shadow: 0 2px 12px rgba(28, 35, 48, 0.04);
+    transition: box-shadow 0.18s ease, border-color 0.18s ease;
+  }
+  .compare-card:hover {
+    border-color: var(--c-gold);
+    box-shadow: 0 6px 22px rgba(28, 35, 48, 0.08);
+  }
+  .compare-card__head {
+    display: grid;
+    grid-template-columns: 52px 1fr auto;
+    gap: 16px;
+    align-items: center;
+    margin-bottom: 18px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--c-line);
+  }
+  .compare-card__rank {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    background: var(--c-navy);
+    color: var(--c-gold);
+    border-radius: 4px;
+    font-family: "Helvetica Neue", sans-serif;
+    font-size: 1.1rem;
+    font-weight: 900;
+    letter-spacing: 0.02em;
+  }
+  .compare-card__name {
+    font-family: var(--font-serif);
+    font-size: 1.18rem;
+    font-weight: 700;
+    color: var(--c-ink);
+    margin: 0 0 4px;
+    letter-spacing: 0.04em;
+    line-height: 1.4;
+  }
+  .compare-card__tagline {
+    margin: 0;
+    font-size: 0.88rem;
+    color: var(--c-ink-soft);
+    line-height: 1.55;
+  }
+  .compare-card__badge {
+    background: var(--c-gold);
+    color: var(--c-navy-deep);
+    font-size: 0.66rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    padding: 4px 10px;
+    border-radius: 2px;
+    align-self: start;
+  }
+
+  .compare-card__specs {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin: 0 0 20px;
+  }
+  .compare-card__spec {
+    background: var(--c-bg);
+    border: 1px solid var(--c-line);
+    border-radius: 3px;
+    padding: 10px 12px;
+  }
+  .compare-card__spec--hl {
+    background: #fbf6e6;
+    border-color: #d8c890;
+  }
+  .compare-card__spec dt {
+    font-size: 0.7rem;
+    letter-spacing: 0.16em;
+    color: var(--c-ink-dim);
+    font-weight: 700;
+    margin: 0 0 4px;
+  }
+  .compare-card__spec dd {
+    margin: 0;
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: var(--c-ink);
+    letter-spacing: 0.02em;
+  }
+
+  .compare-card__balance {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin: 18px 0 18px;
+  }
+  .compare-card__pros,
+  .compare-card__cons {
+    background: var(--c-bg);
+    border: 1px solid var(--c-line);
+    border-radius: 3px;
+    padding: 12px 14px;
+  }
+  .compare-card__pros { border-left: 3px solid #4a8a4a; }
+  .compare-card__cons { border-left: 3px solid var(--c-loss); }
+  .compare-card__pros-label,
+  .compare-card__cons-label {
+    display: block;
+    font-size: 0.66rem;
+    letter-spacing: 0.32em;
+    font-weight: 800;
+    margin-bottom: 8px;
+  }
+  .compare-card__pros-label { color: #4a8a4a; }
+  .compare-card__cons-label { color: var(--c-loss); }
+  .compare-card__pros ul,
+  .compare-card__cons ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .compare-card__pros li,
+  .compare-card__cons li {
+    font-size: 0.86rem;
+    line-height: 1.7;
+    color: var(--c-ink);
+    padding-left: 16px;
+    position: relative;
+    margin-bottom: 4px;
+  }
+  .compare-card__pros li::before {
+    content: "+";
+    position: absolute;
+    left: 0;
+    color: #4a8a4a;
+    font-weight: 800;
+  }
+  .compare-card__cons li::before {
+    content: "−";
+    position: absolute;
+    left: 0;
+    color: var(--c-loss);
+    font-weight: 800;
+  }
+
+  .compare-card__pickfor {
+    margin: 0 0 18px;
+    padding: 12px 14px;
+    background: #fbfaf2;
+    border: 1px solid #e6dfc7;
+    border-radius: 3px;
+  }
+  .compare-card__pickfor-label {
+    display: block;
+    font-size: 0.66rem;
+    letter-spacing: 0.32em;
+    color: var(--c-gold);
+    font-weight: 800;
+    margin-bottom: 4px;
+  }
+  .compare-card__pickfor-text {
+    font-size: 0.9rem;
+    color: var(--c-ink);
+    line-height: 1.6;
+  }
+
+  .compare-card__cta-wrap { margin-top: 4px; }
+  .compare-card__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 14px 22px;
+    background: var(--c-navy);
+    color: #fff;
+    border-radius: 3px;
+    text-decoration: none;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    font-size: 0.96rem;
+    transition: all 0.15s ease;
+  }
+  .compare-card__cta:hover {
+    background: var(--c-navy-deep);
+    text-decoration: none;
+    color: #fff;
+    transform: translateY(-1px);
+  }
+  .compare-card__cta-arrow { color: var(--c-gold); font-weight: 900; }
+  .compare-card__cta-note {
+    margin: 8px 0 0;
+    font-size: 0.74rem;
+    color: var(--c-ink-dim);
+    text-align: center;
+    letter-spacing: 0.04em;
+  }
+
+  .compare__footer-note {
+    margin: 24px 0 0;
+    padding: 14px 16px;
+    background: var(--c-warn-bg);
+    border-left: 3px solid var(--c-warn-border);
+    font-size: 0.82rem;
+    color: #5a4815;
+    line-height: 1.75;
+    border-radius: 2px;
+  }
+  .compare__footer-note strong { color: #2d2308; margin-right: 4px; }
+
+  @media (max-width: 720px) {
+    .compare-card__balance { grid-template-columns: 1fr; gap: 12px; }
+  }
+  @media (max-width: 540px) {
+    .compare__caption { font-size: 1.16rem; }
+    .compare-card { padding: 20px 18px 22px; }
+    .compare-card__head { grid-template-columns: 42px 1fr; gap: 12px; }
+    .compare-card__rank { width: 42px; height: 42px; font-size: 0.96rem; }
+    .compare-card__name { font-size: 1.04rem; }
+    .compare-card__badge {
+      grid-column: 1 / -1;
+      justify-self: start;
+      margin-top: 4px;
+    }
+    .compare-card__specs { grid-template-columns: 1fr; }
+    .compare-card__cta { padding: 12px 18px; font-size: 0.9rem; }
+  }
+</style>

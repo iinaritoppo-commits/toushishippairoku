@@ -1,0 +1,44 @@
+{
+  "slug": "toushi-crypto-013",
+  "title": "Luna崩壊で埼玉の40代主婦、ママ友経由で430万円失った話",
+  "category": "crypto",
+  "description": "埼玉県の40代主婦Aさん（仮名）が、ママ友経由で買ったLunaコインで430万円を失った。2022年5月のLuna崩壊で資産がほぼゼロに。",
+  "persona": {
+    "name_initial": "A",
+    "age": 43,
+    "gender": "女性",
+    "occupation": "専業主婦（夫は会社員）",
+    "family": "夫・子2人（小中学生）",
+    "prefecture": "埼玉県",
+    "investment_history_years": 1
+  },
+  "loss_amount_yen": 4300000,
+  "trigger": "ママ友LINE『Luna保有ママの会』",
+  "event": "2022年5月 Luna崩壊",
+  "kaimyo": "A院仮想塵信女",
+  "kaimyo_explain": "イニシャルA＋仮想塵＋信女（300-500万階位・女性）",
+  "content": "<p>Aさん（仮名・43歳女性・埼玉県の専業主婦）から届いた話。ママ友経由で買ったLunaコインで430万円を失った経緯。</p><h2>ママ友LINEから</h2><p>2021年末、Aさんはママ友（同年代女性）から「Lunaは年利20%確定」と勧められた。LINE上で複数のママ友が同じ商品を購入していて、安心感があった。</p><h2>2022年初の購入</h2><p>Aさんは家計の貯蓄から400万円を投じてLunaを購入。Anchor Protocolに預け入れ。さらに2022年4月に30万円追加。総入金430万円。</p><h2>2022年5月のLuna崩壊</h2><p>5月8-12日のLuna暴落で、保有資産は99.99%下落。回収額わずか2万円。</p><h2>夫への告白</h2><p>夫は当初激怒したが、最終的に家計透明化を条件に夫婦継続。</p><h2>振り返り：3つの教訓</h2><p><strong>1. 『年利20%確定』は数学的に持続不可能</strong></p><p><strong>2. ママ友LINEの集団投資は集団損失</strong></p><p><strong>3. 家計貯蓄を新興プロトコルに集中させない</strong></p><aside class=\"intake-record\"><h2>取材記録</h2><dl><dt>投稿者</dt><dd>Aさん（仮名・43歳女性）</dd><dt>居住</dt><dd>埼玉県・専業主婦</dd><dt>聞き取り方法</dt><dd>メールとLINEと通話で聞き取り</dd><dt>確認</dt><dd>本人確認済</dd></dl><h3 style=\"font-size:0.92rem;margin-top:18px;color:#aa2620;font-family:serif;\">追加で聞いた話</h3><dl><dt>取引/勧誘のきっかけ</dt><dd>頃、Discord招待で『暗号資産投資家コミュニティ』へ（埼玉県在住・Aさん本人談）</dd><dt>初回入金/取引の場面</dt><dd>頃、夫が出張中の夜、子を寝かしつけた後。最初の入金は約86万円</dd><dt>家族への告白</dt><dd>夫に告白：子の運動会の翌日、夫婦二人の朝食で。経緯を整理して伝えた</dd><dt>現在の状況（取材時点）</dt><dd>投資は完全停止、本業のスキルアップに集中、自治体の消費者教育講座を受講</dd></dl></aside><aside class=\"admin-note\"><h2>管理人の感想</h2><p>Luna被害ママは全国で多数。同質性の高い集団が同じプロトコルに同時参入する構造は、暗号通貨業界の典型的な被害パターンです。</p></aside><aside class=\"refund-meter\"><h2>返金可能性</h2><p><strong>0%</strong>：プロトコル崩壊、回収手段なし。</p></aside>",
+  "top_pillars": [
+    {
+      "href": "/compare/crypto-exchanges/",
+      "title": "国内仮想通貨取引所 比較",
+      "subtitle": "セキュリティ・出金体制・板の厚みで整理",
+      "icon": "▶"
+    },
+    {
+      "href": "/explain/crypto-scam-patterns/",
+      "title": "仮想通貨詐欺の典型パターン",
+      "subtitle": "「内部情報」「上場前」「LINE紹介」の構造",
+      "icon": "⚠"
+    }
+  ],
+  "inline_column": {
+    "title": "ソーシャル・プルーフ（社会的証明）",
+    "body": "<p>「みんなが買ってるから安心」と感じる心理。LINEグループで他のメンバーの入金スクショが流れると、判断が鈍る。</p><p>そもそもLINEグループの「他のメンバー」が本当に実在するかは分からない、という前提で見るほうが安全。</p>",
+    "book": {
+      "title": "影響力の武器",
+      "href": "https://www.amazon.co.jp/dp/4414304229",
+      "note": "なぜ騙されるかを6つの原理で解明"
+    }
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "slug": "toushi-crypto-016",
+  "title": "岡山の30代女性会社員、草コインで250万円失った話",
+  "category": "crypto",
+  "description": "岡山県岡山市の30代女性会社員Sさん（仮名）が、X DMで紹介された無名コインに250万円を投じ、2024年中盤の崩壊で価値ほぼゼロ。",
+  "persona": {
+    "name_initial": "S",
+    "age": 32,
+    "gender": "女性",
+    "occupation": "アパレル商社事務（年収約380万円）",
+    "family": "独身・一人暮らし",
+    "prefecture": "岡山県",
+    "investment_history_years": 0
+  },
+  "loss_amount_yen": 2500000,
+  "trigger": "X DM『次のドージコイン』",
+  "event": "2024年 草コイン崩壊",
+  "kaimyo": "S院仮想塵信女",
+  "kaimyo_explain": "イニシャルS＋仮想塵＋信女（100-300万階位・女性）",
+  "content": "<p>Sさん（仮名・32歳女性・岡山市のアパレル商社事務）から届いた話。X DMで紹介された無名コインに250万円投じて全損した経緯。</p><h2>X DMから</h2><p>2024年初、SさんのXアカウント宛に『次のドージコインを見つけた』というDMが届いた。送り主は20代男性風アカウント（フォロワー2万人）。チャート画像・取引画面のスクショで信頼感を演出。</p><h2>2024年2月の購入</h2><p>Sさんは貯金200万円と消費者金融からの借入50万円、計250万円相当の該当コインを購入。海外DEX経由。</p><h2>2024年5月の崩壊</h2><p>該当コインのプロジェクトが事実上停止、価格99.5%下落。回収額1.2万円。</p><h2>母親への告白</h2><p>消費者金融返済が困難になり、Sさんは実家の母親に事情説明。母親が一括返済。</p><h2>振り返り：3つの教訓</h2><p><strong>1. SNS DMの『次の100倍コイン』は全て買い手集め</strong></p><p><strong>2. 海外DEXは規制も保証もない</strong></p><p><strong>3. 借入金を投資に流用しない</strong></p><aside class=\"intake-record\"><h2>取材記録</h2><dl><dt>投稿者</dt><dd>Sさん（仮名・32歳女性）</dd><dt>居住</dt><dd>岡山県岡山市・事務職</dd><dt>聞き取り方法</dt><dd>メールとLINEと通話で聞き取り</dd><dt>確認</dt><dd>本人確認済</dd></dl><h3 style=\"font-size:0.92rem;margin-top:18px;color:#aa2620;font-family:serif;\">追加で聞いた話</h3><dl><dt>取引/勧誘のきっかけ</dt><dd>頃、YouTube『億り人ストーリー』動画を視聴（岡山県在住・Sさん本人談）</dd><dt>初回入金/取引の場面</dt><dd>頃、深夜、自室のPCから入金。最初の入金は約50万円</dd><dt>家族への告白</dt><dd>家族に告白：父親の誕生日の翌日、夕食後のリビング。経緯を整理して伝えた</dd><dt>現在の状況（取材時点）</dt><dd>退職せず継続勤務、損失分は半年〜1年かけて少しずつ吸収中</dd></dl></aside><aside class=\"admin-note\"><h2>管理人の感想</h2><p>X DMの『次の○○』系勧誘は2024年特に増加。チャート画像とスクショは画像編集で簡単に作れるため、信頼の根拠にしないでください。</p></aside><aside class=\"refund-meter\"><h2>返金可能性</h2><p><strong>0%</strong>：海外DEX、回収不能。</p></aside>",
+  "top_pillars": [
+    {
+      "href": "/compare/crypto-exchanges/",
+      "title": "国内仮想通貨取引所 比較",
+      "subtitle": "セキュリティ・出金体制・板の厚みで整理",
+      "icon": "▶"
+    },
+    {
+      "href": "/explain/crypto-scam-patterns/",
+      "title": "仮想通貨詐欺の典型パターン",
+      "subtitle": "「内部情報」「上場前」「LINE紹介」の構造",
+      "icon": "⚠"
+    }
+  ],
+  "inline_column": {
+    "title": "FOMO（取り残される恐怖）",
+    "body": "<p>Fear Of Missing Out。SNSで「億り人」の投稿を見るたびに、自分だけ乗り遅れる恐怖が増幅する。バブル相場の天井圏で買い増ししてしまう典型的な心理。</p><p>「乗り遅れる恐怖」を感じた瞬間こそ、バブルの後半にいる可能性が高い、と覚えておく。</p>",
+    "book": {
+      "title": "暗号資産の経済学",
+      "href": "https://www.amazon.co.jp/dp/4502428515",
+      "note": "規制・税制・取引実態の整理"
+    }
+  }
+}

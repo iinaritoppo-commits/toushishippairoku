@@ -1,0 +1,405 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import TopAffiliateBox from "../../components/TopAffiliateBox.astro";
+import PillarCompareTable from "../../components/PillarCompareTable.astro";
+import EndAffiliateMix from "../../components/EndAffiliateMix.astro";
+import NewsletterCTA from "../../components/NewsletterCTA.astro";
+import AdSenseSlot from "../../components/AdSenseSlot.astro";
+
+const title = "不動産クラウドファンディング比較2026 ─ 1万円から始める少額不動産投資5社の整理";
+const description = "ワンルーム投資の代替案として、不動産クラウドファンディング主要5社を「最低投資額・想定利回り・運用期間・優先劣後・運営会社実績」で観察整理。ワンルームで1820万円失う前に、まず1万円で仕組みを試す道筋。";
+const updatedAt = "2026-05-25";
+
+const topPillars = [
+  { href: "/explain/sublease-pitfall/", title: "サブリースの2年見直し条項", subtitle: "ワンルーム投資で家賃保証が外れる構造", icon: "⚙" },
+  { href: "/compare/asset-expo-warning/", title: "資産運用EXPOに行ったらヤバい理由", subtitle: "ワンルーム勧誘の温床になっている", icon: "⚠" },
+];
+
+const crowdfundingItems = [
+  {
+    name: "CREAL（クリアル）",
+    tagline: "東証グロース上場のクリアル株式会社が運営。投資家累計38,000人超の規模感。",
+    badge: "編集者観察",
+    specs: [
+      { label: "最低投資額", value: "1万円", highlight: true },
+      { label: "想定利回り", value: "年4-6%（案件により幅あり）" },
+      { label: "運用期間", value: "6ヶ月-2年" },
+      { label: "優先劣後", value: "あり（劣後出資10%以上）" },
+      { label: "運営会社", value: "クリアル株式会社（東証グロース上場）" },
+      { label: "案件規模", value: "保育園・ホテル・住宅など多様" },
+    ],
+    pros: [
+      "運営会社が東証上場で財務情報の透明性が高い",
+      "保育園・物流・ホテルなど用途多様化でリスク分散",
+      "優先劣後10%以上で投資家保護の仕組みあり",
+      "1万円から始められて入口の敷居が低い",
+    ],
+    cons: [
+      "人気案件は抽選で外れることが多い",
+      "運用期間中は途中解約不可（原則）",
+      "上場企業とはいえ、案件失敗時の元本毀損リスクは存在",
+    ],
+    pickFor: "上場企業の安心感を重視・案件を分散して持ちたい人",
+    ctaText: "CREAL 公式サイト",
+    ctaHref: "#asp-creal",
+    ctaNote: "※ASP承認後にアフィリリンクへ差し替え予定",
+  },
+  {
+    name: "COZUCHI（コヅチ）",
+    tagline: "想定利回り上振れの実績が多い注目株。短期型から長期型まで案件幅が広い。",
+    badge: "編集者観察",
+    specs: [
+      { label: "最低投資額", value: "1万円", highlight: true },
+      { label: "想定利回り", value: "年4-12%（案件により大幅変動）" },
+      { label: "運用期間", value: "3ヶ月-数年" },
+      { label: "優先劣後", value: "あり" },
+      { label: "運営会社", value: "LAETOLI株式会社" },
+      { label: "実績", value: "想定利回りを上振れて配当した実例多数" },
+    ],
+    pros: [
+      "想定利回り超えの配当実績が多い",
+      "案件の利回り幅が大きく、リスク許容度で選べる",
+      "短期3ヶ月の案件もあり、資金拘束期間を短くできる",
+      "途中解約制度（買取制度）が用意されている案件もある",
+    ],
+    cons: [
+      "上場企業ではないので運営会社の財務情報が限定的",
+      "高利回り案件は劣後割合が低めの設計もあり、案件ごとの確認必須",
+      "人気案件の応募が殺到して抽選になりやすい",
+    ],
+    pickFor: "利回り狙い・分散して案件を選びたい中級者",
+    ctaText: "COZUCHI 公式サイト",
+    ctaHref: "#asp-cozuchi",
+    ctaNote: "※ASP承認後にアフィリリンクへ差し替え予定",
+  },
+  {
+    name: "RIMPLE（リンプル）",
+    tagline: "プロパティエージェント運営。ポイント交換で投資できる独自の入口あり。",
+    badge: "編集者観察",
+    specs: [
+      { label: "最低投資額", value: "1万円", highlight: true },
+      { label: "想定利回り", value: "年3-5%" },
+      { label: "運用期間", value: "6ヶ月程度" },
+      { label: "優先劣後", value: "あり（劣後出資30%）" },
+      { label: "運営会社", value: "プロパティエージェント株式会社" },
+      { label: "特徴", value: "リアルエステートコインで投資可" },
+    ],
+    pros: [
+      "劣後出資30%と業界トップクラスの投資家保護",
+      "ポイント（Tポイント等）から専用コインに交換して投資可能",
+      "案件はワンルームマンション中心で運営会社の本業領域",
+      "短期6ヶ月運用で資金回転がしやすい",
+    ],
+    cons: [
+      "想定利回りは控えめ（3-5%）",
+      "案件供給が他社より少ない時期がある",
+      "人気案件は抽選倍率が高い",
+    ],
+    pickFor: "保護重視・ポイント活用・短期回転派",
+    ctaText: "RIMPLE 公式サイト",
+    ctaHref: "#asp-rimple",
+    ctaNote: "※ASP承認後にアフィリリンクへ差し替え予定",
+  },
+  {
+    name: "Funds（ファンズ）",
+    tagline: "貸付型クラファン。上場企業への貸付ベースで「不動産」とはやや毛色違い。",
+    badge: "編集者観察",
+    specs: [
+      { label: "最低投資額", value: "1円〜", highlight: true },
+      { label: "想定利回り", value: "年1.5-3.5%" },
+      { label: "運用期間", value: "1ヶ月-2年" },
+      { label: "優先劣後", value: "なし（貸付型）" },
+      { label: "運営会社", value: "ファンズ株式会社" },
+      { label: "投資先", value: "上場企業中心の貸付" },
+    ],
+    pros: [
+      "1円から投資可能で実質ハードル極低",
+      "投資先が上場企業中心で信用力が比較的安定",
+      "予定利回り通り配当される実績が多い",
+      "短期1ヶ月案件もあり超短期運用も可能",
+    ],
+    cons: [
+      "貸付型なので優先劣後の仕組みなし（リスク分担が直接的）",
+      "利回りは他社より低め（1.5-3.5%）",
+      "厳密には不動産投資というより法人向け融資",
+    ],
+    pickFor: "超少額から試したい・上場企業の信用力を優先する人",
+    ctaText: "Funds 公式サイト",
+    ctaHref: "#asp-funds",
+    ctaNote: "※ASP承認後にアフィリリンクへ差し替え予定",
+  },
+  {
+    name: "オーナーズブック（OwnersBook）",
+    tagline: "東証グロース上場のロードスターキャピタル運営。商業不動産・法人向け案件中心。",
+    badge: "編集者観察",
+    specs: [
+      { label: "最低投資額", value: "1万円", highlight: true },
+      { label: "想定利回り", value: "年3-6%" },
+      { label: "運用期間", value: "6ヶ月-3年" },
+      { label: "優先劣後", value: "あり（劣後出資20-30%）" },
+      { label: "運営会社", value: "ロードスターキャピタル株式会社（東証グロース上場）" },
+      { label: "案件", value: "商業ビル・物流施設等の法人向け" },
+    ],
+    pros: [
+      "運営会社が東証上場で財務情報の透明性が高い",
+      "プロが扱う商業不動産案件にアクセスできる",
+      "劣後出資20-30%で投資家保護の仕組みが厚い",
+      "過去のデフォルト案件ゼロの実績（2026年5月時点）",
+    ],
+    cons: [
+      "案件規模が大きく抽選倍率が高い",
+      "運用期間が長めの案件が多く資金拘束期間が長い",
+      "個人向け住居案件は少なめ",
+    ],
+    pickFor: "商業不動産にアクセスしたい・上場企業運営の安心感重視",
+    ctaText: "オーナーズブック 公式サイト",
+    ctaHref: "#asp-ownersbook",
+    ctaNote: "※ASP承認後にアフィリリンクへ差し替え予定",
+  },
+];
+
+const breadcrumbs = [
+  { name: "投資失敗録", url: "/" },
+  { name: "比較", url: "/compare/" },
+  { name: "不動産クラファン比較2026", url: "/compare/realestate-crowdfunding/" },
+];
+
+const faqs = [
+  {
+    q: "ワンルームマンションを買うのと、不動産クラファンってどう違う？",
+    a: "決定的に違うのは、レバレッジ（借入）と空室リスクの引受先。ワンルームはローンを組んで自分で物件を持つので、空室・家賃下落・金利上昇のリスクを全部自分で引き受ける。当サイトに1820万円失った40代男性の体験談がありますが、これは典型的なワンルームの落とし穴です。クラファンは1案件1万円から、レバレッジなし、運営会社の劣後出資で保護されるので、ワンルームより遥かに小さなリスクで始められる。",
+  },
+  {
+    q: "優先劣後って何？なぜ重要？",
+    a: "優先劣後は「損失が出たとき、まず運営会社の劣後出資分が消える」という仕組み。例えば総事業費10億円のうち運営会社が1億円（10%）の劣後出資をしていれば、事業が10%値下がりするまで投資家の元本は守られる。劣後出資10%以上、できれば20-30%の案件が、投資家保護の観点で望ましい。",
+  },
+  {
+    q: "途中で現金が必要になったら？",
+    a: "原則、運用期間中は途中解約できない案件がほとんど。一部のサービス（COZUCHI等）には買取制度があるが、すぐ現金化できる保証はない。投資する金額は「最低半年〜数年は使わない余裕資金」に限定するのが安全。生活費・教育費・近い将来の必要資金は絶対に入れない。",
+  },
+  {
+    q: "全部の会社に登録した方がいい？",
+    a: "案件の応募競争が激しいので、3社以上登録しておくと選択肢が広がります。ただし、登録だけ済ませて、実際に投資する金額は「年間の余裕資金の10-20%」程度に留めるのが現実的。複数案件に分散投資できる枠の中で運用。",
+  },
+  {
+    q: "デフォルト（元本毀損）はある？",
+    a: "実例は極めて少ないですが、ゼロではない。優先劣後の劣後出資割合を超える損失が発生すれば、投資家の元本も毀損する。「上場企業運営＋劣後出資20%以上」の案件を選ぶ、複数案件に分散する、生活防衛資金とは別の余裕資金で運用する、の3つを守れば致命的損失は回避しやすい。",
+  },
+];
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  showQuickNav={false}
+  pageType="article"
+  articleMeta={{ headline: title, category: "不動産 / 比較", datePublished: updatedAt, dateModified: updatedAt, author: "白川 諒" }}
+  breadcrumbs={breadcrumbs}
+>
+  <article class="pillar-page">
+    <nav class="breadcrumb">
+      <a href="/">トップ</a><span>›</span><a href="/compare/">比較</a><span>›</span><span>不動産クラファン比較2026</span>
+    </nav>
+
+    <header class="pillar-head">
+      <span class="pillar-head__cat">不動産 / 比較</span>
+      <h1 class="pillar-head__title">{title}</h1>
+      <p class="pillar-head__lead">
+        ワンルームマンションでローン2,000万円を背負う前に、まず1万円で不動産投資の仕組みを試せる。<br />
+        主要5社の「最低投資額・想定利回り・運用期間・優先劣後・運営会社実績」を編集者観察として並べた。
+      </p>
+      <div class="pillar-head__meta">
+        <span><strong>更新</strong>{updatedAt}</span>
+        <span><strong>取り上げ数</strong>5社</span>
+        <span><strong>編集</strong>白川 諒</span>
+      </div>
+    </header>
+
+    <TopAffiliateBox pillars={topPillars} heading="先に押さえておくと話が早い" subLabel="BACKGROUND READING" />
+
+    <AdSenseSlot slot="pillar-header" format="rectangle" />
+
+    <section class="pillar-section">
+      <h2 class="pillar-h2">なぜワンルームより不動産クラファンか</h2>
+      <p>
+        当サイトに集まった不動産投資の失敗体験で最も多いのが、ワンルームマンションの「サブリース＋ローン」の組み合わせ。<br />
+        1820万円の損失を出した40代男性の例では、表面利回り7%の説明と、2年後のサブリース家賃下げで実質利回りが3%以下に崩れた構造が記録されている。
+      </p>
+      <p>
+        不動産クラファンは、この構造的リスクをほぼ全部回避できる。<br />
+        ローン不要・1万円から・運営会社の劣後出資で保護・運用期間が決まっているので出口戦略不要。
+      </p>
+      <p class="pillar-callout">
+        いきなり2,000万円のローンを組む前に、まず1万円で不動産投資の感触を試す。<br />
+        ハマるなら次の年で5万円に増やす。これが資産形成として再現性のある順番。
+      </p>
+    </section>
+
+    <PillarCompareTable
+      items={crowdfundingItems}
+      caption="不動産クラウドファンディング主要5社の整理（編集者観察）"
+      axesLabel="SELECTION AXES"
+      axesNote="選定の軸：最低投資額・想定利回り・運用期間・優先劣後の有無と劣後割合・運営会社の上場有無・案件供給頻度"
+    />
+
+    <AdSenseSlot slot="pillar-middle" format="in-feed" />
+
+    <section class="pillar-section">
+      <h2 class="pillar-h2">「こんな人なら、これ」の使い分け</h2>
+      <ol class="pillar-list">
+        <li>
+          <strong>初めての不動産投資 → CREAL or オーナーズブック</strong>。両方とも東証上場の運営で透明性が高い。1万円から複数案件に分散できる。
+        </li>
+        <li>
+          <strong>利回り狙い・選定眼を養いたい → COZUCHI</strong>。想定利回り上振れの実績多数。ただし案件ごとの劣後割合確認は必須。
+        </li>
+        <li>
+          <strong>劣後30%の安心感重視 → RIMPLE</strong>。業界トップクラスの投資家保護。ポイント交換からも投資可能で実質コストが下がる。
+        </li>
+        <li>
+          <strong>1円から試したい・上場企業への貸付なら → Funds</strong>。厳密には不動産じゃないが「金融商品の入口」として優秀。
+        </li>
+      </ol>
+      <p>
+        全社に登録だけ済ませて、案件供給状況を見ながら投資先を選ぶのが現実的。1社1万円・5社合計5万円から、本格運用に進む前のテストとして十分機能する。
+      </p>
+    </section>
+
+    <section class="pillar-failures">
+      <div class="pillar-failures__head">
+        <span class="pillar-failures__sub">REAL CASES</span>
+        <h2 class="pillar-failures__title">クラファンを選ばずに、ワンルームへ進んだ結果</h2>
+      </div>
+      <p class="pillar-failures__intro">
+        本サイトに集まった、「不動産クラファンで小さく試す」を選ばずに、いきなりワンルームへ進んでしまった人たちの体験。
+      </p>
+      <ul class="pillar-failures__list">
+        <li>
+          <a href="/articles/toushi-realestate-expo-001/">
+            <span class="pillar-failures__icon" aria-hidden="true">⚱</span>
+            <span class="pillar-failures__text">
+              <strong>EXPOで契約したワンルーム、5年で1820万円失った40代会社員</strong>
+              <span>40代男性・不動産・1820万円</span>
+            </span>
+            <span class="pillar-failures__arrow" aria-hidden="true">→</span>
+          </a>
+        </li>
+      </ul>
+    </section>
+
+    <AdSenseSlot slot="pillar-faq-before" format="rectangle" />
+
+    <section class="pillar-faq">
+      <div class="pillar-faq__head">
+        <span class="pillar-faq__sub">FAQ</span>
+        <h2 class="pillar-faq__title">よく届く質問</h2>
+      </div>
+      <div class="pillar-faq__list">
+        {faqs.map((f, i) => (
+          <details class="pillar-faq__item" open={i === 0}>
+            <summary>
+              <span class="pillar-faq__q-mark" aria-hidden="true">Q</span>
+              <span class="pillar-faq__q-text">{f.q}</span>
+            </summary>
+            <div class="pillar-faq__a">
+              <span class="pillar-faq__a-mark" aria-hidden="true">A</span>
+              <p>{f.a}</p>
+            </div>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <EndAffiliateMix
+      sameCategory={[
+        { href: "/articles/toushi-realestate-expo-001/", title: "EXPOで契約したワンルーム、5年で1820万円", meta: "40代男性・不動産・1820万円" },
+      ]}
+      pillars={[
+        { href: "/compare/asset-expo-warning/", title: "資産運用EXPOに行ったらヤバい理由", meta: "Xトレンド分析＋構造解説" },
+        { href: "/explain/sublease-pitfall/", title: "サブリースの2年見直し条項", meta: "家賃保証が外れる構造的理由" },
+      ]}
+      sameCategoryLabel="REAL CASE"
+      pillarsLabel="RELATED"
+      sameCategoryHeading="ワンルームを選んだ結果"
+      pillarsHeading="関連する比較・解説"
+    />
+
+    <NewsletterCTA />
+    <AdSenseSlot slot="pillar-footer" format="rectangle" />
+  </article>
+</BaseLayout>
+
+<style>
+  .pillar-page { max-width: 880px; margin: 0 auto; padding: 0 24px 60px; }
+  .breadcrumb { max-width: 880px; margin: 20px auto 0; padding: 0 24px; font-size: 0.78rem; color: var(--c-ink-dim); }
+  .breadcrumb a { color: var(--c-navy); text-decoration: none; }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb span { margin: 0 6px; color: var(--c-gold); }
+
+  .pillar-head { padding: 36px 0 28px; border-bottom: 2px solid var(--c-navy); margin-bottom: 32px; }
+  .pillar-head__cat { display: inline-block; background: var(--c-gold); color: var(--c-navy-deep); font-size: 0.7rem; font-weight: 800; letter-spacing: 0.16em; padding: 5px 14px; border-radius: 2px; margin-bottom: 18px; }
+  .pillar-head__title { font-family: var(--font-serif); font-size: clamp(1.5rem, 3.6vw, 2rem); font-weight: 700; color: var(--c-ink); margin: 0 0 18px; line-height: 1.55; letter-spacing: 0.06em; }
+  .pillar-head__lead { margin: 0 0 22px; font-size: 1rem; color: var(--c-ink-soft); line-height: 2; }
+  .pillar-head__meta { display: flex; flex-wrap: wrap; gap: 20px; font-size: 0.84rem; color: var(--c-ink-soft); }
+  .pillar-head__meta strong { color: var(--c-ink-dim); margin-right: 8px; font-weight: 700; letter-spacing: 0.06em; }
+
+  .pillar-section { margin: 42px 0; }
+  .pillar-h2 { font-family: var(--font-serif); font-size: 1.36rem; font-weight: 700; color: var(--c-ink); letter-spacing: 0.08em; margin: 0 0 18px; padding-bottom: 12px; border-bottom: 2px solid var(--c-navy); }
+  .pillar-section p { font-size: 0.98rem; line-height: 2.05; color: var(--c-ink); margin: 0 0 14px; }
+  .pillar-section strong { color: var(--c-navy-deep); }
+  .pillar-list { list-style: none; margin: 0; padding: 0; counter-reset: pillar-list; display: flex; flex-direction: column; gap: 14px; }
+  .pillar-list li { counter-increment: pillar-list; padding: 16px 18px 16px 56px; background: #ffffff; border: 1px solid var(--c-line); border-left: 3px solid var(--c-gold); border-radius: 3px; position: relative; font-size: 0.96rem; line-height: 1.9; }
+  .pillar-list li::before { content: counter(pillar-list, decimal-leading-zero); position: absolute; left: 16px; top: 16px; font-family: "Helvetica Neue", sans-serif; font-weight: 900; font-size: 1.1rem; color: var(--c-gold); }
+  .pillar-list li strong { color: var(--c-navy-deep); }
+  .pillar-callout { margin: 22px 0 0 !important; padding: 18px 20px; background: linear-gradient(180deg, #fbf6e6 0%, #f5edcc 100%); border-left: 4px solid var(--c-gold); font-size: 0.94rem !important; line-height: 1.95 !important; }
+
+  .pillar-failures { margin: 56px 0 48px; padding: 32px 30px 34px; background: var(--c-bg); border: 1px solid var(--c-line); border-left: 4px solid var(--c-loss); border-radius: 4px; }
+  .pillar-failures__head { margin-bottom: 18px; }
+  .pillar-failures__sub { display: block; font-size: 0.68rem; letter-spacing: 0.44em; color: var(--c-loss); font-weight: 800; margin-bottom: 8px; }
+  .pillar-failures__title { font-family: var(--font-serif); font-size: 1.16rem; font-weight: 700; color: var(--c-ink); margin: 0; letter-spacing: 0.06em; line-height: 1.55; }
+  .pillar-failures__intro { margin: 0 0 18px; font-size: 0.92rem; color: var(--c-ink-soft); line-height: 1.9; }
+  .pillar-failures__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+  .pillar-failures__list li { margin: 0; }
+  .pillar-failures__list a { display: grid; grid-template-columns: 28px 1fr 18px; align-items: center; gap: 12px; padding: 14px 16px; background: #ffffff; border: 1px solid var(--c-line); border-radius: 3px; text-decoration: none; color: var(--c-ink); transition: all 0.15s ease; }
+  .pillar-failures__list a:hover { border-color: var(--c-loss); background: #fdf5f5; transform: translateX(2px); text-decoration: none; }
+  .pillar-failures__icon { color: var(--c-loss); font-size: 1.15rem; line-height: 1; }
+  .pillar-failures__text { display: flex; flex-direction: column; gap: 3px; }
+  .pillar-failures__text strong { font-size: 0.96rem; font-weight: 700; line-height: 1.55; color: var(--c-ink); }
+  .pillar-failures__text span { font-size: 0.76rem; color: var(--c-ink-soft); letter-spacing: 0.04em; }
+  .pillar-failures__arrow { color: var(--c-loss); font-weight: 700; }
+
+  .pillar-faq { margin: 56px 0 48px; }
+  .pillar-faq__head { margin-bottom: 18px; }
+  .pillar-faq__sub { display: block; font-size: 0.68rem; letter-spacing: 0.44em; color: var(--c-gold); font-weight: 800; margin-bottom: 8px; }
+  .pillar-faq__title { font-family: var(--font-serif); font-size: 1.36rem; font-weight: 700; color: var(--c-ink); margin: 0 0 12px; padding-bottom: 12px; border-bottom: 2px solid var(--c-navy); letter-spacing: 0.08em; }
+  .pillar-faq__list { display: flex; flex-direction: column; gap: 10px; }
+  .pillar-faq__item { background: #ffffff; border: 1px solid var(--c-line); border-radius: 3px; overflow: hidden; }
+  .pillar-faq__item summary { list-style: none; cursor: pointer; padding: 16px 18px; display: grid; grid-template-columns: 28px 1fr 20px; align-items: center; gap: 14px; background: var(--c-bg); border-bottom: 1px solid transparent; transition: background 0.15s ease; }
+  .pillar-faq__item summary::-webkit-details-marker { display: none; }
+  .pillar-faq__item summary::after { content: "+"; color: var(--c-gold); font-size: 1.4rem; font-weight: 700; line-height: 1; grid-column: 3; }
+  .pillar-faq__item[open] summary { border-bottom-color: var(--c-line); }
+  .pillar-faq__item[open] summary::after { content: "−"; }
+  .pillar-faq__item summary:hover { background: var(--c-bg-soft); }
+  .pillar-faq__q-mark { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; background: var(--c-navy); color: var(--c-gold); border-radius: 50%; font-family: "Helvetica Neue", sans-serif; font-weight: 900; font-size: 0.86rem; }
+  .pillar-faq__q-text { font-size: 0.96rem; font-weight: 700; color: var(--c-ink); line-height: 1.5; letter-spacing: 0.02em; }
+  .pillar-faq__a { padding: 16px 18px; display: grid; grid-template-columns: 28px 1fr; gap: 14px; background: #ffffff; }
+  .pillar-faq__a-mark { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; background: var(--c-gold); color: var(--c-navy-deep); border-radius: 50%; font-family: "Helvetica Neue", sans-serif; font-weight: 900; font-size: 0.86rem; align-self: start; }
+  .pillar-faq__a p { margin: 0; font-size: 0.92rem; line-height: 1.95; color: var(--c-ink); }
+
+  @media (max-width: 540px) {
+    .pillar-page { padding: 0 18px 50px; }
+    .breadcrumb { padding: 0 18px; }
+    .pillar-head { padding: 24px 0 20px; margin-bottom: 24px; }
+    .pillar-h2 { font-size: 1.18rem; }
+    .pillar-section p { font-size: 0.92rem; }
+    .pillar-list li { padding: 14px 14px 14px 48px; font-size: 0.9rem; }
+    .pillar-list li::before { left: 12px; top: 14px; font-size: 1rem; }
+    .pillar-failures { padding: 22px 18px 24px; }
+    .pillar-failures__title { font-size: 1.04rem; }
+    .pillar-faq__title { font-size: 1.18rem; }
+    .pillar-faq__item summary { padding: 14px 14px; grid-template-columns: 26px 1fr 18px; gap: 10px; }
+    .pillar-faq__q-text { font-size: 0.9rem; }
+    .pillar-faq__a { padding: 14px; gap: 10px; }
+    .pillar-faq__a p { font-size: 0.88rem; }
+  }
+</style>

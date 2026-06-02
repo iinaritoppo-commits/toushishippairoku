@@ -1,0 +1,124 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import AdSenseSlot from "../../components/AdSenseSlot.astro";
+import NewsletterCTA from "../../components/NewsletterCTA.astro";
+import { EXPLAINS } from "../../data/pillars-index";
+
+const title = "仕組みから読む解説 ─ 投資失敗録の解説記事一覧";
+const description = "ロスカット仕様・サブリース見直し条項・仮想通貨詐欺の構造・投資詐欺シグナル。失敗体験の裏側にある仕組みを、深掘りで残した解説記事の一覧。";
+
+const breadcrumbs = [
+  { name: "投資失敗録", url: "/" },
+  { name: "解説", url: "/explain/" },
+];
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  showQuickNav={false}
+  pageType="website"
+  breadcrumbs={breadcrumbs}
+>
+  <article class="hub-page">
+    <nav class="breadcrumb">
+      <a href="/">トップ</a><span>›</span><span>解説</span>
+    </nav>
+
+    <header class="hub-head">
+      <span class="hub-head__sub">EXPLAIN</span>
+      <h1 class="hub-head__title">仕組みから読む</h1>
+      <p class="hub-head__lead">
+        ロスカット仕様・サブリースの2年見直し・仮想通貨詐欺の3フェーズ・投資詐欺の9シグナル。<br />
+        失敗体験の裏側にある仕組みを深掘りで残した解説記事の一覧。
+      </p>
+      <div class="hub-head__meta">
+        <span><strong>取り上げ本数</strong>{EXPLAINS.length}本</span>
+        <span><strong>更新</strong>随時</span>
+      </div>
+    </header>
+
+    <AdSenseSlot slot="hub-header" format="rectangle" />
+
+    <div class="hub-grid">
+      {EXPLAINS.map((e) => (
+        <a href={e.href} class={`hub-card hub-card--${e.accent ?? "navy"}`}>
+          <div class="hub-card__head">
+            <span class="hub-card__cat">{e.category}</span>
+            {e.badge && <span class="hub-card__badge">{e.badge}</span>}
+          </div>
+          <h2 class="hub-card__title">{e.shortTitle}</h2>
+          <p class="hub-card__desc">{e.description}</p>
+          <div class="hub-card__foot">
+            <span class="hub-card__updated">更新 {e.updatedAt}</span>
+            <span class="hub-card__arrow" aria-hidden="true">→</span>
+          </div>
+        </a>
+      ))}
+    </div>
+
+    <section class="hub-related">
+      <div class="hub-related__head">
+        <span class="hub-related__sub">NEXT STEP</span>
+        <h2 class="hub-related__title">選び直したい人は比較記事へ</h2>
+      </div>
+      <p>
+        仕組みが分かったら、次は<a href="/compare/">比較記事</a>で具体的な選択肢を整理する。<br />
+        実際の失敗体験から読みたい人は<a href="/">トップ</a>へ戻って、損失額・カテゴリ別で探せる。
+      </p>
+    </section>
+
+    <NewsletterCTA />
+  </article>
+</BaseLayout>
+
+<style>
+  .hub-page { max-width: 1080px; margin: 0 auto; padding: 0 24px 60px; }
+  .breadcrumb { max-width: 1080px; margin: 20px auto 0; padding: 0 24px; font-size: 0.78rem; color: var(--c-ink-dim); }
+  .breadcrumb a { color: var(--c-navy); text-decoration: none; }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb span { margin: 0 6px; color: var(--c-gold); }
+
+  .hub-head { padding: 40px 0 28px; border-bottom: 2px solid var(--c-navy); margin-bottom: 32px; }
+  .hub-head__sub { display: block; font-size: 0.72rem; letter-spacing: 0.5em; color: var(--c-gold); font-weight: 800; margin-bottom: 12px; }
+  .hub-head__title { font-family: var(--font-serif); font-size: clamp(1.8rem, 4.2vw, 2.4rem); font-weight: 700; color: var(--c-ink); margin: 0 0 16px; letter-spacing: 0.12em; }
+  .hub-head__lead { margin: 0 0 22px; font-size: 1rem; color: var(--c-ink-soft); line-height: 2; }
+  .hub-head__meta { display: flex; flex-wrap: wrap; gap: 24px; font-size: 0.84rem; color: var(--c-ink-soft); }
+  .hub-head__meta strong { color: var(--c-ink-dim); margin-right: 8px; font-weight: 700; letter-spacing: 0.06em; }
+
+  .hub-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; margin: 36px 0 48px; }
+  .hub-card { display: flex; flex-direction: column; padding: 26px 26px 22px; background: #ffffff; border: 1px solid var(--c-line); border-top: 4px solid var(--c-navy); border-radius: 4px; text-decoration: none; color: var(--c-ink); box-shadow: 0 4px 14px rgba(28, 35, 48, 0.05); transition: all 0.2s ease; }
+  .hub-card--loss { border-top-color: var(--c-loss); }
+  .hub-card--gold { border-top-color: var(--c-gold); }
+  .hub-card:hover { transform: translateY(-4px); box-shadow: 0 10px 28px rgba(28, 35, 48, 0.1); text-decoration: none; color: var(--c-ink); }
+  .hub-card__head { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
+  .hub-card__cat { display: inline-block; background: var(--c-navy); color: var(--c-gold); font-size: 0.66rem; font-weight: 800; letter-spacing: 0.14em; padding: 4px 12px; border-radius: 2px; }
+  .hub-card--loss .hub-card__cat { background: var(--c-loss); color: #fff; }
+  .hub-card--gold .hub-card__cat { background: var(--c-gold); color: var(--c-navy-deep); }
+  .hub-card__title { font-family: var(--font-serif); font-size: 1.18rem; font-weight: 700; color: var(--c-ink); margin: 0 0 12px; line-height: 1.55; letter-spacing: 0.04em; }
+  .hub-card__desc { margin: 0 0 20px; font-size: 0.88rem; color: var(--c-ink-soft); line-height: 1.85; flex: 1; }
+  .hub-card__foot { display: flex; justify-content: space-between; align-items: center; padding-top: 14px; border-top: 1px solid var(--c-line); font-size: 0.78rem; color: var(--c-ink-dim); }
+  .hub-card__updated { letter-spacing: 0.04em; }
+  .hub-card__arrow { color: var(--c-gold); font-weight: 700; font-size: 1.1rem; transition: transform 0.15s ease; }
+  .hub-card:hover .hub-card__arrow { transform: translateX(4px); }
+
+  .hub-related { margin: 48px 0; padding: 28px 30px; background: var(--c-bg); border: 1px solid var(--c-line); border-left: 4px solid var(--c-gold); border-radius: 4px; }
+  .hub-related__head { margin-bottom: 14px; }
+  .hub-related__sub { display: block; font-size: 0.68rem; letter-spacing: 0.44em; color: var(--c-gold); font-weight: 800; margin-bottom: 6px; }
+  .hub-related__title { font-family: var(--font-serif); font-size: 1.16rem; font-weight: 700; color: var(--c-ink); margin: 0; letter-spacing: 0.06em; }
+  .hub-related p { margin: 0; font-size: 0.96rem; line-height: 1.95; color: var(--c-ink-soft); }
+  .hub-related a { color: var(--c-navy); font-weight: 700; }
+
+  @media (max-width: 720px) {
+    .hub-grid { grid-template-columns: 1fr; gap: 18px; }
+  }
+  @media (max-width: 540px) {
+    .hub-page { padding: 0 18px 50px; }
+    .breadcrumb { padding: 0 18px; }
+    .hub-head { padding: 28px 0 22px; margin-bottom: 24px; }
+    .hub-card { padding: 22px 20px 20px; }
+    .hub-card__title { font-size: 1.04rem; }
+    .hub-card__desc { font-size: 0.84rem; }
+    .hub-related { padding: 20px 18px; }
+  }
+</style>

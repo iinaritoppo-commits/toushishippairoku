@@ -1,0 +1,254 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import TopAffiliateBox from "../../components/TopAffiliateBox.astro";
+import EndAffiliateMix from "../../components/EndAffiliateMix.astro";
+import NewsletterCTA from "../../components/NewsletterCTA.astro";
+import AdSenseSlot from "../../components/AdSenseSlot.astro";
+
+const title = "FXで退場した人の7パターン ─ 取材で見えた共通点と回避ポイント";
+const description = "FXで退場（強制ロスカット・追証）した投稿者を編集者が取材して見えた7つの共通パターン。レバレッジ・損切り遅れ・スワップ依存・両建て・指標時のフルポジ・残高見ない期間・家族に黙る。退場直前のサインを実例から整理。";
+const updatedAt = "2026-05-26";
+
+const topPillars = [
+  { href: "/explain/loss-cut-mechanism/", title: "ロスカットの仕組み", subtitle: "指定レート時点と次の約定可能レートの違い", icon: "▶" },
+  { href: "/compare/fx-no-margin-call/", title: "追証なしFX口座 比較2026", subtitle: "ロスカット仕様で選ぶFX口座5社の整理", icon: "▶" },
+];
+
+const breadcrumbs = [
+  { name: "投資失敗録", url: "/" },
+  { name: "解説", url: "/explain/" },
+  { name: "FXで退場した人の7パターン", url: "/explain/fx-shippai-patterns/" },
+];
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  showQuickNav={false}
+  pageType="article"
+  articleMeta={{ headline: title, category: "FX / 解説", datePublished: updatedAt, dateModified: updatedAt, author: "白川 諒" }}
+  breadcrumbs={breadcrumbs}
+>
+  <article class="explain-page">
+    <nav class="breadcrumb">
+      <a href="/">トップ</a><span>›</span><a href="/explain/">解説</a><span>›</span><span>FXで退場した人の7パターン</span>
+    </nav>
+
+    <header class="explain-head">
+      <span class="explain-head__cat">FX / 解説</span>
+      <h1 class="explain-head__title">{title}</h1>
+      <p class="explain-head__lead">
+        FXの退場経験者から話を聞いていくと、同じ場所で同じことをしている人が多い。<br />
+        ここでは、取材した中で繰り返し出てきた7つのパターンを整理する。
+      </p>
+      <div class="explain-head__meta">
+        <span><strong>更新</strong>{updatedAt}</span>
+        <span><strong>編集</strong>白川 諒</span>
+      </div>
+    </header>
+
+    <TopAffiliateBox pillars={topPillars} heading="先に読んでおくと話が早い" subLabel="BACKGROUND READING" />
+
+    <AdSenseSlot slot="explain-header" format="rectangle" />
+
+    <section class="explain-section">
+      <h2 class="explain-h2">1. レバレッジを「最大」で使う</h2>
+      <p>
+        取材した話の中で、最も多いパターン。<br />
+        口座開設時に提示されるスペック──たとえば海外FX口座でよくある最大レバレッジ1000倍級。この「最大」を、最初から使い切ってしまう。
+      </p>
+      <p>
+        証拠金100万円で1000万円分のポジションを持つ。値動きの大きい銘柄を中ロットで入れる。ここで数十pips逆行すると、証拠金維持率がゼロを切る。逆行した瞬間、ロスカットラインまで距離が無い。
+      </p>
+      <p>
+        退場者の共通項として、「自分のレバレッジが何倍か知らない」も挙がる。<br />
+        「ロット数だけで管理してた」と言う人が多い。証拠金維持率の表示は見ているけれど、その意味までは把握していない。
+      </p>
+    </section>
+
+    <section class="explain-section">
+      <h2 class="explain-h2">2. 損切りを「もう少し待つ」で先送り</h2>
+      <p>
+        「あと10pips戻ったら切る」が、「あと30pips」「あと100pips」と更新されていく。
+      </p>
+      <p>
+        含み損が広がるほど、損切り注文を入れる心理的ハードルが上がる。10万円の含み損は切れるけれど、50万円になると「ここまで耐えたんだから」と思う。100万円を超えた時点で、損切りは「諦め」に近い感覚になる。指で押せない。
+      </p>
+      <p>
+        ロスカット仕様に救われる人もいれば、ロスカット直前で急変動が止まり、含み損ホールドのまま塩漬けに移行する人もいる。両方とも、最初の損切り判断ができなかった結果。
+      </p>
+      <p class="explain-callout">
+        退場者は「あの時切っていれば、口座残高は半分残ってた」とほぼ全員が言う。
+      </p>
+    </section>
+
+    <section class="explain-section">
+      <h2 class="explain-h2">3. スワップポイントを収益の柱にする</h2>
+      <p>
+        南アフリカランド、トルコリラ、メキシコペソ。新興国通貨ペアのスワップ金利を、収益の柱として使う構造。
+      </p>
+      <p>
+        「1日400円のスワップが入る」「年利換算で20%超」という計算を立てる。<br />
+        取材した中で多かったのはトルコリラ円。2022年の急落で口座残高の3分の2を失った、という話を複数聞いた。
+      </p>
+      <p>
+        スワップポイント自体は実在する。ただ、スワップで貯まる金額より、為替変動で動く金額のほうが、桁が違うことが多い。<br />
+        1日のスワップ400円に対して、為替が1円動けば1万通貨で1万円。スワップ25日分が一瞬で吹き飛ぶ計算。
+      </p>
+      <p>
+        「スワップで稼いでた」と言う退場者は、スワップ累計より為替差損が圧倒的に上回った状態で口座が止まっている。
+      </p>
+    </section>
+
+    <section class="explain-section">
+      <h2 class="explain-h2">4. 含み損を両建てで「凍結」する</h2>
+      <p>
+        ロングポジションが100万円の含み損になっている。<br />
+        ここで反対方向のショートを同枚数入れる。両建て。これで含み損は固定される。「価格が動いてもこれ以上損失は増えない」と感じる。
+      </p>
+      <p>
+        ただし、両建ては「損失の確定の先延ばし」でしかない。<br />
+        両ポジションを同時に決済すれば100万円の損失。片方を順番に切れば、結局は同じ100万円の損失に近づく。
+      </p>
+      <p>
+        両建てを使う人の特徴として、「どちらかを利益で切って、もう片方を後で切る」と考える。<br />
+        実際には、利益方向のポジションを早く切り、損失方向は伸びる。最終的に、両建てを始めた時点の含み損よりトータルの損失が大きくなる。
+      </p>
+    </section>
+
+    <AdSenseSlot slot="explain-middle" format="in-feed" />
+
+    <section class="explain-section">
+      <h2 class="explain-h2">5. 米国指標の前後にフルポジションで突っ込む</h2>
+      <p>
+        米国雇用統計、CPI、FOMC。発表前後の値動きを「予想できる」と思って、フルポジションでエントリーする。
+      </p>
+      <p>
+        実際にはどちらに動くか分からない。動く方向が当たっても、戻りで損切りにかかる。動く方向が外れれば、想定以上の損失。
+      </p>
+      <p>
+        スプレッドが指標発表時に開く仕様の口座だと、想定したストップ価格で約定しない。ストップロス注文を10pipsで入れていても、約定が50pips先になる、ということがある。
+      </p>
+      <p>
+        退場直前のラスト1〜2トレードが、こうした指標相場のフルポジションだったケースは多い。<br />
+        「最後の挽回」のつもりが、最後の取引になる。
+      </p>
+    </section>
+
+    <section class="explain-section">
+      <h2 class="explain-h2">6. 口座残高を見ない期間が長くなる</h2>
+      <p>
+        含み損が大きくなると、MT4・MT5を開かなくなる。
+      </p>
+      <p>
+        「見ても気が重いだけ」「相場が動いた時だけ見る」と本人は言う。<br />
+        実際は、見ないで済む期間が長いほど、ロスカット時の衝撃が大きくなる。
+      </p>
+      <p>
+        毎日見ていれば、損失の進行を肌で感じる。週に1回も見なければ、ある日「強制決済通知メール」が届いて気付く。口座残高を確認したら、想定の半分以下だった、というケース。
+      </p>
+      <p>
+        退場者の話を聞いていると、「ロスカット通知が来るまで、口座を開いていなかった」と答える人が一定数いる。これは判断停止に近い状態。投資を続けている感覚はあるが、取引している感覚は無い。
+      </p>
+    </section>
+
+    <section class="explain-section">
+      <h2 class="explain-h2">7. 家族に黙って始めて、黙ったまま増やす</h2>
+      <p>
+        最初の入金は数万円。これは「お小遣いの範囲」で家族に伝えなくても良いと判断する。
+      </p>
+      <p>
+        含み損が膨らんで、追加入金が必要になる。家族に話せない金額になっていく。<br />
+        給与から、ボーナスから、定期預金の解約から。家計の中で「使い道を説明できない出金」が増えていく。
+      </p>
+      <p>
+        ロスカットされた時、家族に状況を説明できない。<br />
+        取材した中には、退場後に離婚に至ったケース、住宅ローン返済が滞ったケース、配偶者の親に借金したケースが含まれる。
+      </p>
+      <p>
+        金額の大きさよりも、「黙っていた期間の長さ」が回復を難しくする。<br />
+        最初の数万円の段階で家族に話していれば、退場までの坂は緩やかになっていた可能性がある。
+      </p>
+    </section>
+
+    <section class="explain-section">
+      <h2 class="explain-h2">共通の回避ポイント</h2>
+      <p>
+        7つのパターンに共通する回避策は、わりとシンプル。
+      </p>
+      <ol class="explain-list">
+        <li><strong>レバレッジは口座最大の十分の一以下を上限にする</strong>。最大1000倍口座なら、実効レバレッジは100倍以下を目安。</li>
+        <li><strong>損切りは「金額」で決める</strong>。価格基準じゃなく「いくら損したら切る」で発注する。</li>
+        <li><strong>スワップは「ボーナス」と考える</strong>。収益源にはしない。為替差損で簡単に吹き飛ぶ前提で扱う。</li>
+        <li><strong>両建ては使わない</strong>。損失を見たくないなら、ポジション量を最初から減らす。</li>
+        <li><strong>指標発表前は、ポジションをゼロにして見送る</strong>。発表後の値動きを確認してからエントリーする。</li>
+        <li><strong>口座は毎日1回、必ず開く</strong>。残高と維持率を確認する習慣を切らさない。</li>
+        <li><strong>投資の存在は、最初の段階から家族に伝える</strong>。金額が小さいうちに話すほど、後の説明が楽になる。</li>
+      </ol>
+      <p>
+        7つのうち、複数を組み合わせて陥っていく退場者が多い。<br />
+        1つだけ気をつけていても、別の項目で蓄積されていく。全部を意識して、初めて退場を回避できる。
+      </p>
+    </section>
+
+    <section class="explain-failures">
+      <h3>このパターンが実際に効いた失敗体験</h3>
+      <ul>
+        <li><a href="/articles/toushi-fx-001/">トルコリラのスワップ狙いで320万円溶かした30代会社員の話</a></li>
+      </ul>
+    </section>
+
+    <EndAffiliateMix
+      sameCategory={[]}
+      pillars={[
+        { href: "/explain/loss-cut-mechanism/", title: "ロスカットの仕組み", meta: "指定レート時点と次の約定可能レートの違い" },
+        { href: "/compare/fx-no-margin-call/", title: "追証なしFX口座 比較2026", meta: "ロスカット仕様で選ぶFX口座5社" },
+        { href: "/explain/scam-detection-guide/", title: "投資詐欺の見抜き方", meta: "9シグナルで識別する3軸" },
+      ]}
+      sameCategoryLabel="REAL CASE"
+      pillarsLabel="RELATED"
+      sameCategoryHeading="退場直前の実話"
+      pillarsHeading="関連する比較・解説"
+    />
+
+    <NewsletterCTA />
+    <AdSenseSlot slot="explain-footer" format="rectangle" />
+  </article>
+</BaseLayout>
+
+<style>
+  .explain-page { max-width: 820px; margin: 0 auto; padding: 0 24px 60px; }
+  .breadcrumb { max-width: 820px; margin: 20px auto 0; padding: 0 24px; font-size: 0.78rem; color: var(--c-ink-dim); }
+  .breadcrumb a { color: var(--c-navy); text-decoration: none; }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb span { margin: 0 6px; color: var(--c-gold); }
+
+  .explain-head { padding: 32px 0 24px; border-bottom: 2px solid var(--c-navy); margin-bottom: 28px; }
+  .explain-head__cat { display: inline-block; background: var(--c-navy); color: var(--c-gold); font-size: 0.7rem; font-weight: 800; letter-spacing: 0.16em; padding: 5px 14px; border-radius: 2px; margin-bottom: 16px; }
+  .explain-head__title { font-family: var(--font-serif); font-size: clamp(1.4rem, 3.2vw, 1.8rem); font-weight: 700; color: var(--c-ink); margin: 0 0 16px; line-height: 1.55; letter-spacing: 0.06em; }
+  .explain-head__lead { margin: 0 0 18px; font-size: 0.98rem; color: var(--c-ink-soft); line-height: 2; }
+  .explain-head__meta { display: flex; flex-wrap: wrap; gap: 18px; font-size: 0.82rem; color: var(--c-ink-soft); }
+  .explain-head__meta strong { color: var(--c-ink-dim); margin-right: 6px; }
+
+  .explain-section { margin: 36px 0; }
+  .explain-h2 { font-family: var(--font-serif); font-size: 1.28rem; font-weight: 700; color: var(--c-ink); letter-spacing: 0.06em; margin: 0 0 16px; padding-bottom: 10px; border-bottom: 2px solid var(--c-navy); }
+  .explain-section p { font-size: 0.96rem; line-height: 2.0; color: var(--c-ink); margin: 0 0 12px; }
+  .explain-section strong { color: var(--c-navy-deep); }
+
+  .explain-callout { margin: 16px 0 0 !important; padding: 16px 18px; background: linear-gradient(180deg, #fbf6e6 0%, #f5edcc 100%); border-left: 4px solid var(--c-gold); font-size: 0.92rem !important; line-height: 1.95 !important; }
+
+  .explain-list { list-style: none; margin: 0; padding: 0; counter-reset: ex-list; display: flex; flex-direction: column; gap: 12px; }
+  .explain-list li { counter-increment: ex-list; padding: 14px 16px 14px 52px; background: #ffffff; border: 1px solid var(--c-line); border-left: 3px solid var(--c-gold); border-radius: 3px; position: relative; font-size: 0.94rem; line-height: 1.85; }
+  .explain-list li::before { content: counter(ex-list, decimal-leading-zero); position: absolute; left: 14px; top: 14px; font-family: "Helvetica Neue", sans-serif; font-weight: 900; font-size: 1rem; color: var(--c-gold); }
+
+  .explain-failures { margin: 40px 0; padding: 20px 22px; background: var(--c-bg); border-left: 3px solid var(--c-loss); border-radius: 3px; }
+  .explain-failures h3 { margin: 0 0 10px; font-size: 0.94rem; color: var(--c-loss); letter-spacing: 0.04em; }
+  .explain-failures ul { margin: 0; padding-left: 18px; }
+  .explain-failures a { color: var(--c-navy); }
+
+  @media (max-width: 540px) {
+    .explain-page { padding: 0 18px 50px; }
+    .breadcrumb { padding: 0 18px; }
+    .explain-h2 { font-size: 1.1rem; }
+  }
+</style>

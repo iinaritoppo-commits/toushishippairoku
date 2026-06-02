@@ -1,0 +1,149 @@
+---
+// 記事冒頭の関連情報ボックス（直アフィではなく内部リンク経由でピラー記事へ送る）
+// 失敗体験記事の persona-box 直後に配置することを想定
+interface Pillar {
+  href: string;
+  title: string;
+  subtitle?: string;
+  icon?: string; // 絵文字 or 単体記号
+}
+interface Props {
+  pillars: Pillar[];
+  heading?: string;
+  subLabel?: string;
+}
+const {
+  pillars,
+  heading = "同じ罠を踏まないために",
+  subLabel = "RELATED RESOURCES",
+} = Astro.props;
+---
+<aside class="topbox" aria-label="関連する解説・比較記事">
+  <div class="topbox__head">
+    <span class="topbox__sub">{subLabel}</span>
+    <h2 class="topbox__title">{heading}</h2>
+  </div>
+  <ul class="topbox__list">
+    {pillars.map((p) => (
+      <li class="topbox__item">
+        <a href={p.href} class="topbox__link">
+          <span class="topbox__icon" aria-hidden="true">{p.icon ?? "▶"}</span>
+          <span class="topbox__text">
+            <strong class="topbox__strong">{p.title}</strong>
+            {p.subtitle && <span class="topbox__desc">{p.subtitle}</span>}
+          </span>
+          <span class="topbox__arrow" aria-hidden="true">→</span>
+        </a>
+      </li>
+    ))}
+  </ul>
+</aside>
+
+<style>
+  .topbox {
+    margin: 30px 0 36px;
+    padding: 22px 26px 24px;
+    background: linear-gradient(180deg, #fbfaf2 0%, #f5efde 100%);
+    border: 1px solid var(--c-line);
+    border-top: 3px solid var(--c-gold);
+    border-radius: 4px;
+    box-shadow: 0 2px 10px rgba(28, 35, 48, 0.04);
+  }
+  .topbox__head {
+    margin-bottom: 14px;
+    padding-bottom: 12px;
+    border-bottom: 1px dashed rgba(200, 154, 74, 0.4);
+  }
+  .topbox__sub {
+    display: block;
+    font-size: 0.66rem;
+    letter-spacing: 0.42em;
+    color: var(--c-gold);
+    font-weight: 800;
+    margin-bottom: 6px;
+  }
+  .topbox__title {
+    font-family: var(--font-serif);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--c-ink);
+    letter-spacing: 0.12em;
+    margin: 0;
+    line-height: 1.5;
+  }
+  .topbox__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .topbox__item { margin: 0; }
+  .topbox__link {
+    display: grid;
+    grid-template-columns: 28px 1fr 18px;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    background: #ffffff;
+    border: 1px solid var(--c-line);
+    border-radius: 3px;
+    text-decoration: none;
+    color: var(--c-ink);
+    transition: all 0.15s ease;
+  }
+  .topbox__link:hover {
+    border-color: var(--c-navy);
+    background: var(--c-bg);
+    transform: translateX(2px);
+    text-decoration: none;
+  }
+  .topbox__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    background: var(--c-navy);
+    color: var(--c-gold);
+    border-radius: 2px;
+    font-size: 0.78rem;
+    font-weight: 800;
+  }
+  .topbox__text {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+  }
+  .topbox__strong {
+    font-size: 0.96rem;
+    font-weight: 700;
+    line-height: 1.5;
+    letter-spacing: 0.02em;
+    color: var(--c-ink);
+  }
+  .topbox__desc {
+    font-size: 0.78rem;
+    color: var(--c-ink-soft);
+    line-height: 1.55;
+    letter-spacing: 0.03em;
+  }
+  .topbox__arrow {
+    font-family: "Helvetica Neue", sans-serif;
+    color: var(--c-gold);
+    font-weight: 700;
+    font-size: 0.92rem;
+  }
+  .topbox__link:hover .topbox__arrow { color: var(--c-navy); }
+
+  @media (max-width: 540px) {
+    .topbox { padding: 18px 18px 20px; }
+    .topbox__title { font-size: 1rem; letter-spacing: 0.08em; }
+    .topbox__link { grid-template-columns: 24px 1fr 16px; gap: 10px; padding: 10px 12px; }
+    .topbox__icon { width: 24px; height: 24px; font-size: 0.72rem; }
+    .topbox__strong { font-size: 0.9rem; }
+    .topbox__desc { font-size: 0.74rem; }
+  }
+</style>

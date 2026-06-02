@@ -1,0 +1,233 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import TopAffiliateBox from "../../components/TopAffiliateBox.astro";
+import EndAffiliateMix from "../../components/EndAffiliateMix.astro";
+import NewsletterCTA from "../../components/NewsletterCTA.astro";
+import AdSenseSlot from "../../components/AdSenseSlot.astro";
+
+const title = "新NISAで含み損になった人の失敗パターン ─ 取材で見えた7つの共通点";
+const description = "新NISAで含み損を抱えた投稿者の話を編集者が取材して見えた7つの共通パターン。S&P500偏重・米国株信仰・FIRE便乗・短期売買・高配当株信仰・ロボアド任せ・SNSインフルエンサー追従。新NISA時代の失敗構造を実例から整理。";
+const updatedAt = "2026-05-27";
+
+const topPillars = [
+  { href: "/explain/loss-cut-mechanism/", title: "ロスカットの仕組み", subtitle: "指定レート時点と次の約定可能レートの違い", icon: "▶" },
+  { href: "/explain/scam-detection-guide/", title: "投資詐欺の見抜き方", subtitle: "9シグナルで識別する3軸の整理", icon: "⚠" },
+];
+
+const breadcrumbs = [
+  { name: "投資失敗録", url: "/" },
+  { name: "解説", url: "/explain/" },
+  { name: "新NISAで含み損になった人の失敗パターン", url: "/explain/nisa-fukumison-patterns/" },
+];
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  showQuickNav={false}
+  pageType="article"
+  articleMeta={{ headline: title, category: "投信・NISA / 解説", datePublished: updatedAt, dateModified: updatedAt, author: "白川 諒" }}
+  breadcrumbs={breadcrumbs}
+>
+  <article class="explain-page">
+    <nav class="breadcrumb">
+      <a href="/">トップ</a><span>›</span><a href="/explain/">解説</a><span>›</span><span>新NISAで含み損になった人の失敗パターン</span>
+    </nav>
+
+    <header class="explain-head">
+      <span class="explain-head__cat">投信・NISA / 解説</span>
+      <h1 class="explain-head__title">{title}</h1>
+      <p class="explain-head__lead">
+        2024年に始まった新NISAで、すでに含み損を抱えた投稿者の話を取材すると、共通するパターンが見えてきた。<br />
+        ここでは、繰り返し出てきた7つのパターンを整理する。
+      </p>
+      <div class="explain-head__meta">
+        <span><strong>更新</strong>{updatedAt}</span>
+        <span><strong>編集</strong>白川 諒</span>
+      </div>
+    </header>
+
+    <TopAffiliateBox pillars={topPillars} heading="先に読んでおくと話が早い" subLabel="BACKGROUND READING" />
+
+    <AdSenseSlot slot="explain-header" format="rectangle" />
+
+    <section class="explain-section">
+      <h2 class="explain-h2">1. 「S&P500なら絶対安心」と全額投入</h2>
+      <p>
+        取材した話の中で、最も多いパターン。<br />
+        新NISA成長投資枠の240万円を、1日で全額S&P500連動投信に投じる。
+      </p>
+      <p>
+        「過去30年で年平均8%」というデータを根拠に、リスク許容度の検討を飛ばして全額入れる。直後の数か月で米国株が10%下落、口座は含み損24万円。<br />
+        毎日NISA画面を見て、評価額の赤字が増えていくのを眺める日々が始まる。
+      </p>
+      <p>
+        S&P500の長期リターンは事実だが、その途中には2008年のリーマンショック、2020年のコロナショック、2022年の利上げ局面など、含み損を抱えた人の心が折れる場面が複数ある。<br />
+        全額一括投入する人は、その途中の「我慢期間」を想定していないケースが多い。
+      </p>
+    </section>
+
+    <section class="explain-section">
+      <h2 class="explain-h2">2. 米国株信仰で為替リスクを無視</h2>
+      <p>
+        投資先のリスクは意識するが、為替変動の影響を軽視する。
+      </p>
+      <p>
+        2024年は1ドル150円台でドル建て資産を買った。2025年に円高に振れて1ドル140円になると、株価が同じでも円換算で約7%の損失。<br />
+        S&P500が10%上がっても、為替で7%下がれば、円ベースでは3%の利益。為替が10%下がれば、円ベースでマイナス。
+      </p>
+      <p>
+        取材した中で「為替を考えずに買って、為替で損した」という人は多い。NISAは円建てで損益計算するため、為替損は実損として家計に響く。
+      </p>
+    </section>
+
+    <section class="explain-section">
+      <h2 class="explain-h2">3. FIRE便乗で高配当株偏重</h2>
+      <p>
+        FIRE（Financial Independence, Retire Early）ブームに乗って、新NISAで高配当株中心のポートフォリオを組む。
+      </p>
+      <p>
+        「配当4%なら年96万円、月8万円の不労所得」という皮算用で、成長投資枠を高配当株ETFに集中投入。<br />
+        ところが、高配当株は株価成長が鈍く、配当も減配リスクがある。減配が発表された瞬間に株価が10〜20%下落、配当も減る、というダブルパンチを経験する人がいた。
+      </p>
+      <p>
+        NISAは非課税というメリットがあるが、それは利益が出た時の話。含み損の状態では、課税メリットを享受できない。FIRE目標の人は、配当だけでなく成長性も含めた設計が必要だった、と振り返るケースが多い。
+      </p>
+    </section>
+
+    <section class="explain-section">
+      <h2 class="explain-h2">4. 新NISA口座で短期売買</h2>
+      <p>
+        新NISAは「長期保有が前提」の制度設計だが、短期売買で使う人がいる。
+      </p>
+      <p>
+        個別株を成長投資枠で買い、数週間後に売却。利益が出ればそれで良いが、損切りすると、損失分の非課税枠を翌年まで使えない。<br />
+        非課税枠は「買った時の金額」で消費されるため、損切りしても枠は戻らない。
+      </p>
+      <p>
+        取材した中で「特定口座と同じ感覚で短期売買して、非課税枠を無駄にした」という人が複数いた。新NISAの設計上、頻繁な売買は損になる構造になっている。
+      </p>
+    </section>
+
+    <AdSenseSlot slot="explain-middle" format="in-feed" />
+
+    <section class="explain-section">
+      <h2 class="explain-h2">5. 高配当株を「インカム狙い」で大量保有</h2>
+      <p>
+        「配当金を生活費に」という発想で、特定の高配当株を大量保有する。
+      </p>
+      <p>
+        集中投資のリスク管理ができていないと、その企業の業績悪化で株価が3割下がる、ということが起きる。1銘柄に成長投資枠の大半を投じた人が、業績悪化の決算発表で1日で含み損60万円、というケースを取材した。
+      </p>
+      <p>
+        高配当株は「収益が安定した企業」が選ばれることが多いが、安定とは「成長が止まった」とも言える。安定企業ほど、外部環境の変化に弱い場合がある。
+      </p>
+    </section>
+
+    <section class="explain-section">
+      <h2 class="explain-h2">6. ロボアド任せで放置・含み損</h2>
+      <p>
+        新NISA対応のロボアドに毎月積立設定して、後はアプリを開かない。
+      </p>
+      <p>
+        市場が右肩上がりの時はそれで良いが、下落局面では、ロボアドのアルゴリズムが機械的に資産配分を維持する。下がった資産を売って、上がった資産を買う、いわゆる「リバランス」が発動する。<br />
+        ところが、利用者本人がその挙動を理解していないと、「下がってるのに何で売ってるの？」「なんで違う商品が増えてるの？」と不安になる。
+      </p>
+      <p>
+        取材した中で「半年放置して開いたら、想定と違う商品構成で、含み損30万円だった」という人がいた。ロボアドは便利だが、ブラックボックスとして使うのは危険、と振り返っていた。
+      </p>
+    </section>
+
+    <section class="explain-section">
+      <h2 class="explain-h2">7. SNSインフルエンサーの推奨銘柄追従</h2>
+      <p>
+        X（Twitter）・YouTube・Instagramで「新NISAおすすめ銘柄」を発信するインフルエンサーをフォロー、推奨銘柄をそのまま買う。
+      </p>
+      <p>
+        インフルエンサーが「今が買い」と発信した時点で、既に株価が上がりきっている、というパターン。発信後に追従買いが入って高値掴み、その後の調整局面で含み損を抱える。
+      </p>
+      <p>
+        インフルエンサー自身は、推奨前に仕込んでいて、フォロワーが買った時点で利確している、というケースもあった。取材した中で「推奨銘柄を買って3か月で含み損20万円」という人は、インフルエンサーが既にその銘柄から離れていたことを後で知った、と話していた。
+      </p>
+    </section>
+
+    <section class="explain-section">
+      <h2 class="explain-h2">共通の回避ポイント</h2>
+      <p>
+        7つのパターンに共通する回避策は、いくつかに整理できる。
+      </p>
+      <ol class="explain-list">
+        <li><strong>一括投入は避けて、時間分散で買う</strong>。成長投資枠240万円なら、12か月で毎月20万円ずつ。</li>
+        <li><strong>為替リスクを認識する</strong>。ドル建て商品は、為替変動分の損益も計算に入れる。</li>
+        <li><strong>高配当株は「ポートフォリオの一部」</strong>。FIRE目標でも、成長性とのバランスを取る。</li>
+        <li><strong>新NISAは長期保有前提で使う</strong>。短期売買は非課税メリットを失う設計。</li>
+        <li><strong>個別株は1銘柄に集中させない</strong>。最大でもポートフォリオの一部に留める。</li>
+        <li><strong>ロボアドは月1回は中身を確認する</strong>。完全放置はブラックボックス化する。</li>
+        <li><strong>SNSインフルエンサーの推奨は鵜呑みにしない</strong>。発信タイミングと自分の購入タイミングのズレに注意。</li>
+      </ol>
+      <p>
+        新NISAは制度自体は優れているが、使い方で失敗する人が多い。<br />
+        非課税メリットを享受するには、まず含み損を抱えない設計が必要、というのが取材した投稿者たちの共通の振り返りだった。
+      </p>
+    </section>
+
+    <section class="explain-failures">
+      <h3>このパターンが実際に効いた失敗体験</h3>
+      <ul>
+        <li><a href="/category/funds/">投信・ファンド系の失敗体験一覧</a></li>
+        <li><a href="/category/stocks/">株式投資の失敗体験一覧</a></li>
+      </ul>
+    </section>
+
+    <EndAffiliateMix
+      sameCategory={[]}
+      pillars={[
+        { href: "/explain/loss-cut-mechanism/", title: "ロスカットの仕組み", meta: "指定レート時点と次の約定可能レートの違い" },
+        { href: "/explain/fx-shippai-patterns/", title: "FXで退場した人の7パターン", meta: "取材で見えた共通点と回避ポイント" },
+        { href: "/explain/scam-detection-guide/", title: "投資詐欺の見抜き方", meta: "9シグナルで識別する3軸" },
+      ]}
+      sameCategoryLabel="REAL CASE"
+      pillarsLabel="RELATED"
+      sameCategoryHeading="関連する失敗体験"
+      pillarsHeading="関連する比較・解説"
+    />
+
+    <NewsletterCTA />
+    <AdSenseSlot slot="explain-footer" format="rectangle" />
+  </article>
+</BaseLayout>
+
+<style>
+  .explain-page { max-width: 820px; margin: 0 auto; padding: 0 24px 60px; }
+  .breadcrumb { max-width: 820px; margin: 20px auto 0; padding: 0 24px; font-size: 0.78rem; color: var(--c-ink-dim); }
+  .breadcrumb a { color: var(--c-navy); text-decoration: none; }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb span { margin: 0 6px; color: var(--c-gold); }
+
+  .explain-head { padding: 32px 0 24px; border-bottom: 2px solid var(--c-navy); margin-bottom: 28px; }
+  .explain-head__cat { display: inline-block; background: var(--c-navy); color: var(--c-gold); font-size: 0.7rem; font-weight: 800; letter-spacing: 0.16em; padding: 5px 14px; border-radius: 2px; margin-bottom: 16px; }
+  .explain-head__title { font-family: var(--font-serif); font-size: clamp(1.4rem, 3.2vw, 1.8rem); font-weight: 700; color: var(--c-ink); margin: 0 0 16px; line-height: 1.55; letter-spacing: 0.06em; }
+  .explain-head__lead { margin: 0 0 18px; font-size: 0.98rem; color: var(--c-ink-soft); line-height: 2; }
+  .explain-head__meta { display: flex; flex-wrap: wrap; gap: 18px; font-size: 0.82rem; color: var(--c-ink-soft); }
+  .explain-head__meta strong { color: var(--c-ink-dim); margin-right: 6px; }
+
+  .explain-section { margin: 36px 0; }
+  .explain-h2 { font-family: var(--font-serif); font-size: 1.28rem; font-weight: 700; color: var(--c-ink); letter-spacing: 0.06em; margin: 0 0 16px; padding-bottom: 10px; border-bottom: 2px solid var(--c-navy); }
+  .explain-section p { font-size: 0.96rem; line-height: 2.0; color: var(--c-ink); margin: 0 0 12px; }
+  .explain-section strong { color: var(--c-navy-deep); }
+
+  .explain-list { list-style: none; margin: 0; padding: 0; counter-reset: ex-list; display: flex; flex-direction: column; gap: 12px; }
+  .explain-list li { counter-increment: ex-list; padding: 14px 16px 14px 52px; background: #ffffff; border: 1px solid var(--c-line); border-left: 3px solid var(--c-gold); border-radius: 3px; position: relative; font-size: 0.94rem; line-height: 1.85; }
+  .explain-list li::before { content: counter(ex-list, decimal-leading-zero); position: absolute; left: 14px; top: 14px; font-family: "Helvetica Neue", sans-serif; font-weight: 900; font-size: 1rem; color: var(--c-gold); }
+
+  .explain-failures { margin: 40px 0; padding: 20px 22px; background: var(--c-bg); border-left: 3px solid var(--c-loss); border-radius: 3px; }
+  .explain-failures h3 { margin: 0 0 10px; font-size: 0.94rem; color: var(--c-loss); letter-spacing: 0.04em; }
+  .explain-failures ul { margin: 0; padding-left: 18px; }
+  .explain-failures a { color: var(--c-navy); }
+
+  @media (max-width: 540px) {
+    .explain-page { padding: 0 18px 50px; }
+    .breadcrumb { padding: 0 18px; }
+    .explain-h2 { font-size: 1.1rem; }
+  }
+</style>
