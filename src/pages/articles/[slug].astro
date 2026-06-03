@@ -34,12 +34,19 @@ export async function getStaticPaths() {
   const out: any[] = [];
   const usedSlugs = new Set<string>();
 
+  // slug に対応する OGPサムネ（ChatGPT生成）があれば og:image に使う。無ければデフォルト
+  // memory feedback_predeploy_checklist.md / feedback_chatgpt_auto_delegation.md
+  const ogImageFor = (slug: string): string | undefined => {
+    const png = path.default.join(process.cwd(), "public/ogp", `${slug}.png`);
+    return fs.default.existsSync(png) ? `/ogp/${slug}.png` : undefined;
+  };
+
   // ① articles.ts の手書き10本（既存テンプレ）
   const { articles } = await import("../../data/articles");
   for (const a of articles) {
     out.push({
       params: { slug: a.slug },
-      props: { source: "articles", article: a, approved: null },
+      props: { source: "articles", article: a, approved: null, ogImage: ogImageFor(a.slug) },
     });
     usedSlugs.add(a.slug);
   }
@@ -76,7 +83,7 @@ export async function getStaticPaths() {
       }));
       out.push({
         params: { slug: a.slug },
-        props: { source: "approved", article: null, approved: a, related },
+        props: { source: "approved", article: null, approved: a, related, ogImage: ogImageFor(a.slug) },
       });
       usedSlugs.add(a.slug);
     }
@@ -85,7 +92,7 @@ export async function getStaticPaths() {
   return out;
 }
 
-const { source, article, approved, related } = Astro.props as any;
+const { source, article, approved, related, ogImage } = Astro.props as any;
 
 // ============== ② approved 系の表示用ヘルパ ==============
 const fmtLoss = (yen?: number): string => {
@@ -154,6 +161,7 @@ const aff = source === "approved" ? (() => {
 <BaseLayout
   title={pageTitle}
   description={pageDesc}
+  image={ogImage}
   showQuickNav={false}
   pageType="article"
   articleMeta={source === "articles" ? {

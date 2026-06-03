@@ -44,6 +44,7 @@ https://toushishippairoku.com/articles/toushi-crypto-001/
 💀 #暗号資産 #投資失敗
 ---
 
+<<<<<<< Updated upstream
 ===== 2026-06-03T00:54:38 =====
 slug: toushi-fraud-001
 title: マッチングアプリで知り合った『投資家』に580万円送金した東京の40代主婦の話
@@ -72,6 +73,21 @@ chars: 187 (URL=23字換算)
 https://toushishippairoku.com/articles/toushi-fraud-001/
 
 💀 #投資詐欺 #投資失敗
+=======
+===== 2026-06-02T21:30:05 =====
+slug: toushi-crypto-001
+title: ビットコインが230万円から34万円に暴落、580万円失った30代エンジニアの話
+chars: 182 (URL=23字換算)
+---
+ビットコインが230万円から34万円に暴落、580万円失った30代エンジニアの話
+
+東京都内のITエンジニアKさん（仮名・30代男性）が、2017年末のビットコインバブルで580万円を投入。
+溶かした金額：580万円
+
+https://toushishippairoku.com/articles/toushi-crypto-001/
+
+💀 #暗号資産 #投資失敗
+>>>>>>> Stashed changes
 ---
 
 ===== 2026-06-03T10:45:41 =====
