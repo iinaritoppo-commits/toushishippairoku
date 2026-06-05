@@ -20,9 +20,10 @@ type RankItem = {
   occupation: string;
 };
 const allArticles: RankItem[] = [];
+// approved/*.json の category 値（fx/crypto/fraud/stocks/realestate/funds）に対応
 const CAT_LABEL: Record<string, string> = {
   fx: "FX", crypto: "仮想通貨", fraud: "投資詐欺",
-  credit: "信用取引", realty: "不動産", sidejob: "副業", other: "その他",
+  stocks: "株式", realestate: "不動産", funds: "投資信託",
 };
 try {
   const approvedDir = path.join(process.cwd(), "approved");
@@ -289,7 +290,7 @@ const nextKuyouLabel = `${nextKuyouY}年${nextKuyouM}月17日（月命日）`;
         <div class="ranking-row__meta">
           <span class="ranking-row__cat">{r.category}</span>
           <span class="ranking-row__sep">・</span>
-          <span>{r.age}{typeof r.age === "number" ? "代" : ""}{r.gender}</span>
+          <span>{typeof r.age === "number" ? `${Math.floor(r.age / 10) * 10}代` : r.age}{r.gender}</span>
           <span class="ranking-row__sep">・</span>
           <span>{r.prefecture}</span>
         </div>

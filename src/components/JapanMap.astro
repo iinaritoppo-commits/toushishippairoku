@@ -41,7 +41,7 @@ try {
 const coordsByName = new Map<string, { id: number; slug: string; badgeCx: number; badgeCy: number }>();
 for (const p of fallbackStats) {
   const clean = p.name.replace(/(都|府|県)$/, "");
-  coordsByName.set(clean, { id: p.id, slug: p.slug, badgeCx: p.badgeCx, badgeCy: p.badgeCy });
+  coordsByName.set(clean, { id: p.id, slug: p.slug, fullName: p.name, badgeCx: p.badgeCx, badgeCy: p.badgeCy });
 }
 
 // fallback 座標で補完できる prefecture のみ表示
@@ -93,7 +93,7 @@ const topPrefectures = [...prefectureStats]
       : "";
     return {
       rank: i + 1,
-      name: p.name + (p.name.length <= 2 ? "県" : ""),
+      name: coordsByName.get(p.name)?.fullName ?? p.name,
       slug: p.slug,
       cases: p.cases,
       amount: p.amount,

@@ -28,7 +28,7 @@ const {
 const siteName = "投資失敗録";
 const siteUrl = "https://toushishippairoku.com";
 const authorName = "白川 諒";
-const fullTitle = title === siteName ? title : `${title} | ${siteName}`;
+const fullTitle = title.includes(siteName) ? title : `${title} | ${siteName}`;
 const url = canonicalUrl ?? Astro.url.href;
 const fullImage = image.startsWith("http") ? image : `${siteUrl}${image}`;
 
