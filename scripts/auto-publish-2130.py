@@ -210,9 +210,9 @@ def main():
                 break
 
     if not item:
-        log("ALL X-POSTED. Out of stock.")
+        log("ALL X-POSTED. Out of stock. (正常終了：X投稿は任意なのでビルド&デプロイは継続)")
         notify_macos("投資失敗録：X在庫切れ", "approved 全てX投稿済み")
-        return 1
+        return 0
 
     log(f"Target: {item['slug']}  ({src.name})")
 

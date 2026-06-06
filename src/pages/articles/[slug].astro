@@ -130,7 +130,7 @@ const aff = source === "approved" ? (() => {
   const cat = approved?.category ?? "other";
   const cellMeta = (r: any) => {
     const parts: string[] = [];
-    if (r.age) parts.push(`${r.age}代`);
+    if (r.age) parts.push(typeof r.age === "number" ? `${Math.floor(r.age / 10) * 10}代` : `${r.age}`);
     if (r.gender) parts.push(r.gender);
     if (r.prefecture) parts.push(r.prefecture);
     return parts.join("・");
