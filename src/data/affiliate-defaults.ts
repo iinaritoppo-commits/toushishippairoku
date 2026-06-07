@@ -35,13 +35,13 @@ export const PILLARS_BY_CATEGORY: Record<string, PillarLink[]> = {
       href: "/compare/fx-no-margin-call/",
       title: "追証なしFX口座 比較",
       subtitle: "強制ロスカット仕様で選ぶ国内FX口座の整理",
-      icon: "▶",
+      icon: "",
     },
     {
       href: "/explain/loss-cut-mechanism/",
       title: "ロスカットの仕組み",
       subtitle: "「指定レートで切る」と「次の約定可能レートで切る」の違い",
-      icon: "⚙",
+      icon: "",
     },
   ],
   stocks: [
@@ -49,13 +49,13 @@ export const PILLARS_BY_CATEGORY: Record<string, PillarLink[]> = {
       href: "/compare/net-securities/",
       title: "ネット証券3社の整理",
       subtitle: "SBI・楽天・松井の手数料体系と特徴",
-      icon: "▶",
+      icon: "",
     },
     {
       href: "/explain/index-vs-active/",
       title: "インデックスとアクティブの違い",
       subtitle: "コストとリターンの長期データ",
-      icon: "⚙",
+      icon: "",
     },
   ],
   crypto: [
@@ -63,13 +63,13 @@ export const PILLARS_BY_CATEGORY: Record<string, PillarLink[]> = {
       href: "/compare/crypto-exchanges/",
       title: "国内仮想通貨取引所 比較",
       subtitle: "セキュリティ・出金体制・板の厚みで整理",
-      icon: "▶",
+      icon: "",
     },
     {
       href: "/explain/crypto-scam-patterns/",
       title: "仮想通貨詐欺の典型パターン",
       subtitle: "「内部情報」「上場前」「LINE紹介」の構造",
-      icon: "⚠",
+      icon: "",
     },
   ],
   realestate: [
@@ -77,13 +77,13 @@ export const PILLARS_BY_CATEGORY: Record<string, PillarLink[]> = {
       href: "/compare/realestate-crowdfunding/",
       title: "不動産クラファン比較",
       subtitle: "少額から始められる不動産投資の整理",
-      icon: "▶",
+      icon: "",
     },
     {
       href: "/explain/sublease-pitfall/",
       title: "サブリースの2年見直し条項",
       subtitle: "家賃保証が外れる構造的理由",
-      icon: "⚠",
+      icon: "",
     },
   ],
   funds: [
@@ -91,13 +91,13 @@ export const PILLARS_BY_CATEGORY: Record<string, PillarLink[]> = {
       href: "/compare/roboadvisor/",
       title: "ロボアド比較",
       subtitle: "WealthNavi・THEO・SUSTEN等の手数料と運用方針",
-      icon: "▶",
+      icon: "",
     },
     {
       href: "/explain/wrap-account-cost/",
       title: "ラップ口座の本当のコスト",
       subtitle: "「おまかせ」の裏で抜かれる費用構造",
-      icon: "⚙",
+      icon: "",
     },
   ],
   fraud: [
@@ -105,7 +105,7 @@ export const PILLARS_BY_CATEGORY: Record<string, PillarLink[]> = {
       href: "/compare/scam-detection-guide/",
       title: "投資詐欺の見抜き方",
       subtitle: "勧誘文言・出金条件・運営実態の見るべき箇所",
-      icon: "⚠",
+      icon: "",
     },
     {
       href: "/explain/scam-recovery-flow/",
@@ -119,7 +119,7 @@ export const PILLARS_BY_CATEGORY: Record<string, PillarLink[]> = {
       href: "/compare/scam-detection-guide/",
       title: "副業詐欺の見抜き方",
       subtitle: "「自動収益」「LINE登録」「初期費用」の典型構造",
-      icon: "⚠",
+      icon: "",
     },
   ],
   other: [
@@ -127,7 +127,7 @@ export const PILLARS_BY_CATEGORY: Record<string, PillarLink[]> = {
       href: "/compare/scam-detection-guide/",
       title: "投資詐欺の見抜き方",
       subtitle: "勧誘文言・出金条件・運営実態の見るべき箇所",
-      icon: "⚠",
+      icon: "",
     },
   ],
 };

@@ -27,7 +27,7 @@ const {
     {pillars.map((p) => (
       <li class="topbox__item">
         <a href={p.href} class="topbox__link">
-          <span class="topbox__icon" aria-hidden="true">{p.icon ?? "▶"}</span>
+          <span class="topbox__icon" aria-hidden="true">{p.icon ?? ""}</span>
           <span class="topbox__text">
             <strong class="topbox__strong">{p.title}</strong>
             {p.subtitle && <span class="topbox__desc">{p.subtitle}</span>}
