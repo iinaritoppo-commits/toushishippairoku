@@ -111,7 +111,7 @@ export const PILLARS_BY_CATEGORY: Record<string, PillarLink[]> = {
       href: "/explain/scam-recovery-flow/",
       title: "被害発覚後の対応フロー",
       subtitle: "警察・消費者センター・弁護士の順番",
-      icon: "✓",
+      icon: "",
     },
   ],
   sidejob: [

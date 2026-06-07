@@ -16,14 +16,14 @@ const { title, body, book, variant = "default" } = Astro.props;
 ---
 <aside class={`inline-col inline-col--${variant}`} aria-label={`関連知識：${title}`}>
   <div class="inline-col__head">
-    <span class="inline-col__mark" aria-hidden="true">✦</span>
+    <span class="inline-col__mark" aria-hidden="true"></span>
     <span class="inline-col__label">関連知識</span>
     <strong class="inline-col__title">{title}</strong>
   </div>
   <div class="inline-col__body" set:html={body} />
   {book && (
     <a class="inline-col__book" href={book.href} rel="sponsored noopener" target="_blank">
-      <span class="inline-col__book-icon" aria-hidden="true">📖</span>
+      <span class="inline-col__book-icon" aria-hidden="true"></span>
       <span class="inline-col__book-text">
         <span class="inline-col__book-title">{book.title}</span>
         {book.note && <span class="inline-col__book-note">{book.note}</span>}

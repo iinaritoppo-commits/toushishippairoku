@@ -1,7 +1,7 @@
 ---
 // 教訓セクション 3層構造（執筆ルールv1.1の本サイト最大の収益動線）
 //   A層：心理・反省ポイント＋書籍アフィリ
-//   B層：比較・ピラー記事への内部リンク（★最重要・メインCV動線）
+//   B層：比較・ピラー記事への内部リンク（最重要・メインCV動線）
 //   C層：専門家相談（弁護士・FP・カウンセラー）
 interface BookLink {
   title: string;
@@ -24,7 +24,7 @@ interface Props {
   displayName: string;
   reasons: string[]; // 反省ポイント（HTML可）
   books?: BookLink[];
-  pillars: PillarLink[]; // ★必須
+  pillars: PillarLink[]; // 必須
   experts?: ExpertLink[];
   editNote?: string;
 }
@@ -82,7 +82,7 @@ const defaultEditNote = `以下は${displayName}さん個人の体験から整�
     )}
   </div>
 
-  {/* ============ 層B：比較・ピラー（★メイン動線） ============ */}
+  {/* ============ 層B：比較・ピラー（メイン動線） ============ */}
   <div class="lessons-layer lessons-layer--b">
     <div class="lessons-layer__head">
       <span class="lessons-layer__step">B</span>
@@ -130,7 +130,7 @@ const defaultEditNote = `以下は${displayName}さん個人の体験から整�
           <li>
             <a href={e.href} rel="sponsored noopener" target="_blank" class={`lessons-layer__expert lessons-layer__expert--${e.type ?? "other"}`}>
               <span class="lessons-layer__expert-icon" aria-hidden="true">
-                {e.type === "lawyer" ? "⚖" : e.type === "fp" ? "¥" : e.type === "counselor" ? "♥" : "✓"}
+                {e.type === "lawyer" ? "" : e.type === "fp" ? "¥" : e.type === "counselor" ? "" : ""}
               </span>
               <span class="lessons-layer__expert-text">
                 <strong>{e.title}</strong>
@@ -268,7 +268,7 @@ const defaultEditNote = `以下は${displayName}さん個人の体験から整�
     position: relative;
   }
   .lessons-layer__list li::before {
-    content: "✓";
+    content: "";
     position: absolute;
     left: 12px;
     top: 10px;
