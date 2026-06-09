@@ -45,7 +45,7 @@ img { max-width: 100%; height: auto; }
 .brand__title { font-size: 1.15rem; font-weight: 900; letter-spacing: 0.18em; }
 .brand__sub { font-size: 0.65rem; letter-spacing: 0.4em; color: var(--c-gold); display: block; line-height: 1; }
 .nav { display: flex; gap: 22px; }
-.nav a { font-size: 0.86rem; font-weight: 600; letter-spacing: 0.08em; color: var(--c-ink); }
+.nav a { font-size: 0.86rem; font-weight: 600; letter-spacing: 0.08em; color: var(--c-ink); padding: 12px 5px; margin: -12px -5px; }
 @media (max-width: 720px) { .nav { gap: 12px; overflow-x: auto; } .nav a { font-size: 0.78rem; white-space: nowrap; } }
 
 /* ============== Quick Nav ============== */
@@ -303,7 +303,7 @@ img { max-width: 100%; height: auto; }
 
 /* ============== Footer ============== */
 .foot { background: var(--c-navy-deep); color: rgba(255,255,255,0.72); padding: 44px 24px 28px; font-size: 0.82rem; text-align: center; }
-.foot a { color: var(--c-gold-soft); }
+.foot a { color: var(--c-gold-soft); text-decoration: underline; text-underline-offset: 3px; }
 .foot__legal { font-size: 0.7rem; color: rgba(255,255,255,0.4); margin-top: 14px; }
 
 /* ============== Article page ============== */
