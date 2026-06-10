@@ -168,13 +168,13 @@ const aff = source === "approved" ? (() => {
     headline: article.title,
     category: article.category?.split(" / ")[0],
     datePublished: article.publishDate ?? "2026-05-01",
-    author: "白川 諒",
+    author: "しら",
   } : {
     headline: approved.title,
     category: CAT_LABELS[approved.category] ?? approved.category,
     datePublished: approved._mtime ?? "2026-05-01",
     dateModified: approved._mtime ?? "2026-05-01",
-    author: "白川 諒",
+    author: "しら",
   }}
   breadcrumbs={source === "articles" ? [
     { name: "投資失敗録", url: "/" },
