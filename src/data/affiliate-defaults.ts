@@ -52,17 +52,17 @@ export const PILLARS_BY_CATEGORY: Record<string, PillarLink[]> = {
       icon: "",
     },
     {
-      href: "/explain/index-vs-active/",
-      title: "インデックスとアクティブの違い",
-      subtitle: "コストとリターンの長期データ",
+      href: "/explain/nisa-fukumison-patterns/",
+      title: "新NISAで含み損になる典型パターン",
+      subtitle: "制度は得でも銘柄と時期は別問題、という構造",
       icon: "",
     },
   ],
   crypto: [
     {
-      href: "/compare/crypto-exchanges/",
-      title: "国内仮想通貨取引所 比較",
-      subtitle: "セキュリティ・出金体制・板の厚みで整理",
+      href: "/explain/scam-detection-guide/",
+      title: "投資詐欺の見抜き方",
+      subtitle: "勧誘文言・出金条件・運営実態の見るべき箇所",
       icon: "",
     },
     {
@@ -88,35 +88,29 @@ export const PILLARS_BY_CATEGORY: Record<string, PillarLink[]> = {
   ],
   funds: [
     {
-      href: "/compare/roboadvisor/",
-      title: "ロボアド比較",
-      subtitle: "WealthNavi・THEO・SUSTEN等の手数料と運用方針",
+      href: "/explain/retirement-money-pitfalls/",
+      title: "退職金運用の落とし穴",
+      subtitle: "窓口提案・ラップ・一括投資で起きがちな構造",
       icon: "",
     },
     {
-      href: "/explain/wrap-account-cost/",
-      title: "ラップ口座の本当のコスト",
-      subtitle: "「おまかせ」の裏で抜かれる費用構造",
+      href: "/explain/nisa-fukumison-patterns/",
+      title: "新NISAで含み損になる典型パターン",
+      subtitle: "制度は得でも銘柄と時期は別問題、という構造",
       icon: "",
     },
   ],
   fraud: [
     {
-      href: "/compare/scam-detection-guide/",
+      href: "/explain/scam-detection-guide/",
       title: "投資詐欺の見抜き方",
       subtitle: "勧誘文言・出金条件・運営実態の見るべき箇所",
-      icon: "",
-    },
-    {
-      href: "/explain/scam-recovery-flow/",
-      title: "被害発覚後の対応フロー",
-      subtitle: "警察・消費者センター・弁護士の順番",
       icon: "",
     },
   ],
   sidejob: [
     {
-      href: "/compare/scam-detection-guide/",
+      href: "/explain/scam-detection-guide/",
       title: "副業詐欺の見抜き方",
       subtitle: "「自動収益」「LINE登録」「初期費用」の典型構造",
       icon: "",
@@ -124,7 +118,7 @@ export const PILLARS_BY_CATEGORY: Record<string, PillarLink[]> = {
   ],
   other: [
     {
-      href: "/compare/scam-detection-guide/",
+      href: "/explain/scam-detection-guide/",
       title: "投資詐欺の見抜き方",
       subtitle: "勧誘文言・出金条件・運営実態の見るべき箇所",
       icon: "",

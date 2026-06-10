@@ -251,15 +251,15 @@ const nextKuyouLabel = `${nextKuyouY}年${nextKuyouM}月17日（月命日）`;
   <div class="section-h__title-group"><span class="section-h__sub">BY LOSS AMOUNT</span><h2 class="section-h__title">損失額から探す</h2></div>
 </header>
 <div class="loss-bar">
-  <a href="/category/loss-small/" class="loss-tile"><div class="loss-tile__amount">100万円未満</div><div class="loss-tile__label">UNDER ¥1M</div><div class="loss-tile__count">掲載準備中</div></a>
-  <a href="/category/loss-medium/" class="loss-tile"><div class="loss-tile__amount">100〜500万</div><div class="loss-tile__label">¥1M – ¥5M</div><div class="loss-tile__count">掲載準備中</div></a>
-  <a href="/category/loss-large/" class="loss-tile"><div class="loss-tile__amount">500〜1000万</div><div class="loss-tile__label">¥5M – ¥10M</div><div class="loss-tile__count">掲載準備中</div></a>
-  <a href="/category/loss-huge/" class="loss-tile"><div class="loss-tile__amount">1000万円超</div><div class="loss-tile__label">OVER ¥10M</div><div class="loss-tile__count" style="color:var(--c-ink-dim)">掲載準備中</div></a>
+  <div class="loss-tile"><div class="loss-tile__amount">100万円未満</div><div class="loss-tile__label">UNDER ¥1M</div><div class="loss-tile__count">掲載準備中</div></div>
+  <div class="loss-tile"><div class="loss-tile__amount">100〜500万</div><div class="loss-tile__label">¥1M – ¥5M</div><div class="loss-tile__count">掲載準備中</div></div>
+  <div class="loss-tile"><div class="loss-tile__amount">500〜1000万</div><div class="loss-tile__label">¥5M – ¥10M</div><div class="loss-tile__count">掲載準備中</div></div>
+  <div class="loss-tile"><div class="loss-tile__amount">1000万円超</div><div class="loss-tile__label">OVER ¥10M</div><div class="loss-tile__count" style="color:var(--c-ink-dim)">掲載準備中</div></div>
 </div>
 
 <header class="section-h" id="section-latest">
   <div class="section-h__title-group"><span class="section-h__sub">LATEST</span><h2 class="section-h__title">最新の失敗録</h2></div>
-  <a href="/articles/" class="section-h__more">すべての記録を見る →</a>
+  <a href="/search/" class="section-h__more">すべての記録を見る →</a>
 </header>
 <div class="article-grid">
   {articles.slice(0, 3).map((a) => (
@@ -481,7 +481,7 @@ const nextKuyouLabel = `${nextKuyouY}年${nextKuyouM}月17日（月命日）`;
     <div class="ihai-section">
       <div class="ihai-section__head">
         <span class="ihai-section__title">最近お焚き上げした失敗</span>
-        <a class="ihai-section__more" href="/kuyou/">永代供養スペースへ →</a>
+        <a class="ihai-section__more" href="#section-kuyou">永代供養スペースへ →</a>
       </div>
       <div class="ihai-grid">
         {ihaiList.map((i) => (
