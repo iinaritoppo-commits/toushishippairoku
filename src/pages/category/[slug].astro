@@ -34,7 +34,7 @@ export async function getStaticPaths() {
   }
 
   // カテゴリ別グループ化
-  const cats = ["fx", "stocks", "crypto", "realestate", "funds", "fraud", "sidejob", "other"] as const;
+  const cats = ["fx", "stocks", "crypto", "realestate", "funds", "fraud", "jiken", "sidejob", "other"] as const;
   return cats.map((cat) => ({
     params: { slug: cat },
     props: {
@@ -67,7 +67,7 @@ const fmtLoss = (yen?: number): string => {
 // 関連ピラー（カテゴリと一致するもの・ざっくり）
 const matchKey: Record<string, string> = {
   fx: "FX", stocks: "株式", crypto: "仮想", realestate: "不動産",
-  funds: "投信", fraud: "詐欺", sidejob: "副業", other: "",
+  funds: "投信", fraud: "詐欺", jiken: "事件", sidejob: "副業", other: "",
 };
 const relatedPillars = [...PILLARS, ...EXPLAINS].filter((p) =>
   matchKey[category] && (p.category.includes(matchKey[category]) || p.shortTitle.includes(matchKey[category]))

@@ -116,6 +116,14 @@ export const PILLARS_BY_CATEGORY: Record<string, PillarLink[]> = {
       icon: "",
     },
   ],
+  jiken: [
+    {
+      href: "/explain/scam-detection-guide/",
+      title: "投資詐欺の見抜き方",
+      subtitle: "勧誘文言・出金条件・運営実態の見るべき箇所",
+      icon: "",
+    },
+  ],
   other: [
     {
       href: "/explain/scam-detection-guide/",
