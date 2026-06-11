@@ -738,3 +738,13 @@ img { max-width: 100%; height: auto; }
   .home-pillar-card__title { font-size: 0.98rem; }
   .home-pillar-card__desc { font-size: 0.8rem; }
 }
+
+/* ============== 失敗供養所への誘導バナー（トップ） ============== */
+.kuyou-banner { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin: 40px auto; max-width: 980px; padding: 26px 30px; background: linear-gradient(135deg, #141a2c 0%, #1a2540 100%); border: 1px solid rgba(216,165,90,0.35); border-radius: 8px; text-decoration: none; transition: border-color 0.2s; }
+.kuyou-banner:hover { border-color: rgba(216,165,90,0.7); }
+.kuyou-banner__text { display: flex; flex-direction: column; gap: 6px; }
+.kuyou-banner__sub { font-size: 0.68rem; letter-spacing: 0.22em; color: #d8a55a; }
+.kuyou-banner__title { font-family: var(--font-serif); font-size: 1.4rem; font-weight: 900; color: #f2ead8; letter-spacing: 0.08em; }
+.kuyou-banner__lead { font-size: 0.84rem; color: rgba(242,234,216,0.66); line-height: 1.7; }
+.kuyou-banner__cta { flex-shrink: 0; font-size: 0.88rem; font-weight: 700; color: #d8a55a; letter-spacing: 0.06em; }
+@media (max-width: 640px) { .kuyou-banner { flex-direction: column; align-items: flex-start; margin: 28px 16px; } }

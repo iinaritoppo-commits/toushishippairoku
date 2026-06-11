@@ -1,0 +1,195 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import AdSenseSlot from "../../components/AdSenseSlot.astro";
+import NewsletterCTA from "../../components/NewsletterCTA.astro";
+import { CATEGORY_LABELS, CATEGORY_DESCRIPTIONS, PILLARS, EXPLAINS } from "../../data/pillars-index";
+
+export async function getStaticPaths() {
+  const fs = await import("node:fs");
+  const path = await import("node:path");
+
+  // approved/*.json から記事メタを取得
+  const dir = path.default.join(process.cwd(), "approved");
+  const all: any[] = [];
+  if (fs.default.existsSync(dir)) {
+    for (const f of fs.default.readdirSync(dir)) {
+      if (!f.endsWith(".json")) continue;
+      try {
+        const full = path.default.join(dir, f);
+        const j = JSON.parse(fs.default.readFileSync(full, "utf-8"));
+        const stat = fs.default.statSync(full);
+        if (j.slug && j.title && j.category) {
+          all.push({
+            slug: j.slug,
+            title: j.title,
+            category: j.category,
+            description: j.description ?? "",
+            loss: j.loss_amount_yen ?? 0,
+            persona: j.persona ?? {},
+            mtime: stat.mtime.toISOString().slice(0, 10),
+          });
+        }
+      } catch {}
+    }
+  }
+
+  // 損失額レンジ別グループ化
+  const RANGES = [
+    { slug: "under-100", label: "100万円未満", lo: 1, hi: 1000000, lead: "金額は小さくても、構造は同じ。最初の授業料になった記録。" },
+    { slug: "100-500", label: "100〜500万円", lo: 1000000, hi: 5000000, lead: "貯金やボーナスが消えるラインの記録。いちばん層が厚い。" },
+    { slug: "500-1000", label: "500〜1000万円", lo: 5000000, hi: 10000000, lead: "退職金や事業資金が混ざり始めるラインの記録。" },
+    { slug: "over-1000", label: "1000万円超", lo: 10000000, hi: Infinity, lead: "人生の設計が変わる規模の記録。重大事件の被害もここに入る。" },
+  ];
+  return RANGES.map((r) => ({
+    params: { range: r.slug },
+    props: {
+      rangeSlug: r.slug,
+      label: r.label,
+      description: r.lead,
+      articles: all
+        .filter((a) => (a.loss ?? 0) >= r.lo && (a.loss ?? 0) < r.hi)
+        .sort((a, b) => (b.loss ?? 0) - (a.loss ?? 0)),
+    },
+  }));
+}
+
+const { rangeSlug, label, description, articles } = Astro.props as any;
+
+const title = `損失額${label}の失敗体験 ─ 投資失敗録`;
+const metaDesc = `損失額${label}の失敗体験一覧。${description}`;
+
+const breadcrumbs = [
+  { name: "投資失敗録", url: "/" },
+  { name: `損失額 ${label}`, url: `/loss/${rangeSlug}/` },
+];
+
+const fmtLoss = (yen?: number): string => {
+  if (!yen) return "—";
+  if (yen >= 1e8) return `${(yen / 1e8).toFixed(1)}億円`;
+  return `¥${yen.toLocaleString()}-`;
+};
+
+// 損失額ページでは主要ガイドを共通表示
+const relatedPillars = [...PILLARS, ...EXPLAINS].filter((p) =>
+  p.shortTitle.includes("詐欺") || p.shortTitle.includes("退職金")
+).slice(0, 2);
+---
+
+<BaseLayout
+  title={title}
+  description={metaDesc}
+  showQuickNav={false}
+  pageType="website"
+  breadcrumbs={breadcrumbs}
+>
+  <article class="cat-page">
+    <nav class="breadcrumb">
+      <a href="/">トップ</a><span>›</span><span>{label}</span>
+    </nav>
+
+    <header class="cat-head">
+      <span class="cat-head__sub">BY LOSS AMOUNT</span>
+      <h1 class="cat-head__title">損失額 {label} の記録</h1>
+      <p class="cat-head__lead">{description}</p>
+      <div class="cat-head__meta">
+        <span><strong>掲載本数</strong>{articles.length}本</span>
+        <span><strong>並び順</strong>損失額の大きい順</span>
+      </div>
+    </header>
+
+    {relatedPillars.length > 0 && (
+      <aside class="cat-pillars">
+        <span class="cat-pillars__sub">RELATED PILLARS</span>
+        <h2 class="cat-pillars__title">この分野で先に読むと整理しやすい</h2>
+        <ul>
+          {relatedPillars.map((p) => (
+            <li>
+              <a href={p.href}>
+                <strong>{p.shortTitle}</strong>
+                <span>{p.description.slice(0, 80)}…</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </aside>
+    )}
+
+    <AdSenseSlot slot="category-header" format="rectangle" />
+
+    {articles.length > 0 ? (
+      <div class="cat-list">
+        {articles.map((a: any) => (
+          <a href={`/articles/${a.slug}/`} class="cat-row">
+            <div class="cat-row__loss">{fmtLoss(a.loss)}</div>
+            <div class="cat-row__main">
+              <h3 class="cat-row__title">{a.title}</h3>
+              <div class="cat-row__meta">
+                {a.persona?.age && <span>{a.persona.age}歳{a.persona.gender ?? ""}</span>}
+                {a.persona?.prefecture && <span>・{a.persona.prefecture}</span>}
+                {a.persona?.occupation && <span>・{a.persona.occupation}</span>}
+              </div>
+            </div>
+            <div class="cat-row__arrow" aria-hidden="true">→</div>
+          </a>
+        ))}
+      </div>
+    ) : (
+      <div class="cat-empty">
+        <p>このカテゴリの記事はまだ準備中。<br />取材次第、順次公開していきます。</p>
+        <a href="/" class="cat-empty__back">トップへ戻る</a>
+      </div>
+    )}
+
+    <NewsletterCTA />
+  </article>
+</BaseLayout>
+
+<style>
+  .cat-page { max-width: 1080px; margin: 0 auto; padding: 0 24px 60px; }
+  .breadcrumb { max-width: 1080px; margin: 20px auto 0; padding: 0 24px; font-size: 0.78rem; color: var(--c-ink-dim); }
+  .breadcrumb a { color: var(--c-navy); text-decoration: none; }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb span { margin: 0 6px; color: var(--c-gold); }
+
+  .cat-head { padding: 40px 0 28px; border-bottom: 2px solid var(--c-navy); margin-bottom: 28px; }
+  .cat-head__sub { display: block; font-size: 0.72rem; letter-spacing: 0.5em; color: var(--c-gold); font-weight: 800; margin-bottom: 12px; }
+  .cat-head__title { font-family: var(--font-serif); font-size: clamp(1.8rem, 4.2vw, 2.4rem); font-weight: 700; color: var(--c-ink); margin: 0 0 16px; letter-spacing: 0.1em; }
+  .cat-head__lead { margin: 0 0 18px; font-size: 0.98rem; color: var(--c-ink-soft); line-height: 2; }
+  .cat-head__meta { display: flex; flex-wrap: wrap; gap: 22px; font-size: 0.84rem; color: var(--c-ink-soft); }
+  .cat-head__meta strong { color: var(--c-ink-dim); margin-right: 8px; font-weight: 700; letter-spacing: 0.06em; }
+
+  .cat-pillars { margin: 0 0 36px; padding: 22px 24px 24px; background: linear-gradient(180deg, #fbfaf2 0%, #f5efde 100%); border: 1px solid var(--c-line); border-left: 4px solid var(--c-gold); border-radius: 4px; }
+  .cat-pillars__sub { display: block; font-size: 0.68rem; letter-spacing: 0.44em; color: var(--c-gold); font-weight: 800; margin-bottom: 6px; }
+  .cat-pillars__title { font-family: var(--font-serif); font-size: 1.04rem; font-weight: 700; color: var(--c-ink); margin: 0 0 14px; letter-spacing: 0.04em; }
+  .cat-pillars ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+  .cat-pillars li { margin: 0; }
+  .cat-pillars a { display: flex; flex-direction: column; gap: 2px; padding: 10px 14px; background: #ffffff; border: 1px solid var(--c-line); border-radius: 3px; text-decoration: none; color: var(--c-ink); transition: all 0.15s ease; }
+  .cat-pillars a:hover { border-color: var(--c-navy); background: #fbfaf6; text-decoration: none; }
+  .cat-pillars a strong { font-size: 0.92rem; color: var(--c-ink); font-weight: 700; }
+  .cat-pillars a span { font-size: 0.76rem; color: var(--c-ink-soft); }
+
+  .cat-list { display: flex; flex-direction: column; gap: 10px; margin: 24px 0 36px; }
+  .cat-row { display: grid; grid-template-columns: 140px 1fr 24px; gap: 18px; align-items: center; padding: 16px 20px; background: #ffffff; border: 1px solid var(--c-line); border-radius: 3px; text-decoration: none; color: var(--c-ink); transition: all 0.15s ease; }
+  .cat-row:hover { border-color: var(--c-navy); transform: translateX(2px); box-shadow: 0 4px 14px rgba(28, 35, 48, 0.06); text-decoration: none; }
+  .cat-row__loss { font-family: "Helvetica Neue", sans-serif; font-size: 1.04rem; font-weight: 900; color: var(--c-loss); letter-spacing: 0; text-align: right; }
+  .cat-row__main { min-width: 0; }
+  .cat-row__title { margin: 0 0 4px; font-size: 0.98rem; font-weight: 700; line-height: 1.55; letter-spacing: 0.02em; color: var(--c-ink); }
+  .cat-row__meta { display: flex; flex-wrap: wrap; gap: 0 4px; font-size: 0.76rem; color: var(--c-ink-soft); }
+  .cat-row__arrow { color: var(--c-gold); font-weight: 700; font-size: 1rem; }
+
+  .cat-empty { padding: 60px 30px; background: var(--c-bg); border: 1px dashed var(--c-line); border-radius: 4px; text-align: center; margin: 36px 0; }
+  .cat-empty p { margin: 0 0 16px; font-size: 0.94rem; color: var(--c-ink-soft); line-height: 1.95; }
+  .cat-empty__back { display: inline-block; padding: 10px 22px; background: var(--c-navy); color: #fff; text-decoration: none; border-radius: 3px; font-weight: 700; font-size: 0.9rem; letter-spacing: 0.06em; }
+  .cat-empty__back:hover { background: var(--c-navy-deep); text-decoration: none; color: #fff; }
+
+  @media (max-width: 540px) {
+    .cat-page { padding: 0 18px 50px; }
+    .breadcrumb { padding: 0 18px; }
+    .cat-head { padding: 28px 0 22px; margin-bottom: 22px; }
+    .cat-pillars { padding: 18px 16px 20px; }
+    .cat-row { grid-template-columns: 100px 1fr 20px; gap: 12px; padding: 12px 14px; }
+    .cat-row__loss { font-size: 0.92rem; }
+    .cat-row__title { font-size: 0.9rem; }
+    .cat-row__meta { font-size: 0.72rem; }
+  }
+</style>
