@@ -37,7 +37,10 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
 <h2>投稿フォーム</h2>
 
-<form class="submit-form" method="POST" action="#" onsubmit="alert('準備中（Google Forms か Formspree 連携予定）'); return false;">
+<form class="submit-form" method="POST" action="https://formsubmit.co/iinaritoppo@gmail.com">
+  <input type="hidden" name="_subject" value="【投資失敗録】体験談投稿" />
+  <input type="hidden" name="_template" value="table" />
+  <input type="hidden" name="_captcha" value="true" />
   <div class="form-row">
     <label for="alias">仮名・イニシャル <small>（任意）</small></label>
     <input id="alias" name="alias" type="text" placeholder="M.T / 田中 など"/>
@@ -114,10 +117,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   <button type="submit" class="form-submit">投稿する</button>
 </form>
 
-<div class="notice" style="margin-top:32px">
-  <strong class="notice__title">メールでも受け付けています</strong>
-  フォームに抵抗がある方は、editor@toushishippairoku.com（準備中）まで直接ご連絡ください。
-</div>
+
 
 </main>
 
