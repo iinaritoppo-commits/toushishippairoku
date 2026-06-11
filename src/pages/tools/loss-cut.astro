@@ -1,0 +1,191 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const title = "ロスカット計算機｜あと何pipsで強制決済されるか";
+const description = "口座資金・ロット数・エントリーレートを入れると、ロスカット発動レートまでの値幅（pips）と想定損失額を概算する無料ツール。FX失敗記録83本超のアーカイブが「その値幅が現実に動いた日」も添えて解説。";
+
+const breadcrumbs = [
+  { name: "投資失敗録", url: "/" },
+  { name: "ロスカット計算機", url: "/tools/loss-cut/" },
+];
+---
+
+<BaseLayout title={title} description={description} showQuickNav={false} pageType="website" breadcrumbs={breadcrumbs}>
+<article class="lc-page">
+  <nav class="breadcrumb"><a href="/">トップ</a><span>›</span>ロスカット計算機</nav>
+
+  <header class="lc-head">
+    <span class="lc-head__sub">TOOLS</span>
+    <h1 class="lc-head__title">ロスカット計算機</h1>
+    <p class="lc-head__lead">いまの建玉が、あと何pipsで強制決済されるか。口座資金とロットを入れるだけの概算ツール。</p>
+  </header>
+
+  <section class="lc-tool" aria-label="計算フォーム">
+    <div class="lc-grid">
+      <label class="lc-field">
+        <span class="lc-field__label">口座資金（円）</span>
+        <input type="number" id="lc-balance" value="300000" min="0" step="10000" />
+      </label>
+      <label class="lc-field">
+        <span class="lc-field__label">通貨ペア</span>
+        <select id="lc-pair">
+          <option value="100" data-rate="155">ドル円（USD/JPY）</option>
+          <option value="100" data-rate="168">ユーロ円（EUR/JPY）</option>
+          <option value="100" data-rate="195">ポンド円（GBP/JPY）</option>
+        </select>
+      </label>
+      <label class="lc-field">
+        <span class="lc-field__label">数量（通貨）</span>
+        <select id="lc-units">
+          <option value="10000">1万通貨（国内1ロット）</option>
+          <option value="50000">5万通貨</option>
+          <option value="100000">10万通貨（海外1ロット）</option>
+          <option value="300000">30万通貨</option>
+          <option value="500000">50万通貨</option>
+        </select>
+      </label>
+      <label class="lc-field">
+        <span class="lc-field__label">エントリーレート（円）</span>
+        <input type="number" id="lc-entry" value="155.00" min="1" step="0.01" />
+      </label>
+      <label class="lc-field">
+        <span class="lc-field__label">売買</span>
+        <select id="lc-side">
+          <option value="1">買い（ロング）</option>
+          <option value="-1">売り（ショート）</option>
+        </select>
+      </label>
+      <label class="lc-field">
+        <span class="lc-field__label">レバレッジ</span>
+        <select id="lc-lev">
+          <option value="25">25倍（国内）</option>
+          <option value="100">100倍</option>
+          <option value="500">500倍</option>
+          <option value="1000">1000倍</option>
+        </select>
+      </label>
+      <label class="lc-field">
+        <span class="lc-field__label">ロスカット水準（証拠金維持率）</span>
+        <select id="lc-level">
+          <option value="50">50%（国内に多い）</option>
+          <option value="100">100%</option>
+          <option value="20">20%（海外に多い）</option>
+          <option value="0">0%（残高ゼロまで）</option>
+        </select>
+      </label>
+    </div>
+
+    <div class="lc-result" id="lc-result" aria-live="polite">
+      <div class="lc-result__row"><span>必要証拠金</span><strong id="lc-margin">—</strong></div>
+      <div class="lc-result__row"><span>現在の証拠金維持率</span><strong id="lc-ratio">—</strong></div>
+      <div class="lc-result__row lc-result__row--main"><span>ロスカット発動レート（概算）</span><strong id="lc-price">—</strong></div>
+      <div class="lc-result__row lc-result__row--main"><span>発動までの値幅</span><strong id="lc-pips">—</strong></div>
+      <div class="lc-result__row"><span>発動時の想定損失</span><strong id="lc-loss">—</strong></div>
+      <p class="lc-result__note" id="lc-note"></p>
+    </div>
+  </section>
+
+  <section class="lc-context">
+    <h2>その値幅、実際に動いた日があります</h2>
+    <p>計算上の「あと◯pips」は、相場の急変時には数時間で消えます。本サイトの取材記録から、値幅の感覚に直結する3本を置いておきます。</p>
+    <ul class="lc-context__list">
+      <li><a href="/articles/fx-380man/">380万円が3分で消えた話 ─ FX指標発表での全損</a><span>指標の数分で数百pips動いた実例</span></li>
+      <li><a href="/articles/toushi-fx-025/">退職金の半分1100万円を2015年スイスフランショックで失った話</a><span>防衛ライン撤廃で瞬間3000pips超</span></li>
+      <li><a href="/articles/toushi-fx-021/">YouTube広告のFXで350万円失った話</a><span>2024年8月5日・歴史的急落の2日間</span></li>
+    </ul>
+  </section>
+
+  <section class="lc-disclaimer">
+    <h2>このツールについて</h2>
+    <p>本ツールは概算です。実際のロスカットは、スプレッド・スワップ・約定スリッページ・各社の証拠金計算方式により、表示より早く発動することがあります。正確な条件は利用中の業者の取引要綱をご確認ください。本サイトは特定の業者・取引を推奨しません。</p>
+  </section>
+</article>
+
+<style>
+  .lc-page { max-width: 880px; margin: 0 auto; padding: 24px 20px 64px; }
+  .lc-head { margin: 24px 0 28px; }
+  .lc-head__sub { font-size: 0.7rem; letter-spacing: 0.22em; color: var(--c-gold, #b08a44); }
+  .lc-head__title { font-family: var(--font-serif); font-size: clamp(1.6rem, 4vw, 2.2rem); font-weight: 900; margin: 6px 0 10px; }
+  .lc-head__lead { color: var(--c-ink-soft, #555); line-height: 1.8; }
+  .lc-tool { background: var(--c-bg-card, #fff); border: 1px solid var(--c-line, #e0dcd0); border-radius: 8px; padding: 26px; }
+  .lc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+  .lc-field { display: flex; flex-direction: column; gap: 6px; }
+  .lc-field__label { font-size: 0.78rem; font-weight: 700; color: var(--c-navy, #1a2540); letter-spacing: 0.04em; }
+  .lc-field input, .lc-field select { padding: 10px 12px; border: 1px solid var(--c-line, #d8d2c4); border-radius: 6px; font-size: 1rem; background: #fff; }
+  .lc-result { margin-top: 26px; border-top: 2px solid var(--c-navy, #1a2540); padding-top: 18px; }
+  .lc-result__row { display: flex; justify-content: space-between; align-items: baseline; padding: 9px 4px; border-bottom: 1px dashed var(--c-line, #e0dcd0); font-size: 0.95rem; }
+  .lc-result__row strong { font-size: 1.1rem; font-variant-numeric: tabular-nums; }
+  .lc-result__row--main { background: rgba(176, 138, 68, 0.07); }
+  .lc-result__row--main strong { font-size: 1.45rem; color: #b8312a; }
+  .lc-result__note { margin-top: 12px; font-size: 0.82rem; color: var(--c-ink-dim, #888); line-height: 1.7; }
+  .lc-context { margin-top: 44px; }
+  .lc-context h2, .lc-disclaimer h2 { font-family: var(--font-serif); font-size: 1.2rem; font-weight: 900; margin-bottom: 12px; }
+  .lc-context__list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+  .lc-context__list li { border: 1px solid var(--c-line, #e0dcd0); border-radius: 6px; padding: 14px 16px; }
+  .lc-context__list a { font-weight: 700; color: var(--c-navy, #1a2540); text-decoration: none; display: block; margin-bottom: 4px; }
+  .lc-context__list a:hover { text-decoration: underline; }
+  .lc-context__list span { font-size: 0.82rem; color: var(--c-ink-dim, #888); }
+  .lc-disclaimer { margin-top: 40px; font-size: 0.85rem; color: var(--c-ink-soft, #666); line-height: 1.85; }
+</style>
+
+<script>
+  function calc() {
+    const balance = Number((document.getElementById('lc-balance') as HTMLInputElement).value) || 0;
+    const units = Number((document.getElementById('lc-units') as HTMLSelectElement).value) || 10000;
+    const entry = Number((document.getElementById('lc-entry') as HTMLInputElement).value) || 0;
+    const side = Number((document.getElementById('lc-side') as HTMLSelectElement).value) || 1;
+    const lev = Number((document.getElementById('lc-lev') as HTMLSelectElement).value) || 25;
+    const level = Number((document.getElementById('lc-level') as HTMLSelectElement).value);
+
+    const fmt = (n: number) => '¥' + Math.round(n).toLocaleString();
+    const margin = (units * entry) / lev;
+    const pipValue = units * 0.01; // クロス円: 1pip=0.01円
+
+    const elM = document.getElementById('lc-margin')!;
+    const elR = document.getElementById('lc-ratio')!;
+    const elP = document.getElementById('lc-price')!;
+    const elPips = document.getElementById('lc-pips')!;
+    const elL = document.getElementById('lc-loss')!;
+    const note = document.getElementById('lc-note')!;
+
+    if (!balance || !entry) { elM.textContent = '—'; return; }
+
+    elM.textContent = fmt(margin);
+    const ratio = (balance / margin) * 100;
+    elR.textContent = ratio.toFixed(0) + '%';
+
+    // 発動条件: 残高 + (P-E)*units*side = margin * level/100
+    const targetEquity = margin * (level / 100);
+    const diff = (targetEquity - balance) / (units * side); // P - E
+    const lcPrice = entry + diff;
+    const pips = Math.abs(diff) / 0.01;
+    const loss = balance - targetEquity;
+
+    if (ratio <= level) {
+      elP.textContent = '即発動圏';
+      elPips.textContent = '0 pips';
+      elL.textContent = fmt(loss > 0 ? loss : balance);
+      note.textContent = 'この設定では証拠金維持率がロスカット水準を下回っています。建玉を持った瞬間に強制決済の対象です。';
+      return;
+    }
+
+    elP.textContent = lcPrice.toFixed(2) + ' 円';
+    elPips.textContent = Math.round(pips).toLocaleString() + ' pips';
+    elL.textContent = fmt(loss);
+    note.textContent = `エントリー${entry.toFixed(2)}円 → ${lcPrice.toFixed(2)}円（${side > 0 ? '下落' : '上昇'}方向に約${Math.round(pips)}pips）で発動する計算です。必要証拠金はエントリーレート固定の概算。`;
+  }
+
+  document.querySelectorAll('.lc-tool input, .lc-tool select').forEach((el) => {
+    el.addEventListener('input', calc);
+    el.addEventListener('change', calc);
+  });
+  // ペア変更時にエントリーレートの目安を反映
+  document.getElementById('lc-pair')!.addEventListener('change', (e) => {
+    const opt = (e.target as HTMLSelectElement).selectedOptions[0];
+    const rate = opt.getAttribute('data-rate');
+    if (rate) (document.getElementById('lc-entry') as HTMLInputElement).value = Number(rate).toFixed(2);
+    calc();
+  });
+  calc();
+</script>
+</BaseLayout>

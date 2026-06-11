@@ -32,6 +32,12 @@ export type ExpertLink = {
 export const PILLARS_BY_CATEGORY: Record<string, PillarLink[]> = {
   fx: [
     {
+      href: "/tools/loss-cut/",
+      title: "ロスカット計算機",
+      subtitle: "いまの建玉が、あと何pipsで強制決済されるか",
+      icon: "",
+    },
+    {
       href: "/compare/fx-no-margin-call/",
       title: "追証なしFX口座 比較",
       subtitle: "強制ロスカット仕様で選ぶ国内FX口座の整理",
