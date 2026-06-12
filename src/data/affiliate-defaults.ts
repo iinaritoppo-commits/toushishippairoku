@@ -175,9 +175,9 @@ export const BOOKS_BY_CATEGORY: Record<string, BookLink[]> = {
   ],
   crypto: [
     {
-      title: "ビットコイン・スタンダード",
-      author: "セイファディーン・アンモウス",
-      href: "https://www.amazon.co.jp/dp/4775942476",
+      title: "ビットコイン・スタンダード ─ お金が変わると世界が変わる",
+      author: "S・アモウズ（訳・練木照子）",
+      href: "https://www.amazon.co.jp/dp/4623090299",
       note: "暗号資産の貨幣論的位置づけ",
     },
     {
@@ -189,10 +189,10 @@ export const BOOKS_BY_CATEGORY: Record<string, BookLink[]> = {
   ],
   realestate: [
     {
-      title: "金持ち父さんの「儲かる」不動産投資（の罠を知る）",
+      title: "Excelでできる 不動産投資「収益計算」のすべて",
       author: "玉川陽介",
-      href: "https://www.amazon.co.jp/dp/4860085639",
-      note: "ワンルーム・サブリースの構造",
+      href: "https://www.amazon.co.jp/dp/4774188107",
+      note: "収益構造と融資・税金の計算を自分の手で確かめる",
     },
     {
       title: "金持ち父さん貧乏父さん",
@@ -254,49 +254,49 @@ export const BOOKS_BY_CATEGORY: Record<string, BookLink[]> = {
 export const EXPERTS_BY_CATEGORY: Record<string, ExpertLink[]> = {
   fx: [
     {
-      title: "ファイナンシャル・プランナー無料相談",
+      title: "日本FP協会の相談窓口",
       subtitle: "投資の建て直し方針を整える",
-      href: "#consult-fp",
+      href: "https://www.jafp.or.jp/confer/",
       type: "fp",
     },
   ],
   stocks: [
     {
-      title: "ファイナンシャル・プランナー無料相談",
+      title: "日本FP協会の相談窓口",
       subtitle: "ポートフォリオの再設計に",
-      href: "#consult-fp",
+      href: "https://www.jafp.or.jp/confer/",
       type: "fp",
     },
   ],
   crypto: [
     {
-      title: "詐欺被害の弁護士相談",
+      title: "法テラス（国の法律相談窓口）",
       subtitle: "返金可能性・刑事告訴の方針確認",
-      href: "#consult-lawyer",
+      href: "https://www.houterasu.or.jp/",
       type: "lawyer",
     },
   ],
   realestate: [
     {
-      title: "不動産の中立アドバイザー相談",
+      title: "全国宅地建物取引業協会の不動産相談",
       subtitle: "売却・賃貸・保有判断の整理",
-      href: "#consult-realestate",
+      href: "https://www.zentaku.or.jp/",
       type: "other",
     },
   ],
   funds: [
     {
-      title: "ファイナンシャル・プランナー無料相談",
+      title: "日本FP協会の相談窓口",
       subtitle: "投信の入れ替え方針を整える",
-      href: "#consult-fp",
+      href: "https://www.jafp.or.jp/confer/",
       type: "fp",
     },
   ],
   fraud: [
     {
-      title: "詐欺被害の弁護士相談",
+      title: "法テラス（国の法律相談窓口）",
       subtitle: "返金交渉・刑事告訴の進め方",
-      href: "#consult-lawyer",
+      href: "https://www.houterasu.or.jp/",
       type: "lawyer",
     },
     {
@@ -308,17 +308,17 @@ export const EXPERTS_BY_CATEGORY: Record<string, ExpertLink[]> = {
   ],
   sidejob: [
     {
-      title: "詐欺被害の弁護士相談",
+      title: "法テラス（国の法律相談窓口）",
       subtitle: "情報商材・自動売買ツール被害の相談",
-      href: "#consult-lawyer",
+      href: "https://www.houterasu.or.jp/",
       type: "lawyer",
     },
   ],
   other: [
     {
-      title: "ファイナンシャル・プランナー無料相談",
+      title: "日本FP協会の相談窓口",
       subtitle: "投資全般の見直しに",
-      href: "#consult-fp",
+      href: "https://www.jafp.or.jp/confer/",
       type: "fp",
     },
   ],
