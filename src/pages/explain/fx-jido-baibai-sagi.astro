@@ -211,6 +211,14 @@ const breadcrumbs = [
       </p>
     </section>
 
+    <aside class="explain-cta">
+      <span class="explain-cta__label">PR</span>
+      <h2 class="explain-cta__title">ツール購入の前に、入口の確認</h2>
+      <p class="explain-cta__body">取材した自動売買の被害は、ツール以前に「海外の無登録業者の口座へ誘導される」段階で始まっているケースが多い。FXを始める入口は、金融庁登録のある国内業者で足りる。DMM FXは金融商品取引業の登録業者で、口座開設は無料。手動取引の基本を国内口座で身につけてから、自動化の判断をしても遅くない。</p>
+      <a href="https://px.a8.net/svt/ejp?a8mat=3BDQIZ+6C130I+1WP2+69WPU" rel="nofollow sponsored" target="_blank" class="explain-cta__btn">DMM FX 公式サイトで仕様を見る<span aria-hidden="true">↗</span></a>
+      <p class="explain-cta__note">※当サイトはDMM.com証券のアフィリエイトプログラムに参加しています。最新の取引条件は公式サイトで確認を。国内5社の整理は<a href="/compare/fx-no-margin-call/">追証なしFX口座 比較2026</a>へ。</p>
+    </aside>
+
     <section class="explain-failures">
       <h3>このパターンが実際に効いた失敗体験</h3>
       <ul>
@@ -261,6 +269,16 @@ const breadcrumbs = [
   .explain-list { list-style: none; margin: 0; padding: 0; counter-reset: ex-list; display: flex; flex-direction: column; gap: 12px; }
   .explain-list li { counter-increment: ex-list; padding: 14px 16px 14px 52px; background: #ffffff; border: 1px solid var(--c-line); border-left: 3px solid var(--c-gold); border-radius: 3px; position: relative; font-size: 0.94rem; line-height: 1.85; }
   .explain-list li::before { content: counter(ex-list, decimal-leading-zero); position: absolute; left: 14px; top: 14px; font-family: "Helvetica Neue", sans-serif; font-weight: 900; font-size: 1rem; color: var(--c-gold); }
+
+  .explain-cta { margin: 44px 0; background: var(--c-navy, #1a2540); border-radius: 8px; padding: 26px 28px; color: #f0ede4; position: relative; }
+  .explain-cta__label { position: absolute; top: 14px; right: 16px; font-size: 0.66rem; letter-spacing: 0.18em; color: rgba(240, 237, 228, 0.55); border: 1px solid rgba(240, 237, 228, 0.35); padding: 2px 8px; border-radius: 2px; }
+  .explain-cta__title { font-family: var(--font-serif); font-size: 1.14rem; font-weight: 900; color: var(--c-gold, #b08a44); margin: 0 0 10px; letter-spacing: 0.05em; }
+  .explain-cta__body { font-size: 0.9rem; line-height: 1.9; margin: 0 0 18px; color: rgba(240, 237, 228, 0.92); }
+  .explain-cta__btn { display: inline-flex; align-items: center; gap: 8px; background: var(--c-gold, #b08a44); color: #1a2540; font-weight: 800; font-size: 0.94rem; letter-spacing: 0.05em; padding: 13px 24px; border-radius: 4px; text-decoration: none; transition: opacity 0.15s ease, transform 0.15s ease; }
+  .explain-cta__btn:hover { opacity: 0.9; transform: translateY(-1px); text-decoration: none; color: #1a2540; }
+  .explain-cta__note { margin: 14px 0 0; font-size: 0.74rem; line-height: 1.7; color: rgba(240, 237, 228, 0.6); }
+  .explain-cta__note a { color: rgba(240, 237, 228, 0.85); }
+  @media (max-width: 540px) { .explain-cta { padding: 20px 18px; } .explain-cta__btn { width: 100%; justify-content: center; } }
 
   .explain-failures { margin: 40px 0; padding: 20px 22px; background: var(--c-bg); border-left: 3px solid var(--c-loss); border-radius: 3px; }
   .explain-failures h3 { margin: 0 0 10px; font-size: 0.94rem; color: var(--c-loss); letter-spacing: 0.04em; }
