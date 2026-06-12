@@ -1,0 +1,347 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import TopAffiliateBox from "../../components/TopAffiliateBox.astro";
+import EndAffiliateMix from "../../components/EndAffiliateMix.astro";
+import NewsletterCTA from "../../components/NewsletterCTA.astro";
+import AdSenseSlot from "../../components/AdSenseSlot.astro";
+
+// FX関連の取材記事数を動的に集計（ハードコード禁止）
+const fxArticles = Object.keys(import.meta.glob("../../../approved/draft-*fx*.json"));
+const fxCount = fxArticles.length;
+
+const title = "FX初心者がやってはいけない7つのこと ─ 取材で毎回出てくる大損の入口";
+const description = `FXの失敗体験を取材し続けている編集者が、初心者が最初の数ヶ月でやりがちな7つの行動を実例つきで整理。最初のロット数・デモとの違い・SNSの手法・損切りの先送り・生活費の投入・指標またぎ・ロスカット水準。FX関連の取材${fxCount}本から共通点だけを抜き出した。`;
+const updatedAt = "2026-06-12";
+
+const topPillars = [
+  { href: "/tools/loss-cut/", title: "ロスカット計算機", subtitle: "あと何pipsで強制決済されるか30秒で概算", icon: "" },
+  { href: "/compare/fx-no-margin-call/", title: "追証なしFX口座 比較2026", subtitle: "ロスカット仕様で選ぶ国内FX 5社の整理", icon: "" },
+];
+
+const breadcrumbs = [
+  { name: "投資失敗録", url: "/" },
+  { name: "解説", url: "/explain/" },
+  { name: "FX初心者がやってはいけない7つのこと", url: "/explain/fx-beginner-mistakes/" },
+];
+
+// FAQ（PAA対策・FAQPage schema用）
+const faqs = [
+  {
+    q: "FXはいくらから始めるのが現実的？",
+    a: "取材の範囲で言うと、「全部なくなっても生活が変わらない金額」が唯一の基準。金額そのものより、生活費や奨学金など「減ると困るお金」を入れた人から順に退場している。1,000通貨単位の口座なら数万円から、10,000通貨単位なら10万円以上が一応の目安になる。",
+  },
+  {
+    q: "初心者はレバレッジ何倍までにすべき？",
+    a: "国内FXの上限は25倍だが、上限まで使う必要はない。取材した退場者の多くは実効レバレッジ10倍超で運用していた。証拠金に対してポジションを小さく取り、実効3〜5倍程度に抑えると、急変動の数百pipsを耐えられる余地が生まれる。",
+  },
+  {
+    q: "デモトレードはやった方がいい？",
+    a: "発注操作に慣れる目的なら有効。ただしデモで勝てた手法がリアルで通用するとは限らない。自分のお金が減る状態では判断が変わるからで、デモの成績を実力と考えて金額を上げた人の失敗談を複数取材している。デモは「操作の練習」、少額リアルは「感情の練習」と分けて考えるのが現実的。",
+  },
+  {
+    q: "FXで失敗しない人はいる？",
+    a: "「一度も損失を出さない人」は取材の範囲では存在しない。続いている人は、失敗の回数が少ないのではなく、1回あたりの損失額を小さく抑えている。負けを前提に、1回の損失を総資金の数%以内に収める設計ができるかどうかが分かれ目になる。",
+  },
+  {
+    q: "口座はどこで開いても同じ？",
+    a: "スプレッドの差は初心者の段階ではほぼ誤差だが、ロスカット水準（証拠金維持率50%か100%か）と最低取引単位（1,000通貨か10,000通貨か）は損失の出方に直結する。仕様の違いは追証なしFX口座 比較2026に整理してある。",
+  },
+];
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
+};
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  showQuickNav={false}
+  pageType="article"
+  articleMeta={{ headline: title, category: "FX / 解説", datePublished: updatedAt, dateModified: updatedAt, author: "しら" }}
+  breadcrumbs={breadcrumbs}
+>
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(faqSchema)} />
+
+  <article class="explain-page">
+    <nav class="breadcrumb">
+      <a href="/">トップ</a><span>›</span><a href="/explain/">解説</a><span>›</span><span>FX初心者がやってはいけない7つのこと</span>
+    </nav>
+
+    <header class="explain-head">
+      <span class="explain-head__cat">FX / 解説</span>
+      <p class="pr-label" style="font-size:0.74rem;color:#8a8475;letter-spacing:0.06em;margin:0 0 10px;">※本ページにはプロモーション（広告）が含まれます</p>
+      <h1 class="explain-head__title">{title}</h1>
+      <p class="explain-head__lead">
+        これからFXを始める人に向けたページ。<br />
+        当サイトはFX関連だけで{fxCount}本の失敗体験を取材してきた。手法も金額も年代もバラバラなのに、最初の数ヶ月でやっていたことは驚くほど重なる。その共通点だけを7つに絞って置いておく。
+      </p>
+      <div class="explain-head__meta">
+        <span><strong>更新</strong>{updatedAt}</span>
+        <span><strong>編集</strong>しら</span>
+        <span><strong>取材ベース</strong>FX失敗体験 {fxCount}本</span>
+      </div>
+    </header>
+
+    <TopAffiliateBox pillars={topPillars} heading="先に開いておくと話が早い" subLabel="BACKGROUND READING" />
+
+    <AdSenseSlot slot="explain-header" format="rectangle" />
+
+    <section class="explain-section">
+      <h2 class="explain-h2">先に7つの結論</h2>
+      <ol class="explain-toc">
+        <li><a href="#ng1">ロットの意味を知らないまま、いきなり10,000通貨で入る</a></li>
+        <li><a href="#ng2">デモで勝てた手法を、そのままの金額感覚で実弾に持ち込む</a></li>
+        <li><a href="#ng3">SNS・動画広告の「勝てる手法」を入口にする</a></li>
+        <li><a href="#ng4">損切りラインを「あとちょっと」で動かす</a></li>
+        <li><a href="#ng5">生活費・ボーナス・退職金を入金する</a></li>
+        <li><a href="#ng6">経済指標の日を知らずにポジションを持ち越す</a></li>
+        <li><a href="#ng7">自分の口座のロスカット水準を知らない</a></li>
+      </ol>
+      <p>
+        どれも「知っていれば避けられた」と本人たちが言うものばかり。順番に見ていく。
+      </p>
+    </section>
+
+    <section class="explain-section" id="ng1">
+      <h2 class="explain-h2">1. ロットの意味を知らないまま、いきなり10,000通貨で入る</h2>
+      <p>
+        1ロット＝何通貨かは口座によって違う。国内は10,000通貨が標準で、ドル円なら1pipの逆行で100円、100pipsで10,000円動く。
+      </p>
+      <p>
+        この感覚がないまま「最低ロットだから安全だろう」と入って、数日で口座資金の大半を失うケースを繰り返し取材している。<a href="/articles/toushi-fx-026/">お小遣い40万円を3日でロスカットした22歳新卒の話</a>は、まさにこのパターンだった。
+      </p>
+      <p>
+        最初の数ヶ月は、1,000通貨単位で取引できる口座で「100pips逆行しても1,000円」の世界から始めるか、10,000通貨単位の口座なら証拠金を厚めに置いてポジションを最小で張る。どちらにしても、<strong>1pipで自分の口座がいくら動くかを言えない状態でエントリーしない</strong>こと。
+      </p>
+    </section>
+
+    <section class="explain-section" id="ng2">
+      <h2 class="explain-h2">2. デモで勝てた手法を、そのままの金額感覚で実弾に持ち込む</h2>
+      <p>
+        デモトレードは発注操作の練習には向いている。ただ、デモの利益は実力の証明にならない。
+      </p>
+      <p>
+        自分のお金が減っていく画面を見ると、デモでは守れていた損切りができなくなる。利益が出ると今度は「減る前に」と早く決済してしまう。損は伸びて利益は縮む。デモと同じチャート、同じ手法でも、結果が逆になる。
+      </p>
+      <p>
+        <a href="/articles/toushi-fx-028/">デモトレードで勝った気になってリアル口座で5万円消えた21歳大学生の話</a>では、本人が「ゲームと現金は別物だった」と振り返っている。デモは操作の練習、少額リアルは感情の練習。この2段階を飛ばさない。
+      </p>
+    </section>
+
+    <section class="explain-section" id="ng3">
+      <h2 class="explain-h2">3. SNS・動画広告の「勝てる手法」を入口にする</h2>
+      <p>
+        「初心者でも月20万」「スマホ10分」のような広告経由でFXを知った人の失敗談は、当サイトの取材でも特に多いゾーン。
+      </p>
+      <p>
+        <a href="/articles/toushi-fx-021/">YouTube広告のFXで350万円失った30代会社員の話</a>、<a href="/articles/toushi-fx-023/">SNS広告のFXで奨学金130万円を失った女子大生の話</a>。共通するのは、手法より先に「すぐ稼げる前提」が頭に入ってしまうこと。その前提だとロットは大きくなり、損切りは遅れる。
+      </p>
+      <p>
+        広告やDMで知った手法・サイン配信・自動売買ツールから入るのは、FXの勉強ではなく「FXを使った商材の購入」になっていることが多い。入口は金融庁登録のある国内業者の口座と、業者が無料で出している教材で足りる。
+      </p>
+    </section>
+
+    <section class="explain-section" id="ng4">
+      <h2 class="explain-h2">4. 損切りラインを「あとちょっと」で動かす</h2>
+      <p>
+        エントリー前に決めた損切りラインを、含み損が近づいた瞬間に動かす。「あと10pips戻ったら切る」が「あと30pips」になり、最後は祈りに変わる。
+      </p>
+      <p>
+        <a href="/articles/toushi-fx-006/">夜勤明けの「ながらFX」で340万円を失った30代看護師の話</a>では、最初の損切り予定額は2万円だった。動かし続けた結果が340万円。損切りラインの移動は、損失を百倍にする操作だと取材のたびに思う。
+      </p>
+      <p>
+        対策はシンプルで、<strong>エントリーと同時に逆指値（ストップ注文）を入れて、その後は触らない</strong>。「金額で決めて、値段で発注する」を最初の習慣にする。
+      </p>
+    </section>
+
+    <section class="explain-section" id="ng5">
+      <h2 class="explain-h2">5. 生活費・ボーナス・退職金を入金する</h2>
+      <p>
+        FXの損失で生活が壊れるかどうかは、手法ではなく「何のお金を入れたか」でほぼ決まる。
+      </p>
+      <p>
+        <a href="/articles/toushi-fx-010/">新卒1年目がボーナス全額220万円を2ヶ月で失った話</a>、<a href="/articles/toushi-fx-025/">退職金の半分1100万円をスイスフランショックで失った60代の話</a>。金額は違っても、「減ったら取り返すしかないお金」を入れた時点で、損切りできない構造が完成している。
+      </p>
+      <p>
+        余剰資金という言葉は曖昧だから、こう言い換える。<strong>全額なくなっても、明日の生活と来年の予定が1ミリも変わらないお金</strong>。それ以外は入金しない。
+      </p>
+    </section>
+
+    <AdSenseSlot slot="explain-middle" format="in-feed" />
+
+    <section class="explain-section" id="ng6">
+      <h2 class="explain-h2">6. 経済指標の日を知らずにポジションを持ち越す</h2>
+      <p>
+        米雇用統計、CPI、FOMC、日銀会合。発表の前後は数分で数十〜数百pips動くことがあり、スプレッドも開く。逆指値を入れていても、想定の位置で約定しないことがある。
+      </p>
+      <p>
+        <a href="/articles/toushi-fx-002/">日銀利上げショックで580万円を失った40代主婦の話</a>のように、「指標があることすら知らずに持ち越していた」という取材が実際に複数ある。狙って取りに行った人より、知らずに巻き込まれた人の方が多い印象すらある。
+      </p>
+      <p>
+        最初の数ヶ月は、<strong>経済指標カレンダーを毎朝見る習慣だけ先に作り、重要指標の前はポジションをゼロにして見送る</strong>。発表後の値動きを眺めるだけで、値幅の感覚の勉強になる。
+      </p>
+    </section>
+
+    <section class="explain-section" id="ng7">
+      <h2 class="explain-h2">7. 自分の口座のロスカット水準を知らない</h2>
+      <p>
+        強制ロスカットが発動する証拠金維持率は、業者によって50%だったり100%だったりする。同じ資金・同じポジションでも、口座が違えば「強制決済までの距離」が違う。
+      </p>
+      <p>
+        取材していて驚くのは、退場経験者でも「自分の口座のロスカット水準を知らなかった」と答える人が珍しくないこと。<a href="/articles/toushi-fx-026/">3日でロスカットされた22歳</a>も、通知メールが来るまでその仕組みを知らなかった。
+      </p>
+      <p>
+        いま建てているポジション、あるいはこれから建てるポジションが「あと何pipsで強制決済されるか」は、<a href="/tools/loss-cut/">ロスカット計算機</a>に口座資金とロット数を入れれば30秒で概算できる。エントリー前に1回計算する癖をつけるだけで、7つの中のいくつかは同時に防げる。
+      </p>
+    </section>
+
+    <section class="explain-section">
+      <h2 class="explain-h2">7つ全部を意志で守るのは、たぶん無理</h2>
+      <p>
+        ここまで読んで「自分は大丈夫」と思った人ほど危ない、と書きたいところだけど、取材で見えた実態はもう少し冷たい。<strong>退場した人の多くは、7つのほとんどを「知っていた」</strong>。知識として知っていることと、含み損を見ながら実行できることは別物だった。
+      </p>
+      <p>
+        だから現実的な対策は、意志に頼る部分を最初から減らしておくこと。つまり、口座選びの段階で「失敗しにくい仕様」を選んでしまう。
+      </p>
+      <ol class="explain-list">
+        <li><strong>ロスカット水準</strong>：証拠金維持率100%の口座は早めに強制決済される＝損失の上限が浅い。50%の口座は猶予が広い分、損失も深くなり得る。自分がどちらの設計で守られたいかを先に決める。</li>
+        <li><strong>最低取引単位</strong>：1,000通貨単位なら数万円から「感情の練習」ができる。10,000通貨単位の口座なら、証拠金を厚めに置く前提で。</li>
+        <li><strong>取引ツールとサポート</strong>：発注ミスは初心者の定番の失敗。画面が分かりやすいか、夜間でも問い合わせできるかは、スプレッドの0.1銭差より効く。</li>
+      </ol>
+    </section>
+
+    <aside class="explain-cta">
+      <span class="explain-cta__label">PR</span>
+      <h2 class="explain-cta__title">仕様で守るなら、まず候補に挙がる口座</h2>
+      <p class="explain-cta__body">DMM FXはロスカット水準が証拠金維持率50%以下＝強制決済までの猶予が広いタイプ。取引画面が初心者でも追いやすい設計で、LINEでの問い合わせに対応している。10,000通貨単位なので、証拠金は10万円以上を目安に厚めに置く使い方が前提。口座開設は無料。</p>
+      <a href="https://px.a8.net/svt/ejp?a8mat=3BDQIZ+6C130I+1WP2+6IWSI" rel="nofollow sponsored" target="_blank" class="explain-cta__btn">DMM FX 公式サイトで仕様を見る<span aria-hidden="true">↗</span></a>
+      <p class="explain-cta__note">※当サイトはDMM.com証券のアフィリエイトプログラムに参加しています。最新の取引条件は公式サイトで確認を。1,000通貨単位の口座も含めた5社の整理は<a href="/compare/fx-no-margin-call/">追証なしFX口座 比較2026</a>にまとめてある。</p>
+    </aside>
+
+    <section class="pillar-faq">
+      <div class="pillar-faq__head">
+        <span class="pillar-faq__sub">FAQ</span>
+        <h2 class="pillar-faq__title">よく届く質問</h2>
+      </div>
+      <div class="pillar-faq__list">
+        {faqs.map((f, i) => (
+          <details class="pillar-faq__item" open={i === 0}>
+            <summary>
+              <span class="pillar-faq__q-mark" aria-hidden="true">Q</span>
+              <span class="pillar-faq__q-text">{f.q}</span>
+            </summary>
+            <div class="pillar-faq__a">
+              <span class="pillar-faq__a-mark" aria-hidden="true">A</span>
+              <p>{f.a}</p>
+            </div>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <section class="explain-failures">
+      <h3>この7つが実際に効いた失敗体験</h3>
+      <ul>
+        <li><a href="/articles/toushi-fx-026/">FX初挑戦・お小遣い40万円を3日でロスカットした22歳新卒の話</a></li>
+        <li><a href="/articles/toushi-fx-028/">デモトレで勝った気になってリアル口座で5万円消えた21歳大学生の話</a></li>
+        <li><a href="/articles/toushi-fx-021/">YouTube広告のFXで350万円失った30代会社員の話</a></li>
+      </ul>
+    </section>
+
+    <EndAffiliateMix
+      sameCategory={[]}
+      pillars={[
+        { href: "/explain/fx-shippai-patterns/", title: "FXで退場した人の7パターン", meta: "経験者向け・退場直前のサインを整理" },
+        { href: "/compare/fx-no-margin-call/", title: "追証なしFX口座 比較2026", meta: "ロスカット仕様で選ぶFX口座5社" },
+        { href: "/tools/loss-cut/", title: "ロスカット計算機", meta: "あと何pipsで強制決済か30秒で概算" },
+      ]}
+      sameCategoryLabel="REAL CASE"
+      pillarsLabel="RELATED"
+      sameCategoryHeading="実話アーカイブ"
+      pillarsHeading="次に読む比較・解説"
+    />
+
+    <NewsletterCTA />
+    <AdSenseSlot slot="explain-footer" format="rectangle" />
+  </article>
+</BaseLayout>
+
+<style>
+  .explain-page { max-width: 820px; margin: 0 auto; padding: 0 24px 60px; }
+  .breadcrumb { max-width: 820px; margin: 20px auto 0; padding: 0 24px; font-size: 0.78rem; color: var(--c-ink-dim); }
+  .breadcrumb a { color: var(--c-navy); text-decoration: none; }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb span { margin: 0 6px; color: var(--c-gold); }
+
+  .explain-head { padding: 32px 0 24px; border-bottom: 2px solid var(--c-navy); margin-bottom: 28px; }
+  .explain-head__cat { display: inline-block; background: var(--c-navy); color: var(--c-gold); font-size: 0.7rem; font-weight: 800; letter-spacing: 0.16em; padding: 5px 14px; border-radius: 2px; margin-bottom: 16px; }
+  .explain-head__title { font-family: var(--font-serif); font-size: clamp(1.4rem, 3.2vw, 1.8rem); font-weight: 700; color: var(--c-ink); margin: 0 0 16px; line-height: 1.55; letter-spacing: 0.06em; }
+  .explain-head__lead { margin: 0 0 18px; font-size: 0.98rem; color: var(--c-ink-soft); line-height: 2; }
+  .explain-head__meta { display: flex; flex-wrap: wrap; gap: 18px; font-size: 0.82rem; color: var(--c-ink-soft); }
+  .explain-head__meta strong { color: var(--c-ink-dim); margin-right: 6px; }
+
+  .explain-section { margin: 36px 0; }
+  .explain-h2 { font-family: var(--font-serif); font-size: 1.28rem; font-weight: 700; color: var(--c-ink); letter-spacing: 0.06em; margin: 0 0 16px; padding-bottom: 10px; border-bottom: 2px solid var(--c-navy); }
+  .explain-section p { font-size: 0.96rem; line-height: 2.0; color: var(--c-ink); margin: 0 0 12px; }
+  .explain-section strong { color: var(--c-navy-deep); }
+  .explain-section a { color: var(--c-navy); font-weight: 600; }
+
+  .explain-toc { list-style: none; margin: 0 0 16px; padding: 0; counter-reset: toc; display: flex; flex-direction: column; gap: 8px; }
+  .explain-toc li { counter-increment: toc; position: relative; padding: 12px 14px 12px 50px; background: var(--c-bg); border: 1px solid var(--c-line); border-radius: 3px; font-size: 0.94rem; line-height: 1.7; }
+  .explain-toc li::before { content: counter(toc, decimal-leading-zero); position: absolute; left: 14px; top: 12px; font-family: "Helvetica Neue", sans-serif; font-weight: 900; color: var(--c-gold); }
+  .explain-toc a { color: var(--c-ink); text-decoration: none; font-weight: 600; }
+  .explain-toc a:hover { color: var(--c-navy); text-decoration: underline; }
+
+  .explain-list { list-style: none; margin: 0; padding: 0; counter-reset: ex-list; display: flex; flex-direction: column; gap: 12px; }
+  .explain-list li { counter-increment: ex-list; padding: 14px 16px 14px 52px; background: #ffffff; border: 1px solid var(--c-line); border-left: 3px solid var(--c-gold); border-radius: 3px; position: relative; font-size: 0.94rem; line-height: 1.85; }
+  .explain-list li::before { content: counter(ex-list, decimal-leading-zero); position: absolute; left: 14px; top: 14px; font-family: "Helvetica Neue", sans-serif; font-weight: 900; font-size: 1rem; color: var(--c-gold); }
+
+  .explain-cta { margin: 44px 0; background: var(--c-navy, #1a2540); border-radius: 8px; padding: 26px 28px; color: #f0ede4; position: relative; }
+  .explain-cta__label { position: absolute; top: 14px; right: 16px; font-size: 0.66rem; letter-spacing: 0.18em; color: rgba(240, 237, 228, 0.55); border: 1px solid rgba(240, 237, 228, 0.35); padding: 2px 8px; border-radius: 2px; }
+  .explain-cta__title { font-family: var(--font-serif); font-size: 1.14rem; font-weight: 900; color: var(--c-gold, #b08a44); margin: 0 0 10px; letter-spacing: 0.05em; }
+  .explain-cta__body { font-size: 0.9rem; line-height: 1.9; margin: 0 0 18px; color: rgba(240, 237, 228, 0.92); }
+  .explain-cta__btn { display: inline-flex; align-items: center; gap: 8px; background: var(--c-gold, #b08a44); color: #1a2540; font-weight: 800; font-size: 0.94rem; letter-spacing: 0.05em; padding: 13px 24px; border-radius: 4px; text-decoration: none; transition: opacity 0.15s ease, transform 0.15s ease; }
+  .explain-cta__btn:hover { opacity: 0.9; transform: translateY(-1px); text-decoration: none; color: #1a2540; }
+  .explain-cta__note { margin: 14px 0 0; font-size: 0.74rem; line-height: 1.7; color: rgba(240, 237, 228, 0.6); }
+  .explain-cta__note a { color: rgba(240, 237, 228, 0.85); }
+
+  .pillar-faq { margin: 48px 0; }
+  .pillar-faq__head { margin-bottom: 18px; }
+  .pillar-faq__sub { display: block; font-size: 0.68rem; letter-spacing: 0.44em; color: var(--c-gold); font-weight: 800; margin-bottom: 8px; }
+  .pillar-faq__title { font-family: var(--font-serif); font-size: 1.28rem; font-weight: 700; color: var(--c-ink); margin: 0 0 12px; padding-bottom: 12px; border-bottom: 2px solid var(--c-navy); letter-spacing: 0.08em; }
+  .pillar-faq__list { display: flex; flex-direction: column; gap: 10px; }
+  .pillar-faq__item { background: #ffffff; border: 1px solid var(--c-line); border-radius: 3px; overflow: hidden; }
+  .pillar-faq__item summary { list-style: none; cursor: pointer; padding: 16px 18px; display: grid; grid-template-columns: 28px 1fr 20px; align-items: center; gap: 14px; background: var(--c-bg); transition: background 0.15s ease; }
+  .pillar-faq__item summary::-webkit-details-marker { display: none; }
+  .pillar-faq__item summary::after { content: "+"; color: var(--c-gold); font-size: 1.4rem; font-weight: 700; line-height: 1; grid-column: 3; }
+  .pillar-faq__item[open] summary::after { content: "−"; }
+  .pillar-faq__item summary:hover { background: var(--c-bg-soft); }
+  .pillar-faq__q-mark { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; background: var(--c-navy); color: var(--c-gold); border-radius: 50%; font-family: "Helvetica Neue", sans-serif; font-weight: 900; font-size: 0.86rem; }
+  .pillar-faq__q-text { font-size: 0.96rem; font-weight: 700; color: var(--c-ink); line-height: 1.5; }
+  .pillar-faq__a { padding: 16px 18px; display: grid; grid-template-columns: 28px 1fr; gap: 14px; background: #ffffff; }
+  .pillar-faq__a-mark { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; background: var(--c-gold); color: var(--c-navy-deep); border-radius: 50%; font-family: "Helvetica Neue", sans-serif; font-weight: 900; font-size: 0.86rem; align-self: start; }
+  .pillar-faq__a p { margin: 0; font-size: 0.92rem; line-height: 1.95; color: var(--c-ink); }
+
+  .explain-failures { margin: 40px 0; padding: 20px 22px; background: var(--c-bg); border-left: 3px solid var(--c-loss); border-radius: 3px; }
+  .explain-failures h3 { margin: 0 0 10px; font-size: 0.94rem; color: var(--c-loss); letter-spacing: 0.04em; }
+  .explain-failures ul { margin: 0; padding-left: 18px; }
+  .explain-failures li { margin-bottom: 6px; line-height: 1.7; }
+  .explain-failures a { color: var(--c-navy); }
+
+  @media (max-width: 540px) {
+    .explain-page { padding: 0 18px 50px; }
+    .breadcrumb { padding: 0 18px; }
+    .explain-h2 { font-size: 1.1rem; }
+    .explain-cta { padding: 20px 18px; }
+    .explain-cta__btn { width: 100%; justify-content: center; }
+    .pillar-faq__item summary { padding: 14px; grid-template-columns: 26px 1fr 18px; gap: 10px; }
+    .pillar-faq__a { padding: 14px; gap: 10px; }
+  }
+</style>

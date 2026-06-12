@@ -192,19 +192,29 @@ const breadcrumbs = [
       </p>
     </section>
 
+    <aside class="explain-cta">
+      <span class="explain-cta__label">PR</span>
+      <h2 class="explain-cta__title">7つを意志で守れないなら、仕様で守る</h2>
+      <p class="explain-cta__body">退場者の多くは、この7パターンを知識としては知っていた。知っていて実行できないなら、口座仕様で守られる部分を増やすのが現実的になる。DMM FXはロスカット水準が証拠金維持率50%以下＝強制決済までの猶予が広いタイプ。取引画面の見やすさとLINEサポートも、判断停止の期間を作りにくくする方向に効く。口座開設は無料。</p>
+      <a href="https://px.a8.net/svt/ejp?a8mat=3BDQIZ+6C130I+1WP2+6IWSI" rel="nofollow sponsored" target="_blank" class="explain-cta__btn">DMM FX 公式サイトで仕様を見る<span aria-hidden="true">↗</span></a>
+      <p class="explain-cta__note">※当サイトはDMM.com証券のアフィリエイトプログラムに参加しています。最新の取引条件は公式サイトで確認を。5社の整理は<a href="/compare/fx-no-margin-call/">追証なしFX口座 比較2026</a>へ。</p>
+    </aside>
+
     <section class="explain-failures">
       <h3>このパターンが実際に効いた失敗体験</h3>
       <ul>
         <li><a href="/articles/toushi-fx-001/">トルコリラのスワップ狙いで320万円溶かした30代会社員の話</a></li>
+        <li><a href="/articles/toushi-fx-002/">夫に黙ってFXで580万円溶かした40代主婦 ─ 2024年8月日銀利上げショック</a></li>
+        <li><a href="/articles/toushi-fx-006/">夜勤明けにスマホで「ながらFX」、340万円を失った30代看護師の話</a></li>
       </ul>
     </section>
 
     <EndAffiliateMix
       sameCategory={[]}
       pillars={[
-        { href: "/explain/loss-cut-mechanism/", title: "ロスカットの仕組み", meta: "指定レート時点と次の約定可能レートの違い" },
+        { href: "/explain/fx-beginner-mistakes/", title: "FX初心者がやってはいけない7つのこと", meta: "これから始める人向け・大損の入口を整理" },
         { href: "/compare/fx-no-margin-call/", title: "追証なしFX口座 比較2026", meta: "ロスカット仕様で選ぶFX口座5社" },
-        { href: "/explain/scam-detection-guide/", title: "投資詐欺の見抜き方", meta: "9シグナルで識別する3軸" },
+        { href: "/explain/loss-cut-mechanism/", title: "ロスカットの仕組み", meta: "指定レート時点と次の約定可能レートの違い" },
       ]}
       sameCategoryLabel="REAL CASE"
       pillarsLabel="RELATED"
@@ -241,6 +251,16 @@ const breadcrumbs = [
   .explain-list { list-style: none; margin: 0; padding: 0; counter-reset: ex-list; display: flex; flex-direction: column; gap: 12px; }
   .explain-list li { counter-increment: ex-list; padding: 14px 16px 14px 52px; background: #ffffff; border: 1px solid var(--c-line); border-left: 3px solid var(--c-gold); border-radius: 3px; position: relative; font-size: 0.94rem; line-height: 1.85; }
   .explain-list li::before { content: counter(ex-list, decimal-leading-zero); position: absolute; left: 14px; top: 14px; font-family: "Helvetica Neue", sans-serif; font-weight: 900; font-size: 1rem; color: var(--c-gold); }
+
+  .explain-cta { margin: 44px 0; background: var(--c-navy, #1a2540); border-radius: 8px; padding: 26px 28px; color: #f0ede4; position: relative; }
+  .explain-cta__label { position: absolute; top: 14px; right: 16px; font-size: 0.66rem; letter-spacing: 0.18em; color: rgba(240, 237, 228, 0.55); border: 1px solid rgba(240, 237, 228, 0.35); padding: 2px 8px; border-radius: 2px; }
+  .explain-cta__title { font-family: var(--font-serif); font-size: 1.14rem; font-weight: 900; color: var(--c-gold, #b08a44); margin: 0 0 10px; letter-spacing: 0.05em; }
+  .explain-cta__body { font-size: 0.9rem; line-height: 1.9; margin: 0 0 18px; color: rgba(240, 237, 228, 0.92); }
+  .explain-cta__btn { display: inline-flex; align-items: center; gap: 8px; background: var(--c-gold, #b08a44); color: #1a2540; font-weight: 800; font-size: 0.94rem; letter-spacing: 0.05em; padding: 13px 24px; border-radius: 4px; text-decoration: none; transition: opacity 0.15s ease, transform 0.15s ease; }
+  .explain-cta__btn:hover { opacity: 0.9; transform: translateY(-1px); text-decoration: none; color: #1a2540; }
+  .explain-cta__note { margin: 14px 0 0; font-size: 0.74rem; line-height: 1.7; color: rgba(240, 237, 228, 0.6); }
+  .explain-cta__note a { color: rgba(240, 237, 228, 0.85); }
+  @media (max-width: 540px) { .explain-cta { padding: 20px 18px; } .explain-cta__btn { width: 100%; justify-content: center; } }
 
   .explain-failures { margin: 40px 0; padding: 20px 22px; background: var(--c-bg); border-left: 3px solid var(--c-loss); border-radius: 3px; }
   .explain-failures h3 { margin: 0 0 10px; font-size: 0.94rem; color: var(--c-loss); letter-spacing: 0.04em; }

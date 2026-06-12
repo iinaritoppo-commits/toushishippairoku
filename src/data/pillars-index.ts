@@ -122,6 +122,17 @@ export const EXPLAINS: PillarMeta[] = [
     accent: "loss",
   },
   {
+    href: "/explain/fx-beginner-mistakes/",
+    title: "FX初心者がやってはいけない7つのこと ─ 取材で毎回出てくる大損の入口",
+    shortTitle: "FX初心者がやってはいけない7つのこと",
+    category: "FX / 解説",
+    description:
+      "これからFXを始める人向け。最初のロット数・デモとの違い・SNSの手法・損切りの先送り・生活費の投入・指標またぎ・ロスカット水準。取材した失敗体験から、最初の数ヶ月でやりがちな行動の共通点だけを抜き出して整理。",
+    updatedAt: "2026-06-12",
+    badge: "NEW",
+    accent: "navy",
+  },
+  {
     href: "/explain/nisa-fukumison-patterns/",
     title: "新NISAで含み損になった人の失敗パターン ─ 取材で見えた7つの共通点",
     shortTitle: "新NISA 含み損 失敗パターン",
