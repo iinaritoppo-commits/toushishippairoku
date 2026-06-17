@@ -159,6 +159,26 @@ const { title, description, image, showQuickNav = true, pageType, articleMeta, b
     <div class="foot__legal">本サイトは金融商品取引業者ではありません。掲載内容は投資助言・推奨ではなく、実話の記録です。投資判断は自己責任でお願いします。</div>
   </footer>
 
+  {/* ===== スマホ下部固定ナビ ===== */}
+  <nav class="bottom-nav" aria-label="モバイルナビ">
+    <a href="/" class="bottom-nav__item">
+      <svg class="bottom-nav__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12 12 3l9 9"/><path d="M5 10v10h14V10"/></svg>
+      <span>新着</span>
+    </a>
+    <a href="/#section-cats" class="bottom-nav__item">
+      <svg class="bottom-nav__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+      <span>ジャンル</span>
+    </a>
+    <a href="/submit/" class="bottom-nav__item bottom-nav__item--accent">
+      <svg class="bottom-nav__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+      <span>投稿</span>
+    </a>
+    <a href="/search/" class="bottom-nav__item">
+      <svg class="bottom-nav__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      <span>検索</span>
+    </a>
+  </nav>
+
   <style is:global>
     .foot__sister { padding:14px 18px; background:#f8f5ec; border:1px solid #e0d8c0; border-radius:6px; margin-bottom:14px; font-size:0.92rem; }
     .foot__sister-label { color:#5a6070; font-weight:600; margin-right:6px; }
