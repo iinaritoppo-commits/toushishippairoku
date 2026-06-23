@@ -1,0 +1,445 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const title = "ロット計算機｜狙うpipsと目標額から必要ロットを逆算｜FX";
+const description = "通貨ペアと狙うpips、欲しい利益額を入れると必要ロット数を即計算。1ロット=10万通貨の海外口座基準で、ドル円・クロス円・ドルストレート・ゴールドに対応。レート自動取得つき。ロット別×pips別の損益早見表も一望できる無料ツール。";
+
+const breadcrumbs = [
+  { name: "投資失敗録", url: "/" },
+  { name: "ロット計算機", url: "/tools/lot-size/" },
+];
+---
+
+<BaseLayout title={title} description={description} showQuickNav={false} pageType="website" breadcrumbs={breadcrumbs}>
+<article class="ls-page">
+  <nav class="breadcrumb"><a href="/">トップ</a><span>›</span>ロット計算機</nav>
+
+  <header class="ls-head">
+    <span class="ls-head__sub">TOOLS</span>
+    <p class="pr-label" style="font-size:0.74rem;color:#8a8475;letter-spacing:0.06em;margin:0 0 10px;">※本ページにはプロモーション（広告）が含まれます</p>
+    <h1 class="ls-head__title">ロット計算機</h1>
+    <p class="ls-head__lead">「この通貨で◯pips取って、3万円。なら何ロット？」を、その瞬間のレートで即計算。1ロット＝10万通貨の海外口座基準。</p>
+  </header>
+
+  <!-- 入力 -->
+  <section class="ls-tool" aria-label="計算フォーム">
+    <div class="ls-grid">
+      <label class="ls-field">
+        <span class="ls-field__label">通貨ペア</span>
+        <select id="ls-pair">
+          <optgroup label="クロス円">
+            <option value="USDJPY">ドル円（USD/JPY）</option>
+            <option value="EURJPY">ユーロ円（EUR/JPY）</option>
+            <option value="GBPJPY">ポンド円（GBP/JPY）</option>
+            <option value="AUDJPY">豪ドル円（AUD/JPY）</option>
+            <option value="NZDJPY">NZドル円（NZD/JPY）</option>
+            <option value="CADJPY">カナダ円（CAD/JPY）</option>
+            <option value="CHFJPY">スイス円（CHF/JPY）</option>
+          </optgroup>
+          <optgroup label="ドルストレート">
+            <option value="EURUSD">ユーロドル（EUR/USD）</option>
+            <option value="GBPUSD">ポンドドル（GBP/USD）</option>
+            <option value="AUDUSD">豪ドル/ドル（AUD/USD）</option>
+            <option value="NZDUSD">NZドル/ドル（NZD/USD）</option>
+            <option value="USDCHF">ドルスイス（USD/CHF）</option>
+            <option value="USDCAD">ドルカナダ（USD/CAD）</option>
+          </optgroup>
+          <optgroup label="その他・メタル">
+            <option value="EURGBP">ユーロポンド（EUR/GBP）</option>
+            <option value="EURAUD">ユーロオジ（EUR/AUD）</option>
+            <option value="GBPAUD">ポンドオジ（GBP/AUD）</option>
+            <option value="XAUUSD">ゴールド（XAU/USD）</option>
+          </optgroup>
+        </select>
+      </label>
+
+      <label class="ls-field">
+        <span class="ls-field__label">狙う値幅（pips）</span>
+        <input type="number" id="ls-pips" value="10" min="1" step="1" />
+      </label>
+
+      <label class="ls-field">
+        <span class="ls-field__label">USD/JPY レート<span class="ls-field__hint">円換算の基準</span></span>
+        <div class="ls-rate-row">
+          <input type="number" id="ls-usdjpy" value="160.00" min="1" step="0.01" />
+          <button type="button" id="ls-fetch" class="ls-fetch">最新に更新</button>
+        </div>
+      </label>
+
+      <label class="ls-field ls-field--gold" id="ls-gold-field" style="display:none;">
+        <span class="ls-field__label">ゴールド価格（USD）</span>
+        <input type="number" id="ls-gold" value="3300" min="1" step="0.1" />
+      </label>
+
+      <label class="ls-field">
+        <span class="ls-field__label">レバレッジ<span class="ls-field__hint">証拠金の目安用</span></span>
+        <select id="ls-lev">
+          <option value="2000">2000倍（Exness等）</option>
+          <option value="1000">1000倍</option>
+          <option value="500">500倍</option>
+          <option value="100">100倍</option>
+          <option value="25">25倍（国内）</option>
+        </select>
+      </label>
+    </div>
+
+    <p class="ls-status" id="ls-status">レートは参考中値です。約定レートは業者・スプレッドで前後します。</p>
+    <p class="ls-refrate" id="ls-refrate"></p>
+
+    <!-- 2方向計算 -->
+    <div class="ls-calc">
+      <div class="ls-calc__card">
+        <span class="ls-calc__tag">目標額から逆算</span>
+        <label class="ls-calc__inline">
+          <span>欲しい利益</span>
+          <span class="ls-calc__inputwrap"><input type="number" id="ls-target" value="30000" min="0" step="1000" /><i>円</i></span>
+        </label>
+        <div class="ls-calc__out">
+          <span class="ls-calc__outlabel">必要ロット</span>
+          <strong id="ls-need-lot">—</strong>
+        </div>
+        <p class="ls-calc__sub" id="ls-need-sub">—</p>
+      </div>
+
+      <div class="ls-calc__card">
+        <span class="ls-calc__tag">ロットから順算</span>
+        <label class="ls-calc__inline">
+          <span>持つロット</span>
+          <span class="ls-calc__inputwrap"><input type="number" id="ls-lot" value="1.00" min="0" step="0.1" /><i>Lot</i></span>
+        </label>
+        <div class="ls-calc__out">
+          <span class="ls-calc__outlabel">この値幅での損益</span>
+          <strong id="ls-profit">—</strong>
+        </div>
+        <p class="ls-calc__sub" id="ls-profit-sub">—</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 早見表 -->
+  <section class="ls-matrix-wrap">
+    <h2 class="ls-h2">損益早見表<span id="ls-matrix-pair"></span></h2>
+    <p class="ls-matrix-note">縦＝ロット、横＝獲得pips。セルは円口座での損益（＋方向）。ロットを倍にすれば損益も倍。</p>
+    <div class="ls-matrix-scroll">
+      <table class="ls-matrix" id="ls-matrix"></table>
+    </div>
+  </section>
+
+  <!-- 地獄レイヤー -->
+  <section class="ls-hell" aria-label="暴落シミュレーション">
+    <h2 class="ls-h2 ls-hell__h2">もし「あの日」が、今のロットで来たら</h2>
+    <p class="ls-hell__lead"><strong id="ls-hell-lot">1.00</strong> Lot（<span id="ls-hell-pair">USD/JPY</span>）を持っている最中に、過去に実際に起きた急落が直撃したら。早見表の「儲け」と同じロットで、これだけ消えます。</p>
+    <ul class="ls-hell__list" id="ls-hell-list"></ul>
+    <p class="ls-hell__note">※値幅はいずれも過去に実際に記録されたもの。スイスフランショックはEUR/CHF、フラッシュクラッシュはドル円での記録です。選択中のペア・ロットに同じpips幅が直撃した場合の概算損失で、スリッページや窓開けで実際はこれより大きくなることがあります。</p>
+  </section>
+
+  <!-- CTA -->
+  <aside class="ls-cta">
+    <span class="ls-cta__label">PR</span>
+    <h2 class="ls-cta__title">そのロット、いきなり張る前に</h2>
+    <p class="ls-cta__body">早見表のとおり、ロットを倍にすれば損益も丸ごと倍。海外口座の1ロット＝10万通貨はハイレバで証拠金が小さく見えるぶん、ロットを上げすぎて一発で飛ばす失敗が一番多い。値動きの体感は、まず1万通貨単位の国内口座で取るのが堅い。DMM FXは10,000通貨単位・証拠金維持率50%以下で強制決済のタイプ。</p>
+    <a href="https://px.a8.net/svt/ejp?a8mat=3BDQIZ+6C130I+1WP2+69WPU" rel="nofollow sponsored" target="_blank" class="ls-cta__btn">DMM FX 公式サイトで仕様を見る<span aria-hidden="true">↗</span></a>
+    <p class="ls-cta__note">※当サイトはDMM.com証券のアフィリエイトプログラムに参加しています。最新の取引条件は公式サイトで確認を。あと何pipsで強制決済かは<a href="/tools/loss-cut/">ロスカット計算機</a>で確認できます。</p>
+  </aside>
+
+  <!-- 文脈 -->
+  <section class="ls-context">
+    <h2 class="ls-h2">ロットを上げすぎた人の記録</h2>
+    <ul class="ls-context__list">
+      <li><a href="/articles/fx-380man/">380万円が3分で消えた話 ─ FX指標発表での全損</a><span>大ロット×指標の数分で数百pips</span></li>
+      <li><a href="/articles/toushi-fx-025/">退職金の半分1100万円をスイスフランショックで失った話</a><span>レバ任せのロットが瞬間3000pipsで蒸発</span></li>
+      <li><a href="/articles/toushi-fx-021/">YouTube広告のFXで350万円失った話</a><span>2024年8月5日・歴史的急落の2日間</span></li>
+    </ul>
+  </section>
+
+  <section class="ls-disclaimer">
+    <h2 class="ls-h2">このツールについて</h2>
+    <p>本ツールは概算です。1ロット＝10万通貨（海外口座基準。国内1万通貨口座なら表示ロットを10倍、損益は同額で読み替え）。pips値はクロス円0.01円・ドルストレート0.0001・ゴールド0.1ドル動を1pipとして計算しています。円換算はUSD/JPYを基準にした参考中値で、実際の損益はスプレッド・スワップ・約定スリッページ・各社の建値で前後します。レートは外部APIから取得した中値で、リアルタイムの売買レートではありません。正確な値は利用中の業者で確認してください。本サイトは特定の業者・取引を推奨しません。</p>
+  </section>
+</article>
+
+<style>
+  .ls-page { max-width: 880px; margin: 0 auto; padding: 24px 20px 64px; }
+  .ls-head { margin: 24px 0 28px; }
+  .ls-head__sub { font-size: 0.7rem; letter-spacing: 0.22em; color: var(--c-gold, #b08a44); }
+  .ls-head__title { font-family: var(--font-serif); font-size: clamp(1.6rem, 4vw, 2.2rem); font-weight: 900; margin: 6px 0 10px; }
+  .ls-head__lead { color: var(--c-ink-soft, #555); line-height: 1.8; }
+
+  .ls-tool { background: var(--c-bg-card, #fff); border: 1px solid var(--c-line, #e0dcd0); border-radius: 8px; padding: 26px; }
+  .ls-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
+  .ls-field { display: flex; flex-direction: column; gap: 6px; }
+  .ls-field__label { font-size: 0.78rem; font-weight: 700; color: var(--c-navy, #1a2540); letter-spacing: 0.04em; display: flex; align-items: baseline; gap: 8px; }
+  .ls-field__hint { font-size: 0.66rem; font-weight: 600; color: var(--c-ink-dim, #999); letter-spacing: 0; }
+  .ls-field input, .ls-field select { padding: 10px 12px; border: 1px solid var(--c-line, #d8d2c4); border-radius: 6px; font-size: 1rem; background: #fff; width: 100%; font-variant-numeric: tabular-nums; }
+  .ls-rate-row { display: flex; gap: 8px; }
+  .ls-rate-row input { flex: 1; min-width: 0; }
+  .ls-fetch { flex: 0 0 auto; padding: 0 14px; border: 1px solid var(--c-navy, #1a2540); background: var(--c-navy, #1a2540); color: #fff; font-size: 0.78rem; font-weight: 700; border-radius: 6px; cursor: pointer; white-space: nowrap; transition: opacity 0.15s ease; }
+  .ls-fetch:hover { opacity: 0.85; }
+  .ls-fetch:disabled { opacity: 0.5; cursor: default; }
+  .ls-status { margin: 16px 0 2px; font-size: 0.76rem; color: var(--c-ink-dim, #999); line-height: 1.6; }
+  .ls-refrate { margin: 0; font-size: 0.8rem; color: var(--c-navy, #1a2540); font-weight: 700; font-variant-numeric: tabular-nums; min-height: 1.1em; }
+
+  .ls-calc { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 22px; }
+  .ls-calc__card { border: 1px solid var(--c-line, #e0dcd0); border-radius: 8px; padding: 18px; background: #fdfcf9; position: relative; }
+  .ls-calc__tag { display: inline-block; font-size: 0.68rem; font-weight: 800; letter-spacing: 0.08em; color: var(--c-gold, #b08a44); margin-bottom: 12px; }
+  .ls-calc__inline { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 14px; }
+  .ls-calc__inline > span:first-child { font-size: 0.82rem; font-weight: 700; color: var(--c-navy, #1a2540); }
+  .ls-calc__inputwrap { display: inline-flex; align-items: center; gap: 4px; }
+  .ls-calc__inputwrap input { width: 110px; padding: 8px 10px; border: 1px solid var(--c-line, #d8d2c4); border-radius: 6px; font-size: 1rem; text-align: right; font-variant-numeric: tabular-nums; }
+  .ls-calc__inputwrap i { font-style: normal; font-size: 0.8rem; color: var(--c-ink-dim, #888); }
+  .ls-calc__out { display: flex; flex-direction: column; gap: 2px; padding: 10px 0 4px; border-top: 2px solid var(--c-navy, #1a2540); }
+  .ls-calc__outlabel { font-size: 0.74rem; color: var(--c-ink-soft, #666); }
+  .ls-calc__out strong { font-size: 2rem; font-weight: 900; color: #b8312a; font-variant-numeric: tabular-nums; line-height: 1.15; }
+  .ls-calc__sub { margin: 6px 0 0; font-size: 0.76rem; color: var(--c-ink-dim, #888); line-height: 1.6; }
+
+  .ls-matrix-wrap { margin-top: 38px; }
+  .ls-h2 { font-family: var(--font-serif); font-size: 1.2rem; font-weight: 900; margin-bottom: 8px; }
+  .ls-h2 span { font-size: 0.86rem; color: var(--c-ink-dim, #999); font-family: var(--font-sans, inherit); font-weight: 700; margin-left: 8px; }
+  .ls-matrix-note { font-size: 0.8rem; color: var(--c-ink-soft, #666); line-height: 1.7; margin-bottom: 14px; }
+  .ls-matrix-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; border: 1px solid var(--c-line, #e0dcd0); border-radius: 8px; }
+  .ls-matrix { border-collapse: collapse; width: 100%; min-width: 420px; font-variant-numeric: tabular-nums; }
+  .ls-matrix th, .ls-matrix td { padding: 10px 12px; text-align: right; font-size: 0.9rem; border-bottom: 1px solid var(--c-line, #ece8de); white-space: nowrap; }
+  .ls-matrix thead th { background: var(--c-navy, #1a2540); color: #fff; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.03em; }
+  .ls-matrix thead th:first-child { text-align: left; }
+  .ls-matrix tbody th { text-align: left; font-weight: 800; color: var(--c-navy, #1a2540); background: #faf8f3; }
+  .ls-matrix tbody tr:nth-child(even) td { background: rgba(176, 138, 68, 0.045); }
+  .ls-matrix tbody td { color: #2a2a2a; }
+
+  .ls-cta { margin-top: 40px; background: var(--c-navy, #1a2540); border-radius: 8px; padding: 26px 28px; color: #f0ede4; position: relative; }
+  .ls-cta__label { position: absolute; top: 14px; right: 16px; font-size: 0.66rem; letter-spacing: 0.18em; color: rgba(240, 237, 228, 0.55); border: 1px solid rgba(240, 237, 228, 0.35); padding: 2px 8px; border-radius: 2px; }
+  .ls-cta__title { font-family: var(--font-serif); font-size: 1.14rem; font-weight: 900; color: var(--c-gold, #b08a44); margin: 0 0 10px; letter-spacing: 0.05em; }
+  .ls-cta__body { font-size: 0.9rem; line-height: 1.9; margin: 0 0 18px; color: rgba(240, 237, 228, 0.92); }
+  .ls-cta__btn { display: inline-flex; align-items: center; gap: 8px; background: var(--c-gold, #b08a44); color: #1a2540; font-weight: 800; font-size: 0.94rem; letter-spacing: 0.05em; padding: 13px 24px; border-radius: 4px; text-decoration: none; transition: opacity 0.15s ease, transform 0.15s ease; }
+  .ls-cta__btn:hover { opacity: 0.9; transform: translateY(-1px); text-decoration: none; color: #1a2540; }
+  .ls-cta__note { margin: 14px 0 0; font-size: 0.74rem; line-height: 1.7; color: rgba(240, 237, 228, 0.6); }
+  .ls-cta__note a { color: rgba(240, 237, 228, 0.85); }
+
+  .ls-context { margin-top: 44px; }
+  .ls-context__list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+  .ls-context__list li { border: 1px solid var(--c-line, #e0dcd0); border-radius: 6px; padding: 14px 16px; }
+  .ls-context__list a { font-weight: 700; color: var(--c-navy, #1a2540); text-decoration: none; display: block; margin-bottom: 4px; }
+  .ls-context__list a:hover { text-decoration: underline; }
+  .ls-context__list span { font-size: 0.82rem; color: var(--c-ink-dim, #888); }
+
+  .ls-disclaimer { margin-top: 40px; font-size: 0.85rem; color: var(--c-ink-soft, #666); line-height: 1.85; }
+
+  .ls-hell { margin-top: 40px; border: 1px solid rgba(184, 49, 42, 0.28); border-radius: 8px; padding: 24px 26px; background: linear-gradient(180deg, rgba(184, 49, 42, 0.05), rgba(184, 49, 42, 0.015)); }
+  .ls-hell__h2 { color: #9e2820; margin-bottom: 4px; }
+  .ls-hell__lead { font-size: 0.9rem; line-height: 1.85; color: var(--c-ink-soft, #555); margin-bottom: 18px; }
+  .ls-hell__lead strong { color: #b8312a; font-variant-numeric: tabular-nums; }
+  .ls-hell__list { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .ls-hell__empty { grid-column: 1 / -1; color: var(--c-ink-dim, #888); font-size: 0.86rem; padding: 8px 2px; }
+  .ls-hell__item { border: 1px solid rgba(184, 49, 42, 0.18); border-radius: 6px; padding: 14px 16px; background: #fff; }
+  .ls-hell__top { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin-bottom: 6px; }
+  .ls-hell__label { font-size: 0.84rem; font-weight: 800; color: var(--c-navy, #1a2540); }
+  .ls-hell__pips { font-size: 0.72rem; font-weight: 700; color: #9e2820; background: rgba(184, 49, 42, 0.1); padding: 2px 8px; border-radius: 999px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .ls-hell__loss { display: block; font-size: 1.5rem; font-weight: 900; color: #b8312a; font-variant-numeric: tabular-nums; line-height: 1.2; }
+  .ls-hell__desc { margin: 6px 0 0; font-size: 0.78rem; line-height: 1.7; color: var(--c-ink-dim, #777); }
+  .ls-hell__desc a { color: #9e2820; font-weight: 700; text-decoration: none; }
+  .ls-hell__desc a:hover { text-decoration: underline; }
+
+  @media (max-width: 540px) {
+    .ls-tool { padding: 18px; }
+    .ls-calc { grid-template-columns: 1fr; }
+    .ls-calc__out strong { font-size: 1.8rem; }
+    .ls-hell { padding: 18px; }
+    .ls-hell__list { grid-template-columns: 1fr; }
+    .ls-cta { padding: 20px 18px; }
+    .ls-cta__btn { width: 100%; justify-content: center; }
+  }
+</style>
+
+<script>
+  type Pair = { label: string; cs: number; pip: number; quote: string; dp: number };
+  const PAIRS: Record<string, Pair> = {
+    USDJPY: { label: "USD/JPY", cs: 100000, pip: 0.01, quote: "JPY", dp: 3 },
+    EURJPY: { label: "EUR/JPY", cs: 100000, pip: 0.01, quote: "JPY", dp: 3 },
+    GBPJPY: { label: "GBP/JPY", cs: 100000, pip: 0.01, quote: "JPY", dp: 3 },
+    AUDJPY: { label: "AUD/JPY", cs: 100000, pip: 0.01, quote: "JPY", dp: 3 },
+    NZDJPY: { label: "NZD/JPY", cs: 100000, pip: 0.01, quote: "JPY", dp: 3 },
+    CADJPY: { label: "CAD/JPY", cs: 100000, pip: 0.01, quote: "JPY", dp: 3 },
+    CHFJPY: { label: "CHF/JPY", cs: 100000, pip: 0.01, quote: "JPY", dp: 3 },
+    EURUSD: { label: "EUR/USD", cs: 100000, pip: 0.0001, quote: "USD", dp: 5 },
+    GBPUSD: { label: "GBP/USD", cs: 100000, pip: 0.0001, quote: "USD", dp: 5 },
+    AUDUSD: { label: "AUD/USD", cs: 100000, pip: 0.0001, quote: "USD", dp: 5 },
+    NZDUSD: { label: "NZD/USD", cs: 100000, pip: 0.0001, quote: "USD", dp: 5 },
+    USDCHF: { label: "USD/CHF", cs: 100000, pip: 0.0001, quote: "CHF", dp: 5 },
+    USDCAD: { label: "USD/CAD", cs: 100000, pip: 0.0001, quote: "CAD", dp: 5 },
+    EURGBP: { label: "EUR/GBP", cs: 100000, pip: 0.0001, quote: "GBP", dp: 5 },
+    EURAUD: { label: "EUR/AUD", cs: 100000, pip: 0.0001, quote: "AUD", dp: 5 },
+    GBPAUD: { label: "GBP/AUD", cs: 100000, pip: 0.0001, quote: "AUD", dp: 5 },
+    XAUUSD: { label: "XAU/USD", cs: 100, pip: 0.1, quote: "USD", dp: 2 },
+  };
+
+  // base=USD のレート（1 USD = R[X] X）。あくまで取得失敗時の目安。開いた瞬間にAPIで上書きされる。
+  let R: Record<string, number> = { USD: 1, JPY: 160, EUR: 0.86, GBP: 0.75, AUD: 1.42, NZD: 1.72, CHF: 0.79, CAD: 1.40 };
+
+  const $ = (id: string) => document.getElementById(id)!;
+  const pairSel = $("ls-pair") as HTMLSelectElement;
+  const pipsEl = $("ls-pips") as HTMLInputElement;
+  const usdjpyEl = $("ls-usdjpy") as HTMLInputElement;
+  const goldEl = $("ls-gold") as HTMLInputElement;
+  const goldField = $("ls-gold-field");
+  const levEl = $("ls-lev") as HTMLSelectElement;
+  const targetEl = $("ls-target") as HTMLInputElement;
+  const lotEl = $("ls-lot") as HTMLInputElement;
+
+  const yen = (n: number) => "¥" + Math.round(n).toLocaleString("ja-JP");
+  const usdjpy = () => Number(usdjpyEl.value) || R.JPY;
+
+  // 決済通貨→円
+  function quoteToJpy(q: string): number {
+    if (q === "JPY") return 1;
+    if (q === "USD") return usdjpy();
+    return usdjpy() / R[q]; // 例 CHF: USDJPY / (1USD=R.CHF) = CHFJPY
+  }
+  // 基軸通貨→円（証拠金・建玉額用）
+  function baseToJpy(code: string): number {
+    const base = code.slice(0, 3);
+    if (code === "XAUUSD") return (Number(goldEl.value) || 0) * usdjpy();
+    if (base === "USD") return usdjpy();
+    return usdjpy() / R[base];
+  }
+  // ペア実勢レート（表示用）
+  function pairPrice(code: string): number {
+    if (code === "XAUUSD") return Number(goldEl.value) || 0;
+    const base = code.slice(0, 3), quote = code.slice(3, 6);
+    return R[quote] / R[base];
+  }
+  // 1ロット・1pipの円損益
+  function pipValuePerLot(p: Pair): number {
+    return p.cs * p.pip * quoteToJpy(p.quote);
+  }
+
+  const LOT_ROWS = [0.1, 0.3, 0.5, 1, 2, 3, 5];
+  const PIP_COLS = [10, 30, 50, 100];
+
+  function calc() {
+    const code = pairSel.value;
+    const p = PAIRS[code];
+    const pips = Number(pipsEl.value) || 0;
+    const lev = Number(levEl.value) || 2000;
+
+    goldField.style.display = code === "XAUUSD" ? "flex" : "none";
+
+    // 参考レート行
+    const price = pairPrice(code);
+    const refEl = $("ls-refrate");
+    if (code === "XAUUSD") {
+      refEl.textContent = `${p.label} ≈ ${price.toLocaleString("ja-JP")} USD ／ USD/JPY ≈ ${usdjpy().toFixed(2)}`;
+    } else {
+      refEl.textContent = `${p.label} ≈ ${price.toFixed(p.dp)}（参考中値）`;
+    }
+
+    const perLotPip = pipValuePerLot(p); // 1ロット1pip
+    const perLot = perLotPip * pips;     // 1ロットでこのpips取った損益
+
+    // 逆算：目標→必要ロット
+    const target = Number(targetEl.value) || 0;
+    const needLotEl = $("ls-need-lot");
+    const needSubEl = $("ls-need-sub");
+    if (perLot > 0 && target > 0) {
+      const lot = target / perLot;
+      needLotEl.textContent = lot.toFixed(2) + " Lot";
+      const units = Math.round(lot * p.cs);
+      const margin = (p.cs * baseToJpy(code) * lot) / lev;
+      needSubEl.textContent = `${pips}pipsで${yen(target)} ＝ ${units.toLocaleString("ja-JP")}通貨。必要証拠金 約${yen(margin)}（レバ${lev}倍）`;
+    } else {
+      needLotEl.textContent = "—";
+      needSubEl.textContent = "目標額とpipsを入れると必要ロットが出ます。";
+    }
+
+    // 順算：ロット→損益
+    const lot = Number(lotEl.value) || 0;
+    const profitEl = $("ls-profit");
+    const profitSubEl = $("ls-profit-sub");
+    if (perLot > 0 && lot > 0) {
+      const profit = perLot * lot;
+      profitEl.textContent = yen(profit);
+      const units = Math.round(lot * p.cs);
+      const margin = (p.cs * baseToJpy(code) * lot) / lev;
+      profitSubEl.textContent = `${lot.toFixed(2)}Lot（${units.toLocaleString("ja-JP")}通貨）で${pips}pips。必要証拠金 約${yen(margin)}。1pipあたり${yen(perLotPip * lot)}`;
+    } else {
+      profitEl.textContent = "—";
+      profitSubEl.textContent = "ロットとpipsを入れると損益が出ます。";
+    }
+
+    renderMatrix(p);
+    $("ls-matrix-pair").textContent = `（${p.label}）`;
+    renderHell(p);
+  }
+
+  function renderMatrix(p: Pair) {
+    const perLotPip = pipValuePerLot(p);
+    let html = "<thead><tr><th>ロット＼pips</th>";
+    for (const c of PIP_COLS) html += `<th>${c}pips</th>`;
+    html += "</tr></thead><tbody>";
+    for (const lot of LOT_ROWS) {
+      html += `<tr><th>${lot.toFixed(lot < 1 ? 1 : 0)} Lot</th>`;
+      for (const c of PIP_COLS) html += `<td>${yen(perLotPip * lot * c)}</td>`;
+      html += "</tr>";
+    }
+    html += "</tbody>";
+    ($("ls-matrix") as HTMLTableElement).innerHTML = html;
+  }
+
+  type CrashEvent = { label: string; pips: number; note: string; href: string | null; hrefLabel: string | null };
+  const EVENTS: CrashEvent[] = [
+    { label: "重要指標の瞬間", pips: 150, note: "米雇用統計やCPIの発表直後、数分で走る値幅。", href: "/articles/fx-380man/", hrefLabel: "380万円が3分で消えた話" },
+    { label: "2024年8月5日の急落", pips: 500, note: "日経大暴落・円急騰が数日で駆け抜けた。", href: "/articles/toushi-fx-021/", hrefLabel: "350万円を失った2日間" },
+    { label: "2019年フラッシュクラッシュ級", pips: 1000, note: "2019年1月3日、薄商いのドル円が数分で急落した記録。", href: null, hrefLabel: null },
+    { label: "スイスフランショック級", pips: 3000, note: "2015年1月15日、EUR/CHFが制度変更で瞬間的に蒸発。", href: "/articles/toushi-fx-025/", hrefLabel: "1100万円を失った話" },
+  ];
+
+  function renderHell(p: Pair) {
+    const lot = Number(lotEl.value) || 0;
+    $("ls-hell-lot").textContent = lot.toFixed(2);
+    $("ls-hell-pair").textContent = p.label;
+    const perLotPip = pipValuePerLot(p);
+    const list = $("ls-hell-list");
+    if (lot <= 0) {
+      list.innerHTML = `<li class="ls-hell__empty">「ロットから順算」に持つロットを入れると、暴落が直撃した時の損失が出ます。</li>`;
+      return;
+    }
+    list.innerHTML = EVENTS.map((ev) => {
+      const loss = perLotPip * ev.pips * lot;
+      const link = ev.href ? ` <a href="${ev.href}">${ev.hrefLabel} ↗</a>` : "";
+      return `<li class="ls-hell__item">
+        <div class="ls-hell__top"><span class="ls-hell__label">${ev.label}</span><span class="ls-hell__pips">${ev.pips.toLocaleString("ja-JP")}pips</span></div>
+        <strong class="ls-hell__loss">−${yen(loss)}</strong>
+        <p class="ls-hell__desc">${ev.note}${link}</p>
+      </li>`;
+    }).join("");
+  }
+
+  async function fetchRates() {
+    const btn = $("ls-fetch") as HTMLButtonElement;
+    const status = $("ls-status");
+    btn.disabled = true;
+    btn.textContent = "取得中…";
+    try {
+      const res = await fetch("https://api.frankfurter.dev/v1/latest?base=USD&symbols=JPY,EUR,GBP,AUD,NZD,CHF,CAD");
+      if (!res.ok) throw new Error("http");
+      const data = await res.json();
+      R = { USD: 1, ...data.rates };
+      usdjpyEl.value = Number(data.rates.JPY).toFixed(2);
+      status.textContent = `レート取得：${data.date} 時点の参考中値（ECBデータ）。約定レートは業者・スプレッドで前後します。`;
+      calc();
+    } catch (e) {
+      status.textContent = "自動取得に失敗。USD/JPYを手入力すれば計算できます（円換算の基準）。";
+    } finally {
+      btn.disabled = false;
+      btn.textContent = "最新に更新";
+    }
+  }
+
+  [pairSel, pipsEl, usdjpyEl, goldEl, levEl, targetEl, lotEl].forEach((el) => {
+    el.addEventListener("input", calc);
+    el.addEventListener("change", calc);
+  });
+  $("ls-fetch").addEventListener("click", fetchRates);
+
+  calc();        // フォールバック値で即表示
+  fetchRates();  // 開いた時点のレートを取りにいく
+</script>
+</BaseLayout>
