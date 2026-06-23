@@ -7,9 +7,9 @@ import NewsletterCTA from "../../components/NewsletterCTA.astro";
 import AdSenseSlot from "../../components/AdSenseSlot.astro";
 
 const title =
-  "追証なしFX口座 比較2026 ─ 強制ロスカット仕様で選ぶ国内FX 5社の整理";
+  "追証なしFX口座 比較2026 ─ 強制ロスカット仕様で選ぶ国内FX 6社の整理";
 const description =
-  "FXで「追証」が発生する仕組みを整理しつつ、ロスカット余裕度・最低取引単位・スプレッドで国内FX口座5社を観察。実際にロスカットが間に合わず追証発生した失敗体験から学ぶ口座選びの観点。";
+  "FXで「追証」が発生する仕組みを整理しつつ、ロスカット余裕度・最低取引単位・スプレッドで国内FX口座6社を観察。実際にロスカットが間に合わず追証発生した失敗体験から学ぶ口座選びの観点。";
 const updatedAt = "2026-05-25";
 
 // 関連解説（記事冒頭の TopAffiliateBox 用）
@@ -28,7 +28,7 @@ const topPillars = [
   },
 ];
 
-// 5社比較データ（公式情報は各社サイトの最新値で要再確認・編集者観察として整理）
+// 6社比較データ（公式情報は各社サイトの最新値で要再確認・編集者観察として整理）
 const fxItems = [
   {
     name: "DMM FX",
@@ -74,6 +74,30 @@ const fxItems = [
       "10,000通貨単位",
     ],
     pickFor: "短期売買中心・約定力を最優先する人",
+  },
+  {
+    name: "マネックス証券 FX PLUS",
+    tagline: "ロスカット水準を50〜100%で自分で選べる。1,000通貨で少額からも。",
+    badge: "編集者観察",
+    specs: [
+      { label: "ロスカット水準", value: "50/60/70/100%から選択（初期100%）", highlight: true },
+      { label: "最低取引単位", value: "1,000通貨" },
+      { label: "USD/JPYスプレッド", value: "0.2銭（原則固定・例外あり）" },
+      { label: "口座開設費", value: "無料" },
+    ],
+    pros: [
+      "ロスカット水準を50/60/70/100%の4段階から自分で設定できる（多くの他社は固定）",
+      "1,000通貨単位で、月数千円の証拠金から始められる",
+      "取引手数料・口座開設・維持費すべて0円",
+    ],
+    cons: [
+      "利用には証券総合取引口座とFX PLUS口座の2つ開設が必要",
+      "初期設定がロスカット100%＝そのままだと早めに切られる（自分で調整する前提）",
+    ],
+    pickFor: "ロスカット水準を自分で決めたい人・1,000通貨で少額から試したい人",
+    ctaText: "マネックス証券 FX PLUS 公式サイト",
+    ctaHref: "https://h.accesstrade.net/sp/cc?rk=0100pldr00ou39",
+    ctaNote: "※PRリンク。最新の取引条件・ロスカット仕様は公式サイトで確認を",
   },
   {
     name: "外為どっとコム",
@@ -234,7 +258,7 @@ const faqs = [
       </p>
       <div class="pillar-head__meta">
         <span><strong>更新</strong>{updatedAt}</span>
-        <span><strong>取り上げ数</strong>5社</span>
+        <span><strong>取り上げ数</strong>{fxItems.length}社</span>
         <span><strong>編集</strong>しら</span>
       </div>
     </header>
@@ -255,7 +279,7 @@ const faqs = [
       </p>
       <p>
         本記事は<strong>国内FXのまま「追証発生確率を下げる選び方」</strong>を整理するための比較記事。<br />
-        ロスカット仕様・最低取引単位・スプレッドの3軸で、よく検討対象になる5社を編集者観察として並べた。
+        ロスカット仕様・最低取引単位・スプレッドの3軸で、よく検討対象になる6社を編集者観察として並べた。
       </p>
       <p class="pillar-note">
         ※本記事は投資助言ではない。各社の最新スペックは公式サイトで必ず確認してから判断してください。
@@ -264,7 +288,7 @@ const faqs = [
 
     <PillarCompareTable
       items={fxItems}
-      caption="国内FX口座 5社の整理（編集者観察）"
+      caption="国内FX口座 6社の整理（編集者観察）"
       axesLabel="SELECTION AXES"
       axesNote="選定の軸：ロスカット水準（50%か100%か）・最低取引単位・USD/JPYスプレッド・サポート体制・学習コンテンツの有無"
     />
