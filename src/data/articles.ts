@@ -119,7 +119,7 @@ export const articles: Article[] = [
     ihaiSect: "FX 諸霊位",
     kaimyo: "指標発表院<br/>釈萬徹刹那 居士",
     displayName: "M.T",
-    related: ["fx-200man", "stocks-870man", "fraud-1240man"],
+    related: ["fx-200man", "fx-18man", "crypto-320man"],
   },
 
   // ============== 02. FX 初心者 18万 ==============
@@ -362,7 +362,7 @@ export const articles: Article[] = [
     ihaiSect: "FX 諸霊位",
     kaimyo: "ロスカット解除院<br/>釈律剋自爆 居士",
     displayName: "R.K",
-    related: ["fx-380man", "fx-18man", "stocks-870man"],
+    related: ["fx-380man", "fx-18man", "crypto-320man"],
   },
   {
     slug: "fraud-380man",
@@ -402,7 +402,7 @@ export const articles: Article[] = [
     ihaiSect: "詐欺 諸霊位",
     kaimyo: "恋愛投資院<br/>釈月紅幻夢 大姉",
     displayName: "S.M",
-    related: ["fraud-1240man", "info-148man", "crypto-420man"],
+    related: ["fraud-480man", "info-148man", "crypto-320man"],
   },
   {
     slug: "crypto-320man",
@@ -441,7 +441,7 @@ export const articles: Article[] = [
     ihaiSect: "仮想通貨 諸霊位",
     kaimyo: "次は戻信院<br/>釈道和天井買付 居士",
     displayName: "D.W",
-    related: ["fraud-1240man", "stocks-870man", "fx-200man"],
+    related: ["fraud-480man", "fx-200man", "stocks-280man"],
   },
   {
     slug: "info-148man",
@@ -481,7 +481,7 @@ export const articles: Article[] = [
     ihaiSect: "情報商材 諸霊位",
     kaimyo: "絶対勝法二度受講院<br/>釈徹翁授業 居士",
     displayName: "T.O",
-    related: ["fraud-1240man", "fraud-380man", "fx-18man"],
+    related: ["fraud-380man", "fraud-480man", "crypto-320man"],
   },
   {
     slug: "stocks-40man",
@@ -520,7 +520,7 @@ export const articles: Article[] = [
     ihaiSect: "株式 諸霊位",
     kaimyo: "優待夢中院<br/>釈隆夢有頂 信士",
     displayName: "Y.S",
-    related: ["stocks-870man", "fx-18man", "real-1820man"],
+    related: ["stocks-280man", "real-620man", "fx-18man"],
   },
 ];
 
