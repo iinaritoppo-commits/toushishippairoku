@@ -110,7 +110,7 @@ const remainingCount = TOTAL_PREFECTURES - coveredCount;
   <div class="vmap-section__head">
     <span class="vmap-section__sub">GEOGRAPHY</span>
     <h2 class="vmap-section__title">全国の投稿分布</h2>
-    <p class="vmap-section__lead">届いた話を、地図に貼っていく。色の濃さは件数。<br/>カーソルを乗せると、その県の件数と合計損失額が出ます。</p>
+    <p class="vmap-section__lead">届いた話を、地図に貼っていく。色の濃さは件数。<br/>カーソルを乗せると、その県の件数と合計投入額が出ます。</p>
   </div>
   <div class="vmap-section__inner">
     <div class="vmap-frame">
@@ -182,7 +182,7 @@ const remainingCount = TOTAL_PREFECTURES - coveredCount;
     </div>
 
     <aside class="vmap-side">
-      <h3>TOP PREFECTURES — 損失額の多い県</h3>
+      <h3>TOP PREFECTURES — 投入額の多い県</h3>
       <div class="vmap-rank">
         {topPrefectures.map((p) => (
           <a class="vmap-rank__row" href={`/prefecture/${p.slug}/`}>

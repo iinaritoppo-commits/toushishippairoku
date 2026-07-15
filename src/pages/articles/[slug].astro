@@ -310,7 +310,7 @@ const aff = source === "approved" ? (() => {
       {approved.description && <p class="art-head__lead">{approved.description}</p>}
       <div class="art-head__meta">
         {approved.persona?.age && <span><strong>属性</strong>{approved.persona.age}歳{approved.persona.gender}・{approved.persona.prefecture}</span>}
-        <span><strong>損失額</strong><span class="art-head__loss">{fmtLoss(approved.loss_amount_yen)}</span></span>
+        <span><strong>投入額</strong><span class="art-head__loss">{fmtLoss(approved.loss_amount_yen)}</span></span>
       </div>
     </header>
 

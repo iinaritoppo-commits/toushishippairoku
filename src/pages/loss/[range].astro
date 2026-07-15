@@ -55,12 +55,12 @@ export async function getStaticPaths() {
 
 const { rangeSlug, label, description, articles } = Astro.props as any;
 
-const title = `損失額${label}の失敗体験 ─ 投資失敗録`;
-const metaDesc = `損失額${label}の失敗体験一覧。${description}`;
+const title = `投入額${label}の失敗体験 ─ 投資失敗録`;
+const metaDesc = `投入額${label}の失敗体験一覧。${description}`;
 
 const breadcrumbs = [
   { name: "投資失敗録", url: "/" },
-  { name: `損失額 ${label}`, url: `/loss/${rangeSlug}/` },
+  { name: `投入額 ${label}`, url: `/loss/${rangeSlug}/` },
 ];
 
 const fmtLoss = (yen?: number): string => {
@@ -88,12 +88,12 @@ const relatedPillars = [...PILLARS, ...EXPLAINS].filter((p) =>
     </nav>
 
     <header class="cat-head">
-      <span class="cat-head__sub">BY LOSS AMOUNT</span>
-      <h1 class="cat-head__title">損失額 {label} の記録</h1>
+      <span class="cat-head__sub">BY AMOUNT</span>
+      <h1 class="cat-head__title">投入額 {label} の記録</h1>
       <p class="cat-head__lead">{description}</p>
       <div class="cat-head__meta">
         <span><strong>掲載本数</strong>{articles.length}本</span>
-        <span><strong>並び順</strong>損失額の大きい順</span>
+        <span><strong>並び順</strong>投入額の大きい順</span>
       </div>
     </header>
 
