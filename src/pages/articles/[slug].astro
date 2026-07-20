@@ -68,11 +68,16 @@ export async function getStaticPaths() {
       } catch {}
     }
 
+    const bySlug = new Map(allApproved.map((x: any) => [x.slug, x]));
     for (const a of allApproved) {
-      // 関連記事（同カテゴリ→他カテゴリで6本）
-      const sameCat = allApproved.filter((x: any) => x.slug !== a.slug && x.category === a.category);
-      const otherCat = allApproved.filter((x: any) => x.slug !== a.slug && x.category !== a.category);
-      const related = [...sameCat, ...otherCat].slice(0, 6).map((x: any) => ({
+      // 関連記事: related_slugs(手口クラスタの設計)を最優先し、残り枠を同カテゴリ→他カテゴリで補充
+      const pri = (Array.isArray(a.related_slugs) ? a.related_slugs : [])
+        .map((s: string) => bySlug.get(s))
+        .filter((x: any) => x && x.slug !== a.slug);
+      const priSet = new Set(pri.map((x: any) => x.slug));
+      const sameCat = allApproved.filter((x: any) => x.slug !== a.slug && !priSet.has(x.slug) && x.category === a.category);
+      const otherCat = allApproved.filter((x: any) => x.slug !== a.slug && !priSet.has(x.slug) && x.category !== a.category);
+      const related = [...pri, ...sameCat, ...otherCat].slice(0, 6).map((x: any) => ({
         slug: x.slug,
         title: x.title,
         category: x.category,
@@ -118,7 +123,13 @@ const otherCatAuto = source === "articles"
 
 const relatedArticles = source === "articles"
   ? [...manualRelated, ...sameCatAuto, ...otherCatAuto].slice(0, 3)
-  : [];
+  // approved系はrelated(手口クラスタ優先の6本)をそのままグリッド表示に使う
+  : (related ?? []).slice(0, 6).map((r: any) => ({
+      slug: r.slug,
+      category: CAT_LABELS[r.category] ?? r.category,
+      cardTitle: r.title,
+      amountDisplay: fmtLoss(r.loss),
+    }));
 
 const cur = source === "articles" ? article : approved;
 const pageTitle = cur.title;
@@ -353,6 +364,21 @@ const aff = source === "approved" ? (() => {
         pillars={aff.lessonsPillars}
         experts={aff.lessonsExperts}
       />
+    )}
+
+    {relatedArticles.length > 0 && (
+      <section class="related">
+        <h2 class="related__title"><small>RELATED</small>関連する失敗の記録</h2>
+        <div class="related-grid">
+          {relatedArticles.map((r: any) => (
+            <a href={`/articles/${r.slug}/`} class="related-card">
+              <div class="related-card__cat">{r.category}</div>
+              <h3 class="related-card__title">{r.cardTitle}</h3>
+              <div class="related-card__loss">{r.amountDisplay}</div>
+            </a>
+          ))}
+        </div>
+      </section>
     )}
 
     {aff && (
