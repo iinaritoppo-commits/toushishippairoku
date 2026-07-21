@@ -149,13 +149,13 @@ export const BOOKS_BY_CATEGORY: Record<string, BookLink[]> = {
     {
       title: "デイトレード（オリバー・ベレス）",
       author: "オリバー・ベレス／グレッグ・カプラ",
-      href: "https://www.amazon.co.jp/dp/4894511630",
+      href: "https://www.amazon.co.jp/dp/4894511630?tag=toushishippai-22",
       note: "規律・撤退・心理の3軸を学べる定番",
     },
     {
       title: "ゾーン　最終章 トレーダーで成功するためのマーク・ダグラスの教え",
       author: "マーク・ダグラス",
-      href: "https://www.amazon.co.jp/dp/4775991884",
+      href: "https://www.amazon.co.jp/dp/4775991884?tag=toushishippai-22",
       note: "トレード心理の聖典",
     },
   ],
@@ -163,13 +163,13 @@ export const BOOKS_BY_CATEGORY: Record<string, BookLink[]> = {
     {
       title: "敗者のゲーム",
       author: "チャールズ・エリス",
-      href: "https://www.amazon.co.jp/dp/4532358884",
+      href: "https://www.amazon.co.jp/dp/4532358884?tag=toushishippai-22",
       note: "インデックス投資の理論的支柱",
     },
     {
       title: "ウォール街のランダム・ウォーカー",
       author: "バートン・マルキール",
-      href: "https://www.amazon.co.jp/dp/4532358817",
+      href: "https://www.amazon.co.jp/dp/4532358817?tag=toushishippai-22",
       note: "個別株の限界とインデックスの優位性",
     },
   ],
@@ -177,13 +177,13 @@ export const BOOKS_BY_CATEGORY: Record<string, BookLink[]> = {
     {
       title: "ビットコイン・スタンダード ─ お金が変わると世界が変わる",
       author: "S・アモウズ（訳・練木照子）",
-      href: "https://www.amazon.co.jp/dp/4623090299",
+      href: "https://www.amazon.co.jp/dp/4623090299?tag=toushishippai-22",
       note: "暗号資産の貨幣論的位置づけ",
     },
     {
       title: "暗号資産の経済学",
       author: "小早川周司",
-      href: "https://www.amazon.co.jp/dp/4502428515",
+      href: "https://www.amazon.co.jp/dp/4502428515?tag=toushishippai-22",
       note: "規制・税制・取引実態の整理",
     },
   ],
@@ -191,13 +191,13 @@ export const BOOKS_BY_CATEGORY: Record<string, BookLink[]> = {
     {
       title: "Excelでできる 不動産投資「収益計算」のすべて",
       author: "玉川陽介",
-      href: "https://www.amazon.co.jp/dp/4774188107",
+      href: "https://www.amazon.co.jp/dp/4774188107?tag=toushishippai-22",
       note: "収益構造と融資・税金の計算を自分の手で確かめる",
     },
     {
       title: "金持ち父さん貧乏父さん",
       author: "ロバート・キヨサキ",
-      href: "https://www.amazon.co.jp/dp/4480864245",
+      href: "https://www.amazon.co.jp/dp/4480864245?tag=toushishippai-22",
       note: "資産と負債の定義を見直す原点",
     },
   ],
@@ -205,13 +205,13 @@ export const BOOKS_BY_CATEGORY: Record<string, BookLink[]> = {
     {
       title: "ほったらかし投資術",
       author: "山崎元／水瀬ケンイチ",
-      href: "https://www.amazon.co.jp/dp/4022950765",
+      href: "https://www.amazon.co.jp/dp/4022950765?tag=toushishippai-22",
       note: "インデックス積立の実務書",
     },
     {
       title: "投資信託にだまされるな！",
       author: "竹川美奈子",
-      href: "https://www.amazon.co.jp/dp/4478017239",
+      href: "https://www.amazon.co.jp/dp/4478017239?tag=toushishippai-22",
       note: "手数料構造の読み方",
     },
   ],
@@ -219,13 +219,13 @@ export const BOOKS_BY_CATEGORY: Record<string, BookLink[]> = {
     {
       title: "プロスペクト理論／行動経済学",
       author: "ダニエル・カーネマン",
-      href: "https://www.amazon.co.jp/dp/4150504113",
+      href: "https://www.amazon.co.jp/dp/4150504113?tag=toushishippai-22",
       note: "なぜ詐欺に引っかかるかを心理から解く",
     },
     {
       title: "「ありえない」のあとに、必ずある",
       author: "島田秀平",
-      href: "https://www.amazon.co.jp/dp/4106109808",
+      href: "https://www.amazon.co.jp/dp/4106109808?tag=toushishippai-22",
       note: "騙される側の心理の整理",
     },
   ],
@@ -233,7 +233,7 @@ export const BOOKS_BY_CATEGORY: Record<string, BookLink[]> = {
     {
       title: "副業の正解",
       author: "上田祐輝",
-      href: "https://www.amazon.co.jp/dp/4046055375",
+      href: "https://www.amazon.co.jp/dp/4046055375?tag=toushishippai-22",
       note: "怪しい副業と健全な副業の見分け方",
     },
   ],
@@ -241,7 +241,7 @@ export const BOOKS_BY_CATEGORY: Record<string, BookLink[]> = {
     {
       title: "敗者のゲーム",
       author: "チャールズ・エリス",
-      href: "https://www.amazon.co.jp/dp/4532358884",
+      href: "https://www.amazon.co.jp/dp/4532358884?tag=toushishippai-22",
       note: "投資判断の出発点",
     },
   ],
