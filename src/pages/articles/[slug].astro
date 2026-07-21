@@ -168,6 +168,16 @@ const aff = source === "approved" ? (() => {
     })),
   };
 })() : null;
+
+// 柱記事(articles.ts)にも収益ページ(compare/tools/explain=アフィリCTA先)への導線を出す。
+// これが無く柱10本＝最大PVから収益動線がゼロだった。カテゴリ連動でpillarsForを流用。
+const pillarPillars = source === "articles"
+  ? pillarsFor(article.categorySlug).slice(0, 3).map((p) => ({
+      href: p.href,
+      title: p.title,
+      meta: p.subtitle,
+    }))
+  : [];
 ---
 <BaseLayout
   title={pageTitle}
@@ -276,6 +286,13 @@ const aff = source === "approved" ? (() => {
         ))}
       </ul>
     </section>
+
+    {pillarPillars.length > 0 && (
+      <EndAffiliateMix
+        sameCategory={relatedArticles.map((r: any) => ({ href: `/articles/${r.slug}/`, title: r.cardTitle, meta: r.amountDisplay }))}
+        pillars={pillarPillars}
+      />
+    )}
 
     <div class="ihai-block">
       <div class="ihai-block__sub">― お焚き上げ済み ―</div>
