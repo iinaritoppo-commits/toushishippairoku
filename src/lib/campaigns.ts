@@ -98,14 +98,33 @@ export function daysSinceChecked(campaign: Campaign, today: Date = new Date()): 
   return Math.round((base.getTime() - checked.getTime()) / 86_400_000);
 }
 
+/** 終了日の記載が無いものを、再確認なしで載せ続けてよい上限日数 */
+export const RECHECK_LIMIT_DAYS = 90;
+
+/**
+ * 再確認が必要か。
+ *
+ * 終了日が書かれていないキャンペーンは、実際に終了しても自動では消えない。
+ * 確認から日が経ったものを載せ続けると、終わった内容を掲示し続けることになるため、
+ * 期限を過ぎたら掲載から外す。checkedAt を更新すれば戻る。
+ */
+export function needsRecheck(campaign: Campaign, today: Date = new Date()): boolean {
+  return campaign.endDate === null && daysSinceChecked(campaign, today) >= RECHECK_LIMIT_DAYS;
+}
+
+/** 再確認待ちで掲載から外れているもの（運用者が気づくために数える） */
+export function recheckPending(all: Campaign[], today: Date = new Date()): Campaign[] {
+  return all.filter((c) => getStatus(c, today) !== "ended" && needsRecheck(c, today));
+}
+
 /**
  * 掲載中（開始前・開催中・終了間近）のものを、
  * 「終了間近 → 残日数が少ない順 → 金額が大きい順」で並べる。
- * 終了済みは含めない（アーカイブ側で扱う）。
+ * 終了済みと、再確認待ちのものは含めない。
  */
 export function liveCampaigns(all: Campaign[], today: Date = new Date()): Campaign[] {
   return all
-    .filter((c) => getStatus(c, today) !== "ended")
+    .filter((c) => getStatus(c, today) !== "ended" && !needsRecheck(c, today))
     .sort((a, b) => {
       const rank = (c: Campaign) => (getStatus(c, today) === "ending-soon" ? 0 : 1);
       if (rank(a) !== rank(b)) return rank(a) - rank(b);

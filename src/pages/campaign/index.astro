@@ -6,9 +6,11 @@ import type { CampaignCategory } from "../../data/campaigns";
 import {
   liveCampaigns,
   endedCampaigns,
+  recheckPending,
   getStatus,
   groupByCompany,
   formatYmdFull,
+  RECHECK_LIMIT_DAYS,
 } from "../../lib/campaigns";
 
 // ビルド時刻を基準日にする。日次ビルド（08:07 / 21:07 JST）ごとに
@@ -27,6 +29,16 @@ const categories = (Object.keys(CATEGORY_LABEL) as CampaignCategory[])
   .filter((g) => g.items.length > 0);
 
 const companyCount = groupByCompany(live).size;
+const pending = recheckPending(CAMPAIGNS, today);
+
+// 掲載から外れたものは、ページ側が noindex になると誰の目にも触れなくなる。
+// 気づけるようビルドログへ出す。
+if (pending.length > 0) {
+  console.warn(
+    `[campaign] 再確認待ちで非表示 ${pending.length}件（確認から${RECHECK_LIMIT_DAYS}日超）: ` +
+      pending.map((c) => `${c.company}／${c.title.slice(0, 24)}`).join(" , "),
+  );
+}
 
 // 中身が薄いうちは検索対象から外す（掲載2件未満）。件数が増えれば自動で復活する。
 const noindex = live.length < 2;
@@ -82,7 +94,16 @@ const description =
         <li>掲載しているのは各社が公表している事実です。どの口座が有利かの判断は行っていません。</li>
         <li>条件は予告なく変更されます。申し込む前に必ず各社の公式ページで最新の内容を確認してください。</li>
         <li>当サイトが内容を確認した日を、各カードの下部に記載しています。</li>
+        <li>
+          終了日が公表されていないものは、確認から{RECHECK_LIMIT_DAYS}日を過ぎた時点で掲載を止めています。
+          終わった内容を残さないためです。
+        </li>
       </ul>
+      {pending.length > 0 && (
+        <p class="camp-disclaimer__pending">
+          現在、再確認待ちで掲載を止めているものが{pending.length}件あります。
+        </p>
+      )}
     </aside>
 
     {live.length === 0 ? (
@@ -184,6 +205,13 @@ const description =
     border-radius: 4px;
   }
   .camp-disclaimer__title { margin: 0 0 8px; font-weight: 700; font-size: 0.9rem; }
+  .camp-disclaimer__pending {
+    margin: 10px 0 0;
+    padding-top: 10px;
+    border-top: 1px solid var(--c-warn-border);
+    font-size: 0.84rem;
+    color: var(--c-ink-soft);
+  }
   .camp-disclaimer ul {
     margin: 0;
     padding-left: 1.2em;
