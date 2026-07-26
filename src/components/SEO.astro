@@ -13,6 +13,8 @@ interface Props {
     category?: string;
   };
   breadcrumbs?: { name: string; url: string }[];
+  /** 中身が薄い一覧(記事2本未満)を検索対象から外す。記事が増えれば呼び出し側の閾値で自動復活する */
+  noindex?: boolean;
 }
 
 const {
@@ -23,6 +25,7 @@ const {
   pageType = "website",
   articleMeta,
   breadcrumbs,
+  noindex = false,
 } = Astro.props;
 
 const siteName = "投資失敗録";
@@ -96,6 +99,11 @@ const breadcrumbList = breadcrumbs && breadcrumbs.length > 0 ? {
 <title>{fullTitle}</title>
 <meta name="description" content={description} />
 <link rel="canonical" href={url} />
+
+{noindex
+  ? <meta name="robots" content="noindex, follow" />
+  : <meta name="robots" content="index,follow,max-image-preview:large" />
+}
 
 <!-- OGP -->
 <meta property="og:title" content={fullTitle} />

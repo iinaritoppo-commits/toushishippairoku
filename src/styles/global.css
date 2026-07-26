@@ -8,7 +8,7 @@
   --c-bg-soft: #f3efe5;
   --c-ink: #1c2330;
   --c-ink-soft: #4a5568;
-  --c-ink-dim: #7a8595;
+  --c-ink-dim: #626d7d;
   --c-line: #d8d2c2;
   --c-navy: #1a3a6e;
   --c-navy-deep: #102348;
@@ -781,3 +781,23 @@ img { max-width: 100%; height: auto; }
 .bottom-nav__icon { width: 22px; height: 22px; }
 /* bottom-nav 分の余白（最下部のフッターが隠れないように） */
 @media (max-width: 767px) { .foot { padding-bottom: 76px; } }
+
+/* ===== アクセシビリティ ===== */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 10000;
+  padding: 10px 18px;
+  background: var(--c-navy);
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+.skip-link:focus {
+  left: 0;
+}
+:focus-visible {
+  outline: 2px solid var(--c-navy);
+  outline-offset: 2px;
+}

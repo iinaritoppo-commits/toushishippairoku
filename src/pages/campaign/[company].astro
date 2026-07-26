@@ -1,0 +1,127 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import CampaignCard from "../../components/CampaignCard.astro";
+import { CAMPAIGNS } from "../../data/campaigns";
+import type { Campaign } from "../../data/campaigns";
+import { liveCampaigns, endedCampaigns, groupByCompany } from "../../lib/campaigns";
+
+export function getStaticPaths() {
+  const grouped = groupByCompany(CAMPAIGNS);
+  return [...grouped.entries()].map(([slug, items]) => ({
+    params: { company: slug },
+    props: { company: items[0].company, items },
+  }));
+}
+
+interface Props {
+  company: string;
+  items: Campaign[];
+}
+
+const { company, items } = Astro.props;
+
+const today = new Date();
+const live = liveCampaigns(items, today);
+const ended = endedCampaigns(items, today);
+
+// 実施中が1件も無く履歴も薄いページは検索対象から外す。
+// 掲載が増えれば自動で復活する。
+const noindex = live.length + ended.length < 2;
+
+const title = `${company}のキャンペーン実施状況と過去の履歴`;
+const description = `${company}が公表している口座開設キャンペーンを、開始日と終了日つきで整理しています。終了したものも実施履歴として残しています。`;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  noindex={noindex}
+  breadcrumbs={[
+    { name: "ホーム", url: "/" },
+    { name: "キャンペーン実施状況", url: "/campaign/" },
+    { name: company, url: `/campaign/${Astro.params.company}/` },
+  ]}
+>
+  <div class="camp-page">
+    <header class="camp-hero">
+      <p class="camp-hero__eyebrow">キャンペーンDB</p>
+      <h1 class="camp-hero__title">{company}のキャンペーン</h1>
+      <p class="camp-hero__lead">
+        {company}が公表している内容を、開始日と終了日つきで整理しています。
+        終了したものは下の実施履歴に残しています。
+      </p>
+      <dl class="camp-hero__stats">
+        <div><dt>実施中</dt><dd>{live.length}<span>件</span></dd></div>
+        <div><dt>実施履歴</dt><dd>{ended.length}<span>件</span></dd></div>
+      </dl>
+      <p class="camp-hero__back"><a href="/campaign/">すべての会社を見る</a></p>
+    </header>
+
+    {live.length > 0 && (
+      <section class="camp-section">
+        <h2 class="camp-section__title">実施中</h2>
+        <div class="camp-grid">
+          {live.map((c) => <CampaignCard campaign={c} today={today} showCompany={false} />)}
+        </div>
+      </section>
+    )}
+
+    {live.length === 0 && (
+      <section class="camp-empty">
+        <p class="camp-empty__title">現在、確認できている実施中のキャンペーンはありません</p>
+        <p class="camp-empty__body">
+          公式ページで確認が取れた内容だけを掲載しています。
+          実施状況は{company}の公式ページで確認できます。
+        </p>
+      </section>
+    )}
+
+    {ended.length > 0 && (
+      <section class="camp-section">
+        <h2 class="camp-section__title">実施履歴（受付終了）</h2>
+        <div class="camp-grid">
+          {ended.map((c) => <CampaignCard campaign={c} today={today} showCompany={false} />)}
+        </div>
+      </section>
+    )}
+  </div>
+</BaseLayout>
+
+<style>
+  .camp-page { max-width: 880px; margin: 0 auto; padding: 32px 20px 72px; }
+  .camp-hero { margin-bottom: 36px; }
+  .camp-hero__eyebrow {
+    margin: 0 0 6px; font-size: 0.76rem; letter-spacing: 0.22em;
+    color: var(--c-gold); font-weight: 700;
+  }
+  .camp-hero__title { margin: 0 0 14px; font-family: var(--font-serif); font-size: 1.9rem; line-height: 1.5; }
+  .camp-hero__lead { margin: 0 0 20px; color: var(--c-ink-soft); line-height: 1.95; }
+  .camp-hero__stats {
+    margin: 0 0 14px; display: grid; grid-template-columns: repeat(2, 1fr);
+    gap: 1px; background: var(--c-line); border: 1px solid var(--c-line);
+    border-radius: 4px; overflow: hidden;
+  }
+  .camp-hero__stats > div { background: var(--c-bg-card); padding: 14px 10px; text-align: center; }
+  .camp-hero__stats dt { font-size: 0.74rem; color: var(--c-ink-dim); margin-bottom: 4px; }
+  .camp-hero__stats dd { margin: 0; font-size: 1.5rem; font-weight: 900; color: var(--c-navy-deep); line-height: 1.2; }
+  .camp-hero__stats dd span { font-size: 0.8rem; font-weight: 400; margin-left: 2px; color: var(--c-ink-dim); }
+  .camp-hero__back { margin: 0; font-size: 0.88rem; }
+
+  .camp-section { margin-bottom: 44px; }
+  .camp-section__title {
+    margin: 0 0 16px; font-size: 1.2rem; font-weight: 700;
+    padding-left: 12px; border-left: 4px solid var(--c-navy);
+  }
+  .camp-grid { display: grid; gap: 18px; }
+
+  .camp-empty {
+    padding: 40px 24px; text-align: center; background: var(--c-bg-card);
+    border: 1px dashed var(--c-line); border-radius: 6px;
+  }
+  .camp-empty__title { margin: 0 0 10px; font-weight: 700; }
+  .camp-empty__body { margin: 0; font-size: 0.88rem; color: var(--c-ink-soft); line-height: 1.9; }
+
+  @media (max-width: 600px) {
+    .camp-hero__title { font-size: 1.45rem; }
+  }
+</style>

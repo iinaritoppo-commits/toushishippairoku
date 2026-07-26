@@ -17,9 +17,11 @@ interface Props {
     category?: string;
   };
   breadcrumbs?: { name: string; url: string }[];
+  /** 中身が薄い一覧(記事2本未満)を検索対象から外す。記事が増えれば呼び出し側の閾値で自動復活する */
+  noindex?: boolean;
 }
 
-const { title, description, image, showQuickNav = true, pageType, articleMeta, breadcrumbs } = Astro.props;
+const { title, description, image, showQuickNav = true, pageType, articleMeta, breadcrumbs, noindex = false } = Astro.props;
 ---
 <!doctype html>
 <html lang="ja">
@@ -34,7 +36,7 @@ const { title, description, image, showQuickNav = true, pageType, articleMeta, b
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&family=Noto+Serif+JP:wght@700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
   <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&family=Noto+Serif+JP:wght@700&display=swap" rel="stylesheet" /></noscript>
-  <SEO title={title} description={description} image={image} pageType={pageType} articleMeta={articleMeta} breadcrumbs={breadcrumbs} />
+  <SEO title={title} description={description} image={image} pageType={pageType} articleMeta={articleMeta} breadcrumbs={breadcrumbs} noindex={noindex} />
 
   {/* GA4 + AdSense は LCP後に遅延ロード（Performance最大化）— GA4 IDはとよくん取得後差し替え */}
   <script is:inline>
@@ -105,6 +107,7 @@ const { title, description, image, showQuickNav = true, pageType, articleMeta, b
   </script>
 </head>
 <body>
+  <a href="#main" class="skip-link">本文へスキップ</a>
   <header class="site-header">
     <div class="site-header__inner">
       <a class="brand" href="/">
@@ -136,6 +139,7 @@ const { title, description, image, showQuickNav = true, pageType, articleMeta, b
         <a href="/#section-cats">ジャンル</a>
         <a href="/#section-map">全国マップ</a>
         <a href="/kuyou/">失敗供養所</a>
+        <a href="/campaign/">キャンペーン</a>
         <a href="/#section-moments">気づいた瞬間</a>
         <a href="/#section-diary">編集ノート</a>
         <a href="/submit/" class="quick-nav__submit">投稿する →</a>
@@ -143,7 +147,7 @@ const { title, description, image, showQuickNav = true, pageType, articleMeta, b
     </nav>
   )}
 
-  <main>
+  <main id="main">
     <slot />
   </main>
 

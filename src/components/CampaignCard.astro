@@ -1,0 +1,257 @@
+---
+import type { Campaign } from "../data/campaigns";
+import { CATEGORY_LABEL } from "../data/campaigns";
+import {
+  getStatus,
+  statusLabel,
+  deadlineText,
+  formatAmount,
+  formatYmdFull,
+  daysSinceChecked,
+} from "../lib/campaigns";
+
+interface Props {
+  campaign: Campaign;
+  /** ビルド基準日。呼び出し側から渡して全カードで揃える */
+  today: Date;
+  /** 会社名を見出しに出すか（会社別ページでは不要） */
+  showCompany?: boolean;
+}
+
+const { campaign, today, showCompany = true } = Astro.props;
+
+const status = getStatus(campaign, today);
+const isEnded = status === "ended";
+
+// 受付終了後は確認日が古くて当然なので、鮮度の警告は出さない。
+const stale = !isEnded && daysSinceChecked(campaign, today) >= 14;
+
+// 受付が終わったものに広告リンクは貼らない。誤って申し込ませないため、
+// 終了済みは必ず一次情報へ送る。
+const isAffiliate = Boolean(campaign.affiliateUrl) && !isEnded;
+const linkUrl = isAffiliate ? campaign.affiliateUrl! : campaign.officialUrl;
+const ctaLabel = isEnded ? "当時の公式ページを見る（受付終了）" : "公式ページで条件を確認する";
+---
+
+<article class={`camp-card camp-card--${status}`}>
+  <div class="camp-card__head">
+    <span class={`camp-badge camp-badge--${status}`}>{statusLabel(status)}</span>
+    <span class="camp-card__deadline">{deadlineText(campaign, today)}</span>
+  </div>
+
+  {showCompany && <p class="camp-card__company">{campaign.company}</p>}
+
+  <h3 class="camp-card__title">{campaign.title}</h3>
+  <p class="camp-card__summary">{campaign.summary}</p>
+
+  {campaign.maxAmount != null && (
+    <p class="camp-card__amount">
+      <span class="camp-card__amount-label">最大</span>
+      <span class="camp-card__amount-value">{formatAmount(campaign.maxAmount, campaign.amountUnit)}</span>
+    </p>
+  )}
+
+  <dl class="camp-card__meta">
+    <dt>種別</dt>
+    <dd>{CATEGORY_LABEL[campaign.category]}</dd>
+    <dt>期間</dt>
+    <dd>
+      {formatYmdFull(campaign.startDate)}
+      {campaign.endDate ? ` 〜 ${formatYmdFull(campaign.endDate)}` : " 〜 終了日の記載なし"}
+    </dd>
+  </dl>
+
+  {campaign.conditions.length > 0 && (
+    <div class="camp-card__cond">
+      <p class="camp-card__cond-label">公式に記載されている条件</p>
+      <ul>
+        {campaign.conditions.map((c) => <li>{c}</li>)}
+      </ul>
+    </div>
+  )}
+
+  {campaign.note && <p class="camp-card__note">{campaign.note}</p>}
+
+  <div class="camp-card__foot">
+    <a
+      class={`camp-card__cta${isEnded ? " camp-card__cta--muted" : ""}`}
+      href={linkUrl}
+      target="_blank"
+      rel={isAffiliate ? "nofollow sponsored noopener" : "noopener"}
+    >
+      {ctaLabel}
+    </a>
+    <p class="camp-card__checked">
+      当サイト最終確認日 {formatYmdFull(campaign.checkedAt)}
+      {stale && <span class="camp-card__stale">条件が変わっている可能性があります</span>}
+    </p>
+    {isAffiliate && (
+      <p class="camp-card__disclosure">
+        このリンクは広告です。
+        <a href={campaign.officialUrl} target="_blank" rel="noopener">広告を経由しない公式ページ</a>
+      </p>
+    )}
+  </div>
+</article>
+
+<style>
+  .camp-card {
+    background: var(--c-bg-card);
+    border: 1px solid var(--c-line);
+    border-radius: 6px;
+    padding: 22px 24px 20px;
+    box-shadow: var(--shadow-card);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .camp-card--ending-soon { border-color: var(--c-warn-border); background: var(--c-warn-bg); }
+  .camp-card--ended { opacity: 0.72; }
+
+  .camp-card__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .camp-badge {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 4px 10px;
+    border-radius: 3px;
+    white-space: nowrap;
+  }
+  .camp-badge--active { background: var(--c-navy); color: #fff; }
+  .camp-badge--ending-soon { background: var(--c-loss); color: #fff; }
+  .camp-badge--upcoming { background: var(--c-bg-soft); color: var(--c-ink-soft); border: 1px solid var(--c-line); }
+  .camp-badge--ended { background: var(--c-bg-soft); color: var(--c-ink-dim); }
+
+  .camp-card__deadline {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--c-ink-soft);
+  }
+  .camp-card--ending-soon .camp-card__deadline { color: var(--c-loss); }
+
+  .camp-card__company {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--c-ink-dim);
+    letter-spacing: 0.04em;
+  }
+  .camp-card__title {
+    margin: 0;
+    font-size: 1.08rem;
+    font-weight: 700;
+    line-height: 1.6;
+  }
+  .camp-card__summary {
+    margin: 0;
+    font-size: 0.94rem;
+    color: var(--c-ink-soft);
+    line-height: 1.85;
+  }
+
+  .camp-card__amount {
+    margin: 0;
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    padding: 10px 14px;
+    background: var(--c-bg-soft);
+    border-left: 3px solid var(--c-gold);
+    border-radius: 2px;
+  }
+  .camp-card__amount-label { font-size: 0.78rem; color: var(--c-ink-dim); }
+  .camp-card__amount-value {
+    font-size: 1.32rem;
+    font-weight: 900;
+    color: var(--c-navy-deep);
+    font-feature-settings: "palt";
+  }
+
+  .camp-card__meta {
+    margin: 0;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 4px 14px;
+    font-size: 0.85rem;
+  }
+  .camp-card__meta dt { color: var(--c-ink-dim); white-space: nowrap; }
+  .camp-card__meta dd { margin: 0; color: var(--c-ink-soft); }
+
+  .camp-card__cond-label {
+    margin: 0 0 6px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--c-ink-dim);
+  }
+  .camp-card__cond ul {
+    margin: 0;
+    padding-left: 1.15em;
+    font-size: 0.88rem;
+    color: var(--c-ink-soft);
+    line-height: 1.8;
+  }
+  .camp-card__note {
+    margin: 0;
+    font-size: 0.84rem;
+    color: var(--c-ink-dim);
+    padding: 8px 12px;
+    background: var(--c-bg-soft);
+    border-radius: 3px;
+  }
+
+  .camp-card__foot {
+    margin-top: 4px;
+    padding-top: 14px;
+    border-top: 1px solid var(--c-line);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .camp-card__cta {
+    display: inline-block;
+    text-align: center;
+    padding: 12px 20px;
+    background: var(--c-navy);
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.94rem;
+    border-radius: 4px;
+    text-decoration: none;
+  }
+  .camp-card__cta:hover { background: var(--c-navy-deep); text-decoration: none; }
+  .camp-card__cta--muted {
+    background: transparent;
+    color: var(--c-ink-soft);
+    border: 1px solid var(--c-line);
+    font-weight: 400;
+    font-size: 0.86rem;
+    padding: 10px 20px;
+  }
+  .camp-card__cta--muted:hover { background: var(--c-bg-soft); color: var(--c-ink); }
+
+  .camp-card__checked {
+    margin: 0;
+    font-size: 0.78rem;
+    color: var(--c-ink-dim);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .camp-card__stale { color: var(--c-loss); font-weight: 700; }
+
+  .camp-card__disclosure {
+    margin: 0;
+    font-size: 0.76rem;
+    color: var(--c-ink-dim);
+  }
+
+  @media (max-width: 480px) {
+    .camp-card { padding: 18px 16px 16px; }
+    .camp-card__title { font-size: 1rem; }
+  }
+</style>

@@ -1,0 +1,231 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import CampaignCard from "../../components/CampaignCard.astro";
+import { CAMPAIGNS, CATEGORY_LABEL } from "../../data/campaigns";
+import type { CampaignCategory } from "../../data/campaigns";
+import {
+  liveCampaigns,
+  endedCampaigns,
+  getStatus,
+  groupByCompany,
+  formatYmdFull,
+} from "../../lib/campaigns";
+
+// ビルド時刻を基準日にする。日次ビルド（08:07 / 21:07 JST）ごとに
+// 残日数・終了判定・並び順がすべて更新される。
+const today = new Date();
+const todayYmd = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+
+const live = liveCampaigns(CAMPAIGNS, today);
+const ended = endedCampaigns(CAMPAIGNS, today);
+const endingSoon = live.filter((c) => getStatus(c, today) === "ending-soon");
+const rest = live.filter((c) => getStatus(c, today) !== "ending-soon");
+
+// カテゴリごとに分ける（掲載があるカテゴリだけ出す）
+const categories = (Object.keys(CATEGORY_LABEL) as CampaignCategory[])
+  .map((key) => ({ key, label: CATEGORY_LABEL[key], items: rest.filter((c) => c.category === key) }))
+  .filter((g) => g.items.length > 0);
+
+const companyCount = groupByCompany(live).size;
+
+// 中身が薄いうちは検索対象から外す（掲載2件未満）。件数が増えれば自動で復活する。
+const noindex = live.length < 2;
+
+const title = `口座開設キャンペーンの実施状況｜${today.getFullYear()}年${today.getMonth() + 1}月時点`;
+const description =
+  "証券・FX各社が公表している口座開設キャンペーンを、開始日と終了日つきで並べた一覧です。終了したものは自動でアーカイブへ移ります。条件は各社の公式ページで確認できるよう出典を添えています。";
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  noindex={noindex}
+  breadcrumbs={[
+    { name: "ホーム", url: "/" },
+    { name: "キャンペーン実施状況", url: "/campaign/" },
+  ]}
+>
+  <div class="camp-page">
+    <header class="camp-hero">
+      <p class="camp-hero__eyebrow">キャンペーンDB</p>
+      <h1 class="camp-hero__title">口座開設キャンペーンの実施状況</h1>
+      <p class="camp-hero__lead">
+        各社が公式に公表している内容を、開始日と終了日つきで並べています。
+        終了日を過ぎたものはこのページから自動的に消え、実施履歴へ移ります。
+      </p>
+
+      <dl class="camp-hero__stats">
+        <div>
+          <dt>掲載中</dt>
+          <dd>{live.length}<span>件</span></dd>
+        </div>
+        <div>
+          <dt>対象社数</dt>
+          <dd>{companyCount}<span>社</span></dd>
+        </div>
+        <div>
+          <dt>まもなく終了</dt>
+          <dd>{endingSoon.length}<span>件</span></dd>
+        </div>
+        <div>
+          <dt>実施履歴</dt>
+          <dd>{ended.length}<span>件</span></dd>
+        </div>
+      </dl>
+
+      <p class="camp-hero__updated">このページの更新日：{formatYmdFull(todayYmd)}</p>
+    </header>
+
+    <aside class="camp-disclaimer">
+      <p class="camp-disclaimer__title">読む前に</p>
+      <ul>
+        <li>掲載しているのは各社が公表している事実です。どの口座が有利かの判断は行っていません。</li>
+        <li>条件は予告なく変更されます。申し込む前に必ず各社の公式ページで最新の内容を確認してください。</li>
+        <li>当サイトが内容を確認した日を、各カードの下部に記載しています。</li>
+      </ul>
+    </aside>
+
+    {live.length === 0 ? (
+      <section class="camp-empty">
+        <p class="camp-empty__title">現在、掲載できるキャンペーンがありません</p>
+        <p class="camp-empty__body">
+          各社の公式ページで確認が取れた内容だけを掲載する方針のため、
+          確認が済んでいない期間は何も表示していません。
+          推測や他サイトからの転記は行いません。
+        </p>
+      </section>
+    ) : (
+      <>
+        {endingSoon.length > 0 && (
+          <section class="camp-section camp-section--urgent">
+            <h2 class="camp-section__title">まもなく終了</h2>
+            <p class="camp-section__note">終了日まで7日以内のものです。</p>
+            <div class="camp-grid">
+              {endingSoon.map((c) => <CampaignCard campaign={c} today={today} />)}
+            </div>
+          </section>
+        )}
+
+        {categories.map((group) => (
+          <section class="camp-section">
+            <h2 class="camp-section__title">{group.label}</h2>
+            <div class="camp-grid">
+              {group.items.map((c) => <CampaignCard campaign={c} today={today} />)}
+            </div>
+          </section>
+        ))}
+      </>
+    )}
+
+    {ended.length > 0 && (
+      <section class="camp-archive-cta">
+        <h2>過去に実施されたキャンペーン</h2>
+        <p>
+          終了したものは削除せず、実施履歴として残しています。
+          同じ会社が例年どの時期に実施しているかを見比べる材料になります。
+        </p>
+        <a href="/campaign/archive/">実施履歴を見る（{ended.length}件）</a>
+      </section>
+    )}
+  </div>
+</BaseLayout>
+
+<style>
+  .camp-page { max-width: 880px; margin: 0 auto; padding: 32px 20px 72px; }
+
+  .camp-hero { margin-bottom: 28px; }
+  .camp-hero__eyebrow {
+    margin: 0 0 6px;
+    font-size: 0.76rem;
+    letter-spacing: 0.22em;
+    color: var(--c-gold);
+    font-weight: 700;
+  }
+  .camp-hero__title {
+    margin: 0 0 14px;
+    font-family: var(--font-serif);
+    font-size: 1.9rem;
+    line-height: 1.5;
+  }
+  .camp-hero__lead {
+    margin: 0 0 20px;
+    color: var(--c-ink-soft);
+    line-height: 1.95;
+  }
+
+  .camp-hero__stats {
+    margin: 0 0 12px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--c-line);
+    border: 1px solid var(--c-line);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .camp-hero__stats > div { background: var(--c-bg-card); padding: 14px 10px; text-align: center; }
+  .camp-hero__stats dt { font-size: 0.74rem; color: var(--c-ink-dim); margin-bottom: 4px; }
+  .camp-hero__stats dd {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: var(--c-navy-deep);
+    line-height: 1.2;
+  }
+  .camp-hero__stats dd span { font-size: 0.8rem; font-weight: 400; margin-left: 2px; color: var(--c-ink-dim); }
+
+  .camp-hero__updated { margin: 0; font-size: 0.8rem; color: var(--c-ink-dim); }
+
+  .camp-disclaimer {
+    margin-bottom: 36px;
+    padding: 16px 20px;
+    background: var(--c-warn-bg);
+    border: 1px solid var(--c-warn-border);
+    border-radius: 4px;
+  }
+  .camp-disclaimer__title { margin: 0 0 8px; font-weight: 700; font-size: 0.9rem; }
+  .camp-disclaimer ul {
+    margin: 0;
+    padding-left: 1.2em;
+    font-size: 0.86rem;
+    color: var(--c-ink-soft);
+    line-height: 1.85;
+  }
+
+  .camp-section { margin-bottom: 44px; }
+  .camp-section__title {
+    margin: 0 0 6px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    padding-left: 12px;
+    border-left: 4px solid var(--c-navy);
+  }
+  .camp-section--urgent .camp-section__title { border-left-color: var(--c-loss); }
+  .camp-section__note { margin: 0 0 16px; font-size: 0.84rem; color: var(--c-ink-dim); }
+
+  .camp-grid { display: grid; gap: 18px; }
+
+  .camp-empty {
+    padding: 40px 24px;
+    text-align: center;
+    background: var(--c-bg-card);
+    border: 1px dashed var(--c-line);
+    border-radius: 6px;
+  }
+  .camp-empty__title { margin: 0 0 10px; font-weight: 700; }
+  .camp-empty__body { margin: 0; font-size: 0.88rem; color: var(--c-ink-soft); line-height: 1.9; }
+
+  .camp-archive-cta {
+    padding: 24px;
+    background: var(--c-bg-soft);
+    border-radius: 6px;
+  }
+  .camp-archive-cta h2 { margin: 0 0 8px; font-size: 1.05rem; }
+  .camp-archive-cta p { margin: 0 0 14px; font-size: 0.88rem; color: var(--c-ink-soft); line-height: 1.85; }
+  .camp-archive-cta a { font-weight: 700; }
+
+  @media (max-width: 600px) {
+    .camp-hero__title { font-size: 1.45rem; }
+    .camp-hero__stats { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>

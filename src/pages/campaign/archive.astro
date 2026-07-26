@@ -1,0 +1,107 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import CampaignCard from "../../components/CampaignCard.astro";
+import { CAMPAIGNS } from "../../data/campaigns";
+import { endedCampaigns, groupByCompany } from "../../lib/campaigns";
+
+const today = new Date();
+const ended = endedCampaigns(CAMPAIGNS, today);
+
+// 終了年ごとにまとめる
+const byYear = new Map<string, typeof ended>();
+for (const c of ended) {
+  const year = (c.endDate ?? "").slice(0, 4) || "終了日の記載なし";
+  byYear.set(year, [...(byYear.get(year) ?? []), c]);
+}
+const years = [...byYear.entries()].sort((a, b) => b[0].localeCompare(a[0]));
+
+const companyCount = groupByCompany(ended).size;
+const noindex = ended.length < 2;
+
+const title = "口座開設キャンペーンの実施履歴｜終了したものを年別に記録";
+const description =
+  "終了した証券・FX各社の口座開設キャンペーンを、終了日つきで年別に記録しています。同じ会社がどの時期に実施しているかを見比べるための記録です。";
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  noindex={noindex}
+  breadcrumbs={[
+    { name: "ホーム", url: "/" },
+    { name: "キャンペーン実施状況", url: "/campaign/" },
+    { name: "実施履歴", url: "/campaign/archive/" },
+  ]}
+>
+  <div class="camp-page">
+    <header class="camp-hero">
+      <p class="camp-hero__eyebrow">キャンペーンDB</p>
+      <h1 class="camp-hero__title">キャンペーンの実施履歴</h1>
+      <p class="camp-hero__lead">
+        終了したキャンペーンを削除せずに残しています。
+        同じ会社がどの時期に、どのくらいの規模で実施してきたかを並べて見るための記録です。
+        ここに載っているものはすべて受付を終了しています。
+      </p>
+      <dl class="camp-hero__stats">
+        <div><dt>記録件数</dt><dd>{ended.length}<span>件</span></dd></div>
+        <div><dt>対象社数</dt><dd>{companyCount}<span>社</span></dd></div>
+      </dl>
+      <p class="camp-hero__back"><a href="/campaign/">実施中のキャンペーンを見る</a></p>
+    </header>
+
+    {ended.length === 0 ? (
+      <section class="camp-empty">
+        <p class="camp-empty__title">まだ記録がありません</p>
+        <p class="camp-empty__body">掲載したキャンペーンが終了日を過ぎると、ここへ自動的に移ります。</p>
+      </section>
+    ) : (
+      years.map(([year, items]) => (
+        <section class="camp-section">
+          <h2 class="camp-section__title">{year === "終了日の記載なし" ? year : `${year}年に終了`}</h2>
+          <div class="camp-grid">
+            {items.map((c) => <CampaignCard campaign={c} today={today} />)}
+          </div>
+        </section>
+      ))
+    )}
+  </div>
+</BaseLayout>
+
+<style>
+  .camp-page { max-width: 880px; margin: 0 auto; padding: 32px 20px 72px; }
+  .camp-hero { margin-bottom: 36px; }
+  .camp-hero__eyebrow {
+    margin: 0 0 6px; font-size: 0.76rem; letter-spacing: 0.22em;
+    color: var(--c-gold); font-weight: 700;
+  }
+  .camp-hero__title { margin: 0 0 14px; font-family: var(--font-serif); font-size: 1.9rem; line-height: 1.5; }
+  .camp-hero__lead { margin: 0 0 20px; color: var(--c-ink-soft); line-height: 1.95; }
+  .camp-hero__stats {
+    margin: 0 0 14px; display: grid; grid-template-columns: repeat(2, 1fr);
+    gap: 1px; background: var(--c-line); border: 1px solid var(--c-line);
+    border-radius: 4px; overflow: hidden;
+  }
+  .camp-hero__stats > div { background: var(--c-bg-card); padding: 14px 10px; text-align: center; }
+  .camp-hero__stats dt { font-size: 0.74rem; color: var(--c-ink-dim); margin-bottom: 4px; }
+  .camp-hero__stats dd { margin: 0; font-size: 1.5rem; font-weight: 900; color: var(--c-navy-deep); line-height: 1.2; }
+  .camp-hero__stats dd span { font-size: 0.8rem; font-weight: 400; margin-left: 2px; color: var(--c-ink-dim); }
+  .camp-hero__back { margin: 0; font-size: 0.88rem; }
+
+  .camp-section { margin-bottom: 44px; }
+  .camp-section__title {
+    margin: 0 0 16px; font-size: 1.2rem; font-weight: 700;
+    padding-left: 12px; border-left: 4px solid var(--c-ink-dim);
+  }
+  .camp-grid { display: grid; gap: 18px; }
+
+  .camp-empty {
+    padding: 40px 24px; text-align: center; background: var(--c-bg-card);
+    border: 1px dashed var(--c-line); border-radius: 6px;
+  }
+  .camp-empty__title { margin: 0 0 10px; font-weight: 700; }
+  .camp-empty__body { margin: 0; font-size: 0.88rem; color: var(--c-ink-soft); line-height: 1.9; }
+
+  @media (max-width: 600px) {
+    .camp-hero__title { font-size: 1.45rem; }
+  }
+</style>
