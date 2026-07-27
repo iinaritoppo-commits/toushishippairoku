@@ -26,6 +26,10 @@ jobs:
       - name: Run auto-publish script
         run: python scripts/auto-publish-2130.py
 
+      - name: Watch campaign pages
+        continue-on-error: true
+        run: npx tsx scripts/watch-campaign-pages.ts
+
       - name: Build Astro site
         run: npm run build
 

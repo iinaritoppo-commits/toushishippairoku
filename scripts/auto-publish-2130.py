@@ -238,21 +238,5 @@ def main():
     return 0
 
 
-def run_campaign_watch():
-    # キャンペーン公式ページの日次監視。daily-publish.yml へ step として
-    # 組み込めるようになったら（workflow スコープ取得後）、この呼び出しは
-    # 削除して yml 側へ移す。失敗しても公開処理には影響させない。
-    import subprocess
-    try:
-        subprocess.run(
-            ["npx", "tsx", str(ROOT / "scripts" / "watch-campaign-pages.ts")],
-            check=False, timeout=600,
-        )
-    except Exception as e:
-        log(f"  ⚠ campaign-watch skipped: {e}")
-
-
 if __name__ == "__main__":
-    rc = main()
-    run_campaign_watch()
-    sys.exit(rc)
+    sys.exit(main())
