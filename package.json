@@ -16,5 +16,8 @@
     "@astrojs/sitemap": "^3.7.2",
     "astro": "^6.1.9",
     "microcms-js-sdk": "^3.4.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.23.1"
   }
 }
