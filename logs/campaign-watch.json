@@ -1,79 +1,79 @@
 {
   "https://info.monex.co.jp/news/2026/20260529_01.html": {
     "hash": "d20fdb268075751131cad1bfe1841b0b90118e70e5e5373fd6aa4b11a2537b66",
-    "lastChecked": "2026-07-28T14:28:52.124Z",
+    "lastChecked": "2026-07-29T00:06:01.686Z",
     "lastChanged": "2026-07-27T04:41:01.143Z",
     "status": "取得失敗"
   },
   "https://info.monex.co.jp/news/2026/20260501_03.html": {
     "hash": "e35488965be23ef97613bdf0c936213657e5d345468a382d16d071b26a6bdf90",
-    "lastChecked": "2026-07-28T14:28:52.124Z",
+    "lastChecked": "2026-07-29T00:06:01.686Z",
     "lastChanged": "2026-07-27T04:41:01.143Z",
     "status": "取得失敗"
   },
   "https://www.gaitame.com/campaign/cb-2607/": {
     "hash": "4d8da0864ba88e22cccff699f262aad6ce08a492ba75551d70c8e0831f27311e",
-    "lastChecked": "2026-07-28T14:28:52.124Z",
+    "lastChecked": "2026-07-29T00:06:01.686Z",
     "lastChanged": "2026-07-27T04:41:01.143Z",
     "status": "変化なし"
   },
   "https://www.gaitame.com/campaign/cfd260629/": {
     "hash": "984a0f7bf4dbe1122d7ea4028bd837cb0d39d23cc3013a841c9b8ac7ed77abfa",
-    "lastChecked": "2026-07-28T14:28:52.124Z",
+    "lastChecked": "2026-07-29T00:06:01.686Z",
     "lastChanged": "2026-07-27T04:41:01.143Z",
     "status": "変化なし"
   },
   "https://coincheck.com/ja/cp_lp/tsumitate202607": {
     "hash": "c4194cd9a88dcfac826d58aba897eb6899349fff75c84597d470fcb0cc5563cf",
-    "lastChecked": "2026-07-28T14:28:52.124Z",
+    "lastChecked": "2026-07-29T00:06:01.686Z",
     "lastChanged": "2026-07-27T04:41:01.143Z",
     "status": "変化なし"
   },
   "https://info.monex.co.jp/news/2025/20251001_04.html": {
     "hash": "70de241d5c30665930c9c76f5d6fd0008f4dbbd3e827f91b9562ce02d2106c33",
-    "lastChecked": "2026-07-28T14:28:52.124Z",
+    "lastChecked": "2026-07-29T00:06:01.686Z",
     "lastChanged": "2026-07-27T04:41:01.143Z",
     "status": "取得失敗"
   },
   "https://www.gaitame.com/campaign/nextneo/": {
     "hash": "dd9e29594b416c66b9427f0f5a63b67b1b8dc23b1878874850129e7b42cee182",
-    "lastChecked": "2026-07-28T14:28:52.124Z",
+    "lastChecked": "2026-07-29T00:06:01.686Z",
     "lastChanged": "2026-07-27T04:41:01.143Z",
     "status": "変化なし"
   },
   "https://min-fx.jp/campaign/program/newopen202606/": {
     "hash": "657269b1ed0a10e762a1b875ac63acd0814d6bf5a7da0c548aae94558efce213",
-    "lastChecked": "2026-07-28T14:28:52.124Z",
+    "lastChecked": "2026-07-29T00:06:01.686Z",
     "lastChanged": "2026-07-27T04:41:01.143Z",
     "status": "変化なし"
   },
   "https://lightfx.jp/campaign/program/newopen202606/": {
     "hash": "6c8a90c05aa9389b85201ab7acdfa0bd4c4861ad236c3ca33cbfd4ec654dd7a1",
-    "lastChecked": "2026-07-28T14:28:52.124Z",
+    "lastChecked": "2026-07-29T00:06:01.686Z",
     "lastChanged": "2026-07-27T04:41:01.143Z",
     "status": "変化なし"
   },
   "https://www.click-sec.com/corp/campaign/fx_1906/": {
     "hash": "3d8c2a800ce30bf5927b842d0607961d8b05f6a7edaf946b092f0f2f4c3191fe",
-    "lastChecked": "2026-07-28T14:28:52.124Z",
+    "lastChecked": "2026-07-29T00:06:01.686Z",
     "lastChanged": "2026-07-27T04:41:01.143Z",
     "status": "変化なし"
   },
   "https://fx.dmm.com/campaign/account/": {
     "hash": "06bef43b63b559e4f9330b02ac3a0025b4378602420850f5995a826ada846f0a",
-    "lastChecked": "2026-07-28T14:28:52.124Z",
+    "lastChecked": "2026-07-29T00:06:01.686Z",
     "lastChanged": "2026-07-27T04:41:01.143Z",
     "status": "変化なし"
   },
   "https://www.matsui.co.jp/campaign/detail/nisa-04.html": {
     "hash": "2ebdb1705ae6a2401695f39560f29d1f3842e0502c8df624c6afa90ba834c85a",
-    "lastChecked": "2026-07-28T14:28:52.124Z",
+    "lastChecked": "2026-07-29T00:06:01.686Z",
     "lastChanged": "2026-07-27T04:41:01.143Z",
     "status": "変化なし"
   },
   "https://info.monex.co.jp/news/2024/20241129_02.html": {
     "hash": "61469c5cb33fe8fb2aeb476b298c945f9c34b3b0f0363d580013fcc869e07d19",
-    "lastChecked": "2026-07-28T14:28:52.124Z",
+    "lastChecked": "2026-07-29T00:06:01.686Z",
     "lastChanged": "2026-07-27T04:41:01.143Z",
     "status": "取得失敗"
   }
