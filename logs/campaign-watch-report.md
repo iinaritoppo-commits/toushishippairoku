@@ -3,5 +3,4 @@
 | 日付 | 会社名 | URL | 状態 |
 |---|---|---|---|
 | 2026-09-12 | マネックス証券 | https://info.monex.co.jp/news/2025/20251001_04.html | 取得失敗 |
-| 2026-09-12 | DMM FX | https://fx.dmm.com/campaign/account/ | 取得失敗 |
 | 2026-09-12 | マネックス証券 | https://info.monex.co.jp/news/2024/20241129_02.html | 取得失敗 |
