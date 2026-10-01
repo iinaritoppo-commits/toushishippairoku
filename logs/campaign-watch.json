@@ -1,43 +1,43 @@
 {
   "https://www.gaitame.com/campaign/nextneo/": {
-    "hash": "a746f80277311a738c99554a9d9f4c23e2ce4095b3cae2402c089f3c865af7b2",
-    "lastChecked": "2026-10-01T02:02:02.588Z",
-    "lastChanged": "2026-09-30T17:57:14.616Z",
-    "status": "変化なし"
+    "hash": "ae9cc7e39258149430ba027e32bc1060dc279d5ff1f30c16cdc0f33ea5704ba5",
+    "lastChecked": "2026-10-01T18:22:12.800Z",
+    "lastChanged": "2026-10-01T18:22:12.800Z",
+    "status": "変化あり"
   },
   "https://min-fx.jp/campaign/program/newopen202606/": {
-    "hash": "f8fc16cc978f4ba7625b71ae6a5c33204e9ad3c8f966e63fbbbc010cb625ce31",
-    "lastChecked": "2026-10-01T02:02:02.588Z",
-    "lastChanged": "2026-08-03T15:09:05.453Z",
-    "status": "変化なし"
+    "hash": "657269b1ed0a10e762a1b875ac63acd0814d6bf5a7da0c548aae94558efce213",
+    "lastChecked": "2026-10-01T18:22:12.800Z",
+    "lastChanged": "2026-10-01T18:22:12.800Z",
+    "status": "変化あり"
   },
   "https://lightfx.jp/campaign/program/newopen202606/": {
     "hash": "6c8a90c05aa9389b85201ab7acdfa0bd4c4861ad236c3ca33cbfd4ec654dd7a1",
-    "lastChecked": "2026-10-01T02:02:02.588Z",
+    "lastChecked": "2026-10-01T18:22:12.800Z",
     "lastChanged": "2026-07-27T04:41:01.143Z",
     "status": "変化なし"
   },
   "https://www.click-sec.com/corp/campaign/fx_1906/": {
-    "hash": "23709cf770b520e2639ccc8e168c55bf3d2ebf54d136a35f4f9c43a7d3bb4bc8",
-    "lastChecked": "2026-10-01T02:02:02.588Z",
-    "lastChanged": "2026-09-18T16:18:15.809Z",
-    "status": "変化なし"
+    "hash": "9d652324dc9678155de764b3ac4e592e96dc3f51ace4e10e8a61e7643eb87e02",
+    "lastChecked": "2026-10-01T18:22:12.800Z",
+    "lastChanged": "2026-10-01T18:22:12.800Z",
+    "status": "変化あり"
   },
   "https://fx.dmm.com/campaign/account/": {
     "hash": "37e9140a11b79c7a4a7ffb8763e84f5819be05a5f97bddb6fa52376c92961978",
-    "lastChecked": "2026-10-01T02:02:02.588Z",
+    "lastChecked": "2026-10-01T18:22:12.800Z",
     "lastChanged": "2026-09-26T16:16:12.277Z",
     "status": "変化なし"
   },
   "https://www.matsui.co.jp/campaign/detail/nisa-04.html": {
-    "hash": "6c38ef4abf77078dbad9ef08795231a74a0c11e171d1732428c80781ec55f1a3",
-    "lastChecked": "2026-10-01T02:02:02.588Z",
-    "lastChanged": "2026-09-25T17:03:08.354Z",
-    "status": "変化なし"
+    "hash": "ad80894a196395cea90343565221c3615fb44fef011e0fbf972572fb2c375f95",
+    "lastChecked": "2026-10-01T18:22:12.800Z",
+    "lastChanged": "2026-10-01T18:22:12.800Z",
+    "status": "変化あり"
   },
   "https://info.monex.co.jp/news/2024/20241129_02.html": {
     "hash": "61469c5cb33fe8fb2aeb476b298c945f9c34b3b0f0363d580013fcc869e07d19",
-    "lastChecked": "2026-10-01T02:02:02.588Z",
+    "lastChecked": "2026-10-01T18:22:12.800Z",
     "lastChanged": "2026-07-27T04:41:01.143Z",
     "status": "取得失敗"
   }
